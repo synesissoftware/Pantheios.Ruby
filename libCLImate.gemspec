@@ -18,6 +18,7 @@ Gem::Specification.new do |spec|
 
 	spec.add_runtime_dependency 'clasp'
 	spec.add_runtime_dependency 'recls'
+	spec.add_runtime_dependency 'xqsr3'
 
 	spec.files			=	Dir[ 'Rakefile', '{bin,examples,lib,man,spec,test}/**/*', 'README*', 'LICENSE*' ] & `git ls-files -z`.split("\0")
 end

@@ -1,10 +1,10 @@
 # ######################################################################## #
-# File:         libclimate/version.rb
+# File:         libclimate/libclimate.rb
 #
-# Purpose:      Version for libclimate.Ruby library
+# Purpose:      Main file for libclimate.Ruby library
 #
 # Created:      13th July 2015
-# Updated:      14th July 2015
+# Updated:      14th May 2016
 #
 # Home:         http://github.com/synesissoftware/libCLImate.Ruby
 #
@@ -37,22 +37,11 @@
 # ######################################################################## #
 
 
-# Main module for libCLImate.Ruby library
+require 'libclimate/climate'
+require 'libclimate/version'
+
 module LibCLImate
 
-	# Current version of the libCLImate.Ruby library
-	VERSION					=	'0.1.2'
-
-	private
-	VERSION_PARTS_			=	VERSION.split(/[.]/).collect { |n| n.to_i } # :nodoc:
-	public
-	# Major version of the libCLImate.Ruby library
-	VERSION_MAJOR			=	VERSION_PARTS_[0] # :nodoc:
-	# # Minor version of the libCLImate.Ruby library
-	VERSION_MINOR			=	VERSION_PARTS_[1] # :nodoc:
-	# # Revision version of the libCLImate.Ruby library
-	VERSION_REVISION		=	VERSION_PARTS_[2] # :nodoc:
-	#
 
 end # module LibCLImate
 
