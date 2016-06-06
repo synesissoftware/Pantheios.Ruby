@@ -16,9 +16,9 @@ Gem::Specification.new do |spec|
 	spec.homepage		=	'http://www.libclimate.org/'
 	spec.license		=	'Modified BSD'
 
-	spec.add_runtime_dependency 'clasp'
-	spec.add_runtime_dependency 'recls'
-	spec.add_runtime_dependency 'xqsr3'
+	spec.add_runtime_dependency 'clasp', [ '>= 0.9.1', '< 1.0' ]
+	spec.add_runtime_dependency 'recls', [ '>= 2.6.4', '< 3.0' ]
+	spec.add_runtime_dependency 'xqsr3', [ '>= 0.8.1', '< 1.0' ]
 
 	spec.files			=	Dir[ 'Rakefile', '{bin,examples,lib,man,spec,test}/**/*', 'README*', 'LICENSE*' ] & `git ls-files -z`.split("\0")
 end
