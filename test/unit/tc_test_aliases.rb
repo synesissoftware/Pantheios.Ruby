@@ -1,6 +1,6 @@
 #!/usr/bin/ruby
 #
-# test Recls entries
+# test aliases
 
 $:.unshift File.join(File.dirname(__FILE__), '../..', 'lib')
 
