@@ -6,7 +6,7 @@ require 'libclimate'
 
 Gem::Specification.new do |spec|
 
-	spec.name			=	'libCLImate'
+	spec.name			=	'libclimate-ruby'
 	spec.version		=	LibCLImate::VERSION
 	spec.date			=	Date.today.to_s
 	spec.summary		=	'libCLImate.Ruby'
