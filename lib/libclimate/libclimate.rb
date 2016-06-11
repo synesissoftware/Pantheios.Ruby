@@ -4,7 +4,7 @@
 # Purpose:      Main file for libclimate.Ruby library
 #
 # Created:      13th July 2015
-# Updated:      14th May 2016
+# Updated:      11th June 2016
 #
 # Home:         http://github.com/synesissoftware/libCLImate.Ruby
 #
@@ -40,6 +40,7 @@
 require 'libclimate/climate'
 require 'libclimate/version'
 
+# Namespace for libCLImate
 module LibCLImate
 
 

@@ -5,7 +5,7 @@
 # Purpose:      Definition of the ::LibCLImate::Climate class
 #
 # Created:      13th July 2015
-# Updated:      14th May 2016
+# Updated:      11th June 2016
 #
 # Home:         http://github.com/synesissoftware/libCLImate.Ruby
 #
@@ -57,9 +57,15 @@ end
 
 module LibCLImate
 
+# Class used to gather together the CLI specification, and execute it
+#
+#
+#
 class Climate
 
-  private
+	#:stopdoc:
+
+	private
 	def show_usage_
 
 		options	=	{}
@@ -75,8 +81,22 @@ class Climate
 		CLASP.show_version aliases, stream: stdout, program_name: program_name, version: version, exit: exit_on_usage ? 0 : nil
 	end
 
-  public
-	def initialize(options={})
+	#:startdoc:
+
+	public
+	# Creates an instance of the Climate class.
+	#
+	# === Signature
+	#
+	# * *Parameters*:
+	#   - +options:+:: An options hash, containing any of the following options.
+	#
+	# * *Options*:
+	#   - +:no_help_flag+:: Prevents the use of the CLASP::Flag.Help flag-alias
+	#   - +:no_version_flag+:: Prevents the use of the CLASP::Version.Help flag-alias
+	#
+	# * *Block*:: An optional block which receives the constructing instance, allowing the user to modify the attributes.
+	def initialize(options={}) # :yields: climate
 
 		options ||=	{}
 
@@ -101,21 +121,33 @@ class Climate
 		@aliases << CLASP::Flag.Help(handle: proc { show_usage_ }) unless options[:no_help_flag]
 		@aliases << CLASP::Flag.Version(handle: proc { show_version_ }) unless options[:no_version_flag]
 
-		raise ArgumentError, "block is required" unless block_given?
-
-		yield self
+		yield self if block_given?
 	end
 
-	attr_accessor :aliases
+	# An array of aliases attached to the climate instance, whose contents should be modified by adding (or removing) CLASP aliases
+	# @return [Array] The aliases
+	attr_reader :aliases
+	# Indicates whether exit will be called (with non-zero exit code) when an unknown command-line flag or option is encountered
+	# @return [Boolean]
+	# @return *true* exit(1) will be called
+	# @return *false* exit will not be called
 	attr_accessor :exit_on_unknown
+	# @return [Boolean] Indicates whether exit will be called (with zero exit code) when usage/version is requested on the command-line
 	attr_accessor :exit_on_usage
+	# @return [Array] Optional array of string of program-information that will be written before the rest of the usage block when usage is requested on the command-line
 	attr_accessor :info_lines
+	# @return [String] A program name; defaults to the name of the executing script
 	attr_accessor :program_name
+	# @return [IO] The output stream for normative output; defaults to $stdout
 	attr_accessor :stdout
+	# @return [IO] The output stream for contingent output; defaults to $stderr
 	attr_accessor :stderr
+	# @return [String] Optional string to describe the program values, eg \<xyz "[ { <<directory> | &lt;file> } ]"
 	attr_accessor :usage_values
+	# @return [String, Array] A version string or an array of integers representing the version components
 	attr_accessor :version
 
+	# Executes the prepared Climate instance
 	def run argv = ARGV
 
 		raise ArgumentError, "argv may not be nil" if argv.nil?
