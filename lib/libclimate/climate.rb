@@ -5,7 +5,7 @@
 # Purpose:      Definition of the ::LibCLImate::Climate class
 #
 # Created:      13th July 2015
-# Updated:      11th June 2016
+# Updated:      12th June 2016
 #
 # Home:         http://github.com/synesissoftware/libCLImate.Ruby
 #
@@ -49,7 +49,7 @@ if !defined? Colcon
 	begin
 
 		require 'colcon'
-	rescue LoadError => x
+	rescue LoadError #=> x
 
 		warn "could not load colcon library" if $DEBUG
 	end
@@ -189,13 +189,13 @@ class Climate
 
 				selector	=	:unhandled
 
-				ex = f.extras
+				ex = al.extras
 
-				case f.extras
+				case ex
 				when ::Hash
-					if f.extras.has_key? :handle
+					if ex.has_key? :handle
 
-						f.extras[:handle].call(f, al)
+						ex[:handle].call(f, al)
 
 						selector = :handled
 					end
