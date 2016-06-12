@@ -5,7 +5,7 @@
 # Purpose:      Definition of the ::LibCLImate::Climate class
 #
 # Created:      13th July 2015
-# Updated:      12th June 2016
+# Updated:      13th June 2016
 #
 # Home:         http://github.com/synesissoftware/libCLImate.Ruby
 #
@@ -41,7 +41,6 @@
 
 
 require 'clasp'
-require 'recls'
 require 'xqsr3/extensions/io'
 
 if !defined? Colcon
@@ -84,6 +83,7 @@ class Climate
 	#:startdoc:
 
 	public
+
 	# Creates an instance of the Climate class.
 	#
 	# === Signature

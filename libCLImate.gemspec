@@ -18,8 +18,8 @@ END_DESC
 	spec.homepage		=	'http://www.libclimate.org/'
 	spec.license		=	'Modified BSD'
 
-	spec.add_runtime_dependency 'clasp-ruby', [ '>= 0.10.1', '< 1.0' ]
-	spec.add_runtime_dependency 'xqsr3', [ '>= 0.8.3', '< 1.0' ]
+	spec.add_runtime_dependency 'clasp-ruby', [ '>= 0.10.2', '< 1.0' ]
+	spec.add_runtime_dependency 'xqsr3', [ '>= 0.8.4', '< 1.0' ]
 
 	spec.files			=	Dir[ 'Rakefile', '{bin,examples,lib,man,spec,test}/**/*', 'README*', 'LICENSE*' ] & `git ls-files -z`.split("\0")
 end
