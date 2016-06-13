@@ -58,7 +58,7 @@ end
 #:stopdoc:
 
 # We monkey-patch CLASP module's Flag and Option generator methods by
-# added in a 'block' attribute (but only if it does not exist)
+# added in a 'action' attribute (but only if it does not exist)
 # and attaching the given block
 
 class << CLASP
@@ -71,11 +71,11 @@ class << CLASP
 		f = self.Flag_old(name, options)
 
 		# anticipate this functionality being added to CLASP
-		return f if f.respond_to? :block
+		return f if f.respond_to? :action
 
 		class << f
 
-			attr_accessor :block
+			attr_accessor :action
 		end
 
 		if blk
@@ -87,7 +87,7 @@ class << CLASP
 				warn "wrong arity for flag"
 			end
 
-			f.block = blk
+			f.action = blk
 		end
 
 		f
@@ -98,11 +98,11 @@ class << CLASP
 		o = self.Option_old(name, options)
 
 		# anticipate this functionality being added to CLASP
-		return o if o.respond_to? :block
+		return o if o.respond_to? :action
 
 		class << o
 
-			attr_accessor :block
+			attr_accessor :action
 		end
 
 		if blk
@@ -114,7 +114,7 @@ class << CLASP
 				warn "wrong arity for option"
 			end
 
-			o.block = blk
+			o.action = blk
 		end
 
 		o
@@ -258,12 +258,12 @@ class Climate
 
 				selector	=	:unhandled
 
-				# see if it has a :block attribute (which will have been
+				# see if it has a :action attribute (which will have been
 				# monkey-patched to CLASP.Flag()
 
-				if al.respond_to?(:block) && !al.block.nil?
+				if al.respond_to?(:action) && !al.action.nil?
 
-					al.block.call(f, al)
+					al.action.call(f, al)
 
 					selector = :handled
 				else
@@ -309,12 +309,12 @@ class Climate
 
 				selector	=	:unhandled
 
-				# see if it has a :block attribute (which will have been
+				# see if it has a :action attribute (which will have been
 				# monkey-patched to CLASP.Option()
 
-				if al.respond_to?(:block) && !al.block.nil?
+				if al.respond_to?(:action) && !al.action.nil?
 
-					al.block.call(o, al)
+					al.action.call(o, al)
 
 					selector = :handled
 				else
