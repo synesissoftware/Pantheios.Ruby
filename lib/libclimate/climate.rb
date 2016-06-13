@@ -5,7 +5,7 @@
 # Purpose:      Definition of the ::LibCLImate::Climate class
 #
 # Created:      13th July 2015
-# Updated:      13th June 2016
+# Updated:      14th June 2016
 #
 # Home:         http://github.com/synesissoftware/libCLImate.Ruby
 #
@@ -217,6 +217,14 @@ class Climate
 	attr_accessor :version
 
 	# Executes the prepared Climate instance
+	#
+	# == Signature
+	#
+	# * *Parameters*:
+	#   - +argv+:: The array of arguments; defaults to <tt>ARGV</tt>
+	#
+	# * *Returns*:
+	#
 	def run argv = ARGV
 
 		raise ArgumentError, "argv may not be nil" if argv.nil?
@@ -365,6 +373,49 @@ class Climate
 		end
 
 		results
+	end
+
+	# Calls abort() with the given message prefixed by the program_name
+	#
+	# === Signature
+	#
+	# * *Parameters*:
+	#   - +message+:: The message string
+	#   - +options+:: An option hash, containing any of the following options
+	#
+	# * *Options*:
+	#   - +:stream+:: {optional} The output stream to use. Defaults to the value of the attribute +stderr+.
+	#   - +:program_name+:: {optional} Uses the given value rather than the +program_name+ attribute; does not prefix if the empty string
+	#   - +:exit+:: {optional} The exit code. Defaults to 1. Does not exit if +nil+ specified.
+	#
+	# * *Return*:
+	#   The combined message string, if <tt>exit()</tt> not called.
+	def abort message, options={}
+
+		prog_name	=	options[:program_name]
+		prog_name	||=	program_name
+		prog_name	||=	''
+
+		stream		=	options[:stream]
+		stream		||=	stderr
+		stream		||=	$stderr
+
+		exit_code	=	options.has_key?(:exit) ? options[:exit] : 1
+
+		if prog_name.empty?
+
+			msg = message
+		else
+
+			msg = "#{prog_name}: #{message}"
+		end
+
+
+		stream.puts msg
+
+		exit(exit_code) if exit_code
+
+		msg
 	end
 end # class Climate
 
