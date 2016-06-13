@@ -10,14 +10,16 @@ Gem::Specification.new do |spec|
 	spec.version		=	LibCLImate::VERSION
 	spec.date			=	Date.today.to_s
 	spec.summary		=	'libCLImate.Ruby'
-	spec.description	=	'libCLImate Ruby library'
+	spec.description	=	<<END_DESC
+
+END_DESC
 	spec.authors		=	[ 'Matt Wilson' ]
 	spec.email			=	'matthew@synesis.com.au'
 	spec.homepage		=	'http://www.libclimate.org/'
 	spec.license		=	'Modified BSD'
 
-	spec.add_runtime_dependency 'clasp-ruby', [ '>= 0.10.1', '< 1.0' ]
-	spec.add_runtime_dependency 'xqsr3', [ '>= 0.8.1', '< 1.0' ]
+	spec.add_runtime_dependency 'clasp-ruby', [ '>= 0.10.2', '< 1.0' ]
+	spec.add_runtime_dependency 'xqsr3', [ '>= 0.8.4', '< 1.0' ]
 
 	spec.files			=	Dir[ 'Rakefile', '{bin,examples,lib,man,spec,test}/**/*', 'README*', 'LICENSE*' ] & `git ls-files -z`.split("\0")
 end

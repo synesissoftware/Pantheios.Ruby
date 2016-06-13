@@ -5,7 +5,7 @@
 # Purpose:      Definition of the ::LibCLImate::Climate class
 #
 # Created:      13th July 2015
-# Updated:      11th June 2016
+# Updated:      13th June 2016
 #
 # Home:         http://github.com/synesissoftware/libCLImate.Ruby
 #
@@ -48,17 +48,92 @@ if !defined? Colcon
 	begin
 
 		require 'colcon'
-	rescue LoadError => x
+	rescue LoadError #=> x
 
 		warn "could not load colcon library" if $DEBUG
 	end
 end
 
+#:stopdoc:
+
+# We monkey-patch CLASP module's Flag and Option generator methods by
+# added in a 'action' attribute (but only if it does not exist)
+# and attaching the given block
+
+class << CLASP
+
+	alias_method :Flag_old, :Flag
+	alias_method :Option_old, :Option
+
+	def Flag(name, options={}, &blk)
+
+		f = self.Flag_old(name, options)
+
+		# anticipate this functionality being added to CLASP
+		return f if f.respond_to? :action
+
+		class << f
+
+			attr_accessor :action
+		end
+
+		if blk
+
+			case blk.arity
+			when 0, 1, 2
+			else
+
+				warn "wrong arity for flag"
+			end
+
+			f.action = blk
+		end
+
+		f
+	end
+
+	def Option(name, options={}, &blk)
+
+		o = self.Option_old(name, options)
+
+		# anticipate this functionality being added to CLASP
+		return o if o.respond_to? :action
+
+		class << o
+
+			attr_accessor :action
+		end
+
+		if blk
+
+			case blk.arity
+			when 0, 1, 2
+			else
+
+				warn "wrong arity for option"
+			end
+
+			o.action = blk
+		end
+
+		o
+	end
+end
+
+#:startdoc:
+
+
 module LibCLImate
 
+# Class used to gather together the CLI specification, and execute it
+#
+#
+#
 class Climate
 
-  private
+	#:stopdoc:
+
+	private
 	def show_usage_
 
 		options	=	{}
@@ -74,8 +149,23 @@ class Climate
 		CLASP.show_version aliases, stream: stdout, program_name: program_name, version: version, exit: exit_on_usage ? 0 : nil
 	end
 
-  public
-	def initialize(options={})
+	#:startdoc:
+
+	public
+
+	# Creates an instance of the Climate class.
+	#
+	# === Signature
+	#
+	# * *Parameters*:
+	#   - +options:+:: An options hash, containing any of the following options.
+	#
+	# * *Options*:
+	#   - +:no_help_flag+:: Prevents the use of the CLASP::Flag.Help flag-alias
+	#   - +:no_version_flag+:: Prevents the use of the CLASP::Version.Help flag-alias
+	#
+	# * *Block*:: An optional block which receives the constructing instance, allowing the user to modify the attributes.
+	def initialize(options={}) # :yields: climate
 
 		options ||=	{}
 
@@ -100,21 +190,33 @@ class Climate
 		@aliases << CLASP::Flag.Help(handle: proc { show_usage_ }) unless options[:no_help_flag]
 		@aliases << CLASP::Flag.Version(handle: proc { show_version_ }) unless options[:no_version_flag]
 
-		raise ArgumentError, "block is required" unless block_given?
-
-		yield self
+		yield self if block_given?
 	end
 
-	attr_accessor :aliases
+	# An array of aliases attached to the climate instance, whose contents should be modified by adding (or removing) CLASP aliases
+	# @return [Array] The aliases
+	attr_reader :aliases
+	# Indicates whether exit will be called (with non-zero exit code) when an unknown command-line flag or option is encountered
+	# @return [Boolean]
+	# @return *true* exit(1) will be called
+	# @return *false* exit will not be called
 	attr_accessor :exit_on_unknown
+	# @return [Boolean] Indicates whether exit will be called (with zero exit code) when usage/version is requested on the command-line
 	attr_accessor :exit_on_usage
+	# @return [Array] Optional array of string of program-information that will be written before the rest of the usage block when usage is requested on the command-line
 	attr_accessor :info_lines
+	# @return [String] A program name; defaults to the name of the executing script
 	attr_accessor :program_name
+	# @return [IO] The output stream for normative output; defaults to $stdout
 	attr_accessor :stdout
+	# @return [IO] The output stream for contingent output; defaults to $stderr
 	attr_accessor :stderr
+	# @return [String] Optional string to describe the program values, eg \<xyz "[ { <<directory> | &lt;file> } ]"
 	attr_accessor :usage_values
+	# @return [String, Array] A version string or an array of integers representing the version components
 	attr_accessor :version
 
+	# Executes the prepared Climate instance
 	def run argv = ARGV
 
 		raise ArgumentError, "argv may not be nil" if argv.nil?
@@ -156,15 +258,26 @@ class Climate
 
 				selector	=	:unhandled
 
-				ex = f.extras
+				# see if it has a :action attribute (which will have been
+				# monkey-patched to CLASP.Flag()
 
-				case f.extras
-				when ::Hash
-					if f.extras.has_key? :handle
+				if al.respond_to?(:action) && !al.action.nil?
 
-						f.extras[:handle].call(f, al)
+					al.action.call(f, al)
 
-						selector = :handled
+					selector = :handled
+				else
+
+					ex = al.extras
+
+					case ex
+					when ::Hash
+						if ex.has_key? :handle
+
+							ex[:handle].call(f, al)
+
+							selector = :handled
+						end
 					end
 				end
 
@@ -196,15 +309,26 @@ class Climate
 
 				selector	=	:unhandled
 
-				ex = al.extras
+				# see if it has a :action attribute (which will have been
+				# monkey-patched to CLASP.Option()
 
-				case ex
-				when ::Hash
-					if ex.has_key? :handle
+				if al.respond_to?(:action) && !al.action.nil?
 
-						ex[:handle].call(o, al)
+					al.action.call(o, al)
 
-						selector = :handled
+					selector = :handled
+				else
+
+					ex = al.extras
+
+					case ex
+					when ::Hash
+						if ex.has_key? :handle
+
+							ex[:handle].call(o, al)
+
+							selector = :handled
+						end
 					end
 				end
 
