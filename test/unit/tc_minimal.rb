@@ -1,6 +1,6 @@
 #!/usr/bin/ruby
 #
-# test minimal uses
+# test simple scenarios
 
 $:.unshift File.join(File.dirname(__FILE__), '../..', 'lib')
 
