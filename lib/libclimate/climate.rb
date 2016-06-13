@@ -5,7 +5,7 @@
 # Purpose:      Definition of the ::LibCLImate::Climate class
 #
 # Created:      13th July 2015
-# Updated:      12th June 2016
+# Updated:      13th June 2016
 #
 # Home:         http://github.com/synesissoftware/libCLImate.Ruby
 #
@@ -54,6 +54,75 @@ if !defined? Colcon
 		warn "could not load colcon library" if $DEBUG
 	end
 end
+
+#:stopdoc:
+
+# We monkey-patch CLASP module's Flag and Option generator methods by
+# added in a 'block' attribute (but only if it does not exist)
+# and attaching the given block
+
+class << CLASP
+
+	alias_method :Flag_old, :Flag
+	alias_method :Option_old, :Option
+
+	def Flag(name, options={}, &blk)
+
+		f = self.Flag_old(name, options)
+
+		# anticipate this functionality being added to CLASP
+		return f if f.respond_to? :block
+
+		class << f
+
+			attr_accessor :block
+		end
+
+		if blk
+
+			case blk.arity
+			when 0, 1, 2
+			else
+
+				warn "wrong arity for flag"
+			end
+
+			f.block = blk
+		end
+
+		f
+	end
+
+	def Option(name, options={}, &blk)
+
+		o = self.Option_old(name, options)
+
+		# anticipate this functionality being added to CLASP
+		return o if o.respond_to? :block
+
+		class << o
+
+			attr_accessor :block
+		end
+
+		if blk
+
+			case blk.arity
+			when 0, 1, 2
+			else
+
+				warn "wrong arity for option"
+			end
+
+			o.block = blk
+		end
+
+		o
+	end
+end
+
+#:startdoc:
+
 
 module LibCLImate
 
@@ -189,15 +258,26 @@ class Climate
 
 				selector	=	:unhandled
 
-				ex = al.extras
+				# see if it has a :block attribute (which will have been
+				# monkey-patched to CLASP.Flag()
 
-				case ex
-				when ::Hash
-					if ex.has_key? :handle
+				if al.respond_to?(:block) && !al.block.nil?
 
-						ex[:handle].call(f, al)
+					al.block.call(f, al)
 
-						selector = :handled
+					selector = :handled
+				else
+
+					ex = al.extras
+
+					case ex
+					when ::Hash
+						if ex.has_key? :handle
+
+							ex[:handle].call(f, al)
+
+							selector = :handled
+						end
 					end
 				end
 
@@ -229,15 +309,25 @@ class Climate
 
 				selector	=	:unhandled
 
-				ex = al.extras
+				# see if it has a :block attribute (which will have been
+				# monkey-patched to CLASP.Option()
 
-				case ex
-				when ::Hash
-					if ex.has_key? :handle
+				if al.respond_to?(:block) && !al.block.nil?
 
-						ex[:handle].call(o, al)
+					al.block.call(o, al)
 
-						selector = :handled
+					selector = :handled
+				else
+					ex = al.extras
+
+					case ex
+					when ::Hash
+						if ex.has_key? :handle
+
+							ex[:handle].call(o, al)
+
+							selector = :handled
+						end
 					end
 				end
 
