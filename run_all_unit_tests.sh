@@ -5,8 +5,8 @@
 #
 # Purpose:      Executes all unit-tests regardless of calling directory
 #
-# Created:      14 07 2015
-# Updated:      14 07 2015
+# Created:      14th July 2015
+# Updated:      14th July 2015
 #
 # Author:       Matthew Wilson
 #

@@ -14,7 +14,6 @@ build/
 /lib/bundler/man/
 /pkg/
 /rdoc/
-/spec/examples.txt
 /spec/reports/
 /test/tmp/
 /test/version_tmp/
@@ -26,6 +25,8 @@ build/
 # files (by name)
 
 /.config
+/.repl_history
+/spec/examples.txt
 
 .DS_Store
 .repl_history
@@ -34,7 +35,10 @@ build/
 # files (by pattern)
 
 *~
+*.*~
+.dat*
 *.b64
+*.bridgesupport
 *.gem
 *.rbc
 *.swp

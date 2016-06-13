@@ -1,6 +1,6 @@
 #!/usr/bin/ruby
 #
-# test Recls entries
+# test complex scenarios
 
 $:.unshift File.join(File.dirname(__FILE__), '../..', 'lib')
 

@@ -41,7 +41,6 @@
 
 
 require 'clasp'
-require 'recls'
 require 'xqsr3/extensions/io'
 
 if !defined? Colcon
@@ -153,6 +152,7 @@ class Climate
 	#:startdoc:
 
 	public
+
 	# Creates an instance of the Climate class.
 	#
 	# === Signature
