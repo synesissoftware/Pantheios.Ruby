@@ -472,7 +472,7 @@ class Climate
 		::Xqsr3::Quality::ParameterChecking.check_parameter name, 'name', allow_nil: false, types: [ ::String, ::Symbol ]
 		raise ArgumentError, "must supply at least one alias" if aliases.empty?
 
-		klass = CLASP.Option
+		klass = CLASP::Option
 
 		self.aliases << klass(name, aliases: aliases)
 	end
