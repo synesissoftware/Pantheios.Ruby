@@ -13,7 +13,7 @@ require 'test/unit'
 
 require 'stringio'
 
-class Test_Climate_minimal < Test::Unit::TestCase
+class Test_Climate_minimal_CLASP < Test::Unit::TestCase
 
 	def test_no_arguments_no_mods
 
@@ -223,8 +223,8 @@ class Test_Climate_minimal < Test::Unit::TestCase
 
 			bl = false#proc { is_verbose = true }
 
-			climate.add_flag('--succinct', alias: '-s', help: 'operates succinctly')
-			climate.add_flag('--verbose', alias: '-v', help: 'operates verbosely', extras: { :handle => proc { is_verbose = true }})
+			climate.aliases << CLASP.Flag('--succinct', alias: '-s', help: 'operates succinctly')
+			climate.aliases << CLASP.Flag('--verbose', alias: '-v', help: 'operates verbosely', extras: { :handle => proc { is_verbose = true }})
 		end
 
 		argv = %w{ --help --verbose --succinct }
@@ -281,7 +281,7 @@ class Test_Climate_minimal < Test::Unit::TestCase
 			climate.stdout = str
 			climate.exit_on_usage = false
 
-			climate.add_flag('--verbose', alias: '-v', help: 'operates verbosely', extras: { handle: proc { is_verbose = true }})
+			climate.aliases << CLASP.Flag('--verbose', alias: '-v', help: 'operates verbosely', extras: { handle: proc { is_verbose = true }})
 		end
 
 		argv = %w{ --verbose }
@@ -325,7 +325,7 @@ class Test_Climate_minimal < Test::Unit::TestCase
 			climate.stdout = str
 			climate.exit_on_usage = false
 
-			climate.add_option('--verbosity', alias: '-v', help: 'determines level of verbose operation', extras: { handle: proc { |o| verbosity = o.value }})
+			climate.aliases << CLASP.Option('--verbosity', alias: '-v', help: 'determines level of verbose operation', extras: { handle: proc { |o| verbosity = o.value }})
 		end
 
 		argv = %w{ -v 2 }

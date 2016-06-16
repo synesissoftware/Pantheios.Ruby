@@ -5,7 +5,7 @@
 # Purpose:      Definition of the ::LibCLImate::Climate class
 #
 # Created:      13th July 2015
-# Updated:      14th June 2016
+# Updated:      17th June 2016
 #
 # Home:         http://github.com/synesissoftware/libCLImate.Ruby
 #
@@ -42,6 +42,7 @@
 
 require 'clasp'
 require 'xqsr3/extensions/io'
+require 'xqsr3/quality/parameter_checking'
 
 if !defined? Colcon
 
@@ -292,12 +293,17 @@ class Climate
 				results[:flags][selector] << f
 			else
 
-				message = "#{program_name}: unrecognised flag '#{f}'; use --help for usage"
+				message = "unrecognised flag '#{f}'; use --help for usage"
 
 				if exit_on_unknown
 
-					abort message
+					self.abort message
 				else
+
+					if program_name && !program_name.empty?
+
+						message = "#{program_name}: #{message}"
+					end
 
 					stderr.puts message
 				end
@@ -343,12 +349,17 @@ class Climate
 				results[:options][selector] << o
 			else
 
-				message = "#{program_name}: unrecognised option '#{o}'; use --help for usage"
+				message = "unrecognised option '#{o}'; use --help for usage"
 
 				if exit_on_unknown
 
-					abort message
+					self.abort message
 				else
+
+					if program_name && !program_name.empty?
+
+						message = "#{program_name}: #{message}"
+					end
 
 					stderr.puts message
 				end
@@ -416,6 +427,54 @@ class Climate
 		exit(exit_code) if exit_code
 
 		msg
+	end
+
+	# Adds a flag to +aliases+
+	#
+	# === Signature
+	#
+	# * *Parameters*
+	#   - +name+:: The flag name
+	#   - +options+:: An options hash, containing any of the following options.
+	#
+	# * *Options*
+	#   - +:help+:: 
+	#   - +:alias+:: 
+	#   - +:aliases+:: 
+	#   - +:extras+:: 
+	def add_flag(name, options={})
+
+		aliases << CLASP.Flag(name, **options)
+	end
+
+	#
+	# * *Options*
+	#   - +:alias+:: 
+	#   - +:aliases+:: 
+	#   - +:help+:: 
+	#   - +:values_range+:: 
+	#   - +:default_value+:: 
+	#   - +:extras+:: 
+	def add_option(name, options={})
+
+		aliases << CLASP.Option(name, **options)
+	end
+
+	# Adds a flag to +aliases+
+	#
+	# === Signature
+	#
+	# * *Parameters*
+	#   - +name+:: The flag name
+	#   - +options+:: An options hash, containing any of the following options.
+	def add_alias(name, *aliases)
+
+		::Xqsr3::Quality::ParameterChecking.check_parameter name, 'name', allow_nil: false, types: [ ::String, ::Symbol ]
+		raise ArgumentError, "must supply at least one alias" if aliases.empty?
+
+		klass = CLASP.Option
+
+		self.aliases << klass(name, aliases: aliases)
 	end
 end # class Climate
 
