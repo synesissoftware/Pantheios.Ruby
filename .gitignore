@@ -29,6 +29,7 @@ build/
 /spec/examples.txt
 
 .DS_Store
+.repl_history
 .rvmrc
 
 # files (by pattern)
