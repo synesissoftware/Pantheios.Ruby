@@ -13,7 +13,7 @@ require 'test/unit'
 
 require 'stringio'
 
-class Test_Climate_with_blocks < Test::Unit::TestCase
+class Test_Climate_with_blocks_CLASP < Test::Unit::TestCase
 
 	def test_flag_with_block
 
@@ -21,7 +21,7 @@ class Test_Climate_with_blocks < Test::Unit::TestCase
 
 		climate = LibCLImate::Climate.new do |climate|
 
-			climate.add_flag('--verbose') { is_verbose = true }
+			climate.aliases << CLASP.Flag('--verbose') { is_verbose = true }
 		end
 
 		argv = %w{ --verbose }
@@ -37,7 +37,7 @@ class Test_Climate_with_blocks < Test::Unit::TestCase
 
 		climate = LibCLImate::Climate.new do |climate|
 
-			climate.add_option('--flavour') { |o|  flavour = o.value }
+			climate.aliases << CLASP.Option('--flavour') { |o|  flavour = o.value }
 		end
 
 		argv = %w{ --flavour=blueberry }

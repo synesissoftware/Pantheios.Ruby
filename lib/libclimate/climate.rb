@@ -5,7 +5,7 @@
 # Purpose:      Definition of the ::LibCLImate::Climate class
 #
 # Created:      13th July 2015
-# Updated:      17th June 2016
+# Updated:      18th June 2016
 #
 # Home:         http://github.com/synesissoftware/libCLImate.Ruby
 #
@@ -442,9 +442,9 @@ class Climate
 	#   - +:alias+:: 
 	#   - +:aliases+:: 
 	#   - +:extras+:: 
-	def add_flag(name, options={})
+	def add_flag(name, options={}, &block)
 
-		aliases << CLASP.Flag(name, **options)
+		aliases << CLASP.Flag(name, **options, &block)
 	end
 
 	#
@@ -455,9 +455,9 @@ class Climate
 	#   - +:values_range+:: 
 	#   - +:default_value+:: 
 	#   - +:extras+:: 
-	def add_option(name, options={})
+	def add_option(name, options={}, &block)
 
-		aliases << CLASP.Option(name, **options)
+		aliases << CLASP.Option(name, **options, &block)
 	end
 
 	# Adds a flag to +aliases+
