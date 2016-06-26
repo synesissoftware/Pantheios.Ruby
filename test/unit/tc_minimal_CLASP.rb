@@ -1,4 +1,4 @@
-#!/usr/bin/ruby
+#!/usr/bin/env ruby
 #
 # test simple scenarios
 
@@ -359,5 +359,4 @@ class Test_Climate_minimal_CLASP < Test::Unit::TestCase
 end
 
 # ############################## end of file ############################# #
-
 

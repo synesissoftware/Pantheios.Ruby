@@ -1,4 +1,4 @@
-#!/usr/bin/ruby
+#!/usr/bin/env ruby
 #
 # test abort
 
@@ -83,5 +83,4 @@ class Test_Climate_abort < Test::Unit::TestCase
 end
 
 # ############################## end of file ############################# #
-
 

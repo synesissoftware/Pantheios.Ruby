@@ -1,4 +1,4 @@
-#!/usr/bin/ruby
+#!/usr/bin/env ruby
 #
 # test complex scenarios
 
@@ -86,5 +86,4 @@ class Test_Climate_minimal < Test::Unit::TestCase
 end
 
 # ############################## end of file ############################# #
-
 

@@ -1,4 +1,4 @@
-#!/usr/bin/ruby
+#!/usr/bin/env ruby
 #
 # test Recls entries
 
@@ -49,5 +49,4 @@ class Test_Climate_with_blocks < Test::Unit::TestCase
 end
 
 # ############################## end of file ############################# #
-
 
