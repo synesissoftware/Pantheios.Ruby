@@ -21,9 +21,9 @@ class Test_Climate_minimal < Test::Unit::TestCase
 
 		climate = LibCLImate::Climate.new do |climate|
 
-			climate.aliases << CLASP.Flag('--action=list', alias: '-l')
-			climate.aliases << CLASP.Flag('--action=change', alias: '-c')
-			climate.aliases << CLASP.Option('--action', alias: '-a', extras: { handle: Proc.new { |o, a| options[:action] = o.value } })
+			climate.add_option('--action', alias: '-a') { |o, a| options[:action] = o.value }
+			climate.add_alias('--action=list', '-l')
+			climate.add_alias('--action=change', '-c')
 		end
 
 		# invoke via option
