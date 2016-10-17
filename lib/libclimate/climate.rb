@@ -225,6 +225,8 @@ class Climate
 	#   - +argv+:: The array of arguments; defaults to <tt>ARGV</tt>
 	#
 	# * *Returns*:
+	#   an instance of a type derived from +::Hash+ with the additional
+	#   attributes +flags+, +options+, +values+, and +argv+.
 	#
 	def run argv = ARGV
 
@@ -383,6 +385,11 @@ class Climate
 		def results.values
 
 			self[:values]
+		end
+
+		results.define_singleton_method(:argv) do
+
+			argv
 		end
 
 		results
