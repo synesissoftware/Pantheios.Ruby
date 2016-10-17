@@ -281,6 +281,7 @@ class Climate
 
 					case ex
 					when ::Hash
+
 						if ex.has_key? :handle
 
 							ex[:handle].call(f, al)
@@ -337,6 +338,7 @@ class Climate
 
 					case ex
 					when ::Hash
+
 						if ex.has_key? :handle
 
 							ex[:handle].call(o, al)
@@ -444,6 +446,8 @@ class Climate
 	#   - +:extras+:: 
 	def add_flag(name, options={}, &block)
 
+		::Xqsr3::Quality::ParameterChecking.check_parameter name, 'name', allow_nil: false, types: [ ::String, ::Symbol ]
+
 		aliases << CLASP.Flag(name, **options, &block)
 	end
 
@@ -456,6 +460,8 @@ class Climate
 	#   - +:default_value+:: 
 	#   - +:extras+:: 
 	def add_option(name, options={}, &block)
+
+		::Xqsr3::Quality::ParameterChecking.check_parameter name, 'name', allow_nil: false, types: [ ::String, ::Symbol ]
 
 		aliases << CLASP.Option(name, **options, &block)
 	end
