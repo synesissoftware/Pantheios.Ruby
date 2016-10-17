@@ -5,7 +5,7 @@
 # Purpose:      Definition of the ::LibCLImate::Climate class
 #
 # Created:      13th July 2015
-# Updated:      18th June 2016
+# Updated:      17th October 2016
 #
 # Home:         http://github.com/synesissoftware/libCLImate.Ruby
 #
@@ -465,16 +465,43 @@ class Climate
 	# === Signature
 	#
 	# * *Parameters*
-	#   - +name+:: The flag name
-	#   - +options+:: An options hash, containing any of the following options.
+	#   - +name+:: The flag/option name or the valued option
+	#   - +aliases+:: One or more aliases
+	#
+	# === Examples
+	#
+	# ==== Alias(es) of a flag (single statement)
+	#
+	# +climate.add_flag('--mark-missing', alias: '-x')+
+	#
+	# +climate.add_flag('--absolute-path', aliases: [ '-abs', '-p' ])+
+	#
+	# ==== Alias(es) of a flag (multiple statements)
+	#
+	# +climate.add_flag('--mark-missing')+
+	# +climate.add_alias('--mark-missing', '-x')+
+	#
+	# +climate.add_flag('--absolute-path')+
+	# +climate.add_alias('--absolute-path', '-abs', '-p')+
+	#
+	# ==== Alias(es) of an option (single statement)
+	#
+	# +climate.add_option('--add-patterns', alias: '-p')+
+	#
+	# ==== Alias(es) of an option (multiple statements)
+	#
+	# +climate.add_option('--add-patterns')+
+	# +climate.add_alias('--add-patterns', '-p')+
+	#
+	# ==== Alias of a valued option (which has to be multiple statements)
+	#
+	# +climate.add_option('--verbosity')+
+	# +climate.add_alias('--verbosity=succinct', '-s')+
+	# +climate.add_alias('--verbosity=verbose', '-v')+
 	def add_alias(name, *aliases)
 
 		::Xqsr3::Quality::ParameterChecking.check_parameter name, 'name', allow_nil: false, types: [ ::String, ::Symbol ]
 		raise ArgumentError, "must supply at least one alias" if aliases.empty?
-
-=begin
-		klass = CLASP::Option
-=end
 
 		self.aliases << CLASP.Option(name, aliases: aliases)
 	end
