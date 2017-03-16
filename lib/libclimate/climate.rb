@@ -159,7 +159,7 @@ class Climate
 
 					ver << PROGRAM_VER_MINOR
 
-					if defined? PROGRAM_VERSION_REVISION
+					if defined? PROGRAM_VER_REVISION
 
 						ver << PROGRAM_VER_REVISION
 					end

@@ -40,7 +40,7 @@
 module LibCLImate
 
 	# Current version of the libCLImate.Ruby library
-	VERSION					=	'0.6.1'
+	VERSION					=	'0.6.2'
 
 	private
 	VERSION_PARTS_			=	VERSION.split(/[.]/).collect { |n| n.to_i } # :nodoc:
