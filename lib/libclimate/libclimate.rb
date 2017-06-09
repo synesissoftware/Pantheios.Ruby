@@ -4,11 +4,11 @@
 # Purpose:      Main file for libclimate.Ruby library
 #
 # Created:      13th July 2015
-# Updated:      12th June 2016
+# Updated:      9th June 2017
 #
 # Home:         http://github.com/synesissoftware/libCLImate.Ruby
 #
-# Copyright (c) 2015-2016, Matthew Wilson and Synesis Software
+# Copyright (c) 2015-2017, Matthew Wilson and Synesis Software
 # All rights reserved.
 #
 # Redistribution and use in source and binary forms, with or without
@@ -39,6 +39,9 @@
 
 require 'libclimate/climate'
 require 'libclimate/version'
+
+=begin
+=end
 
 # Main module for libCLImate.Ruby library
 module LibCLImate
