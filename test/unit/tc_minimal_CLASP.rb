@@ -1,6 +1,6 @@
 #!/usr/bin/env ruby
 #
-# test simple scenarios
+# test simple scenarios (with CLASP)
 
 $:.unshift File.join(File.dirname(__FILE__), '../..', 'lib')
 

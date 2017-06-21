@@ -5,13 +5,13 @@
 # Purpose:      Definition of the ::LibCLImate::Climate class
 #
 # Created:      13th July 2015
-# Updated:      17th October 2016
+# Updated:      16th March 2017
 #
 # Home:         http://github.com/synesissoftware/libCLImate.Ruby
 #
 # Author:       Matthew Wilson
 #
-# Copyright (c) 2015-2016, Matthew Wilson and Synesis Software
+# Copyright (c) 2015-2017, Matthew Wilson and Synesis Software
 # All rights reserved.
 #
 # Redistribution and use in source and binary forms, with or without
@@ -146,6 +146,26 @@ class Climate
 	end
 
 	def show_version_
+
+		ver = version || []
+
+		if ver.empty?
+
+			if defined? PROGRAM_VER_MAJOR
+
+				ver << PROGRAM_VER_MAJOR
+
+				if defined? PROGRAM_VER_MINOR
+
+					ver << PROGRAM_VER_MINOR
+
+					if defined? PROGRAM_VER_REVISION
+
+						ver << PROGRAM_VER_REVISION
+					end
+				end
+			end
+		end
 
 		CLASP.show_version aliases, stream: stdout, program_name: program_name, version: version, exit: exit_on_usage ? 0 : nil
 	end

@@ -1,6 +1,6 @@
 #!/usr/bin/env ruby
 #
-# test Recls entries
+# test blocks
 
 $:.unshift File.join(File.dirname(__FILE__), '../..', 'lib')
 
