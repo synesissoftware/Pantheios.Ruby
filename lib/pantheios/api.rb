@@ -141,11 +141,6 @@ module Pantheios
 		dt.strftime timestamp_format
 	end
 
-	def self.included receiver
-
-		receiver.extend self
-	end
-
 
 
 

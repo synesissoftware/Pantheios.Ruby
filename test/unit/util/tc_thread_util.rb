@@ -48,7 +48,53 @@ end
 
 class Test_parameter_checks_as_included_module < Test::Unit::TestCase
 
-	include ::Pantheios::Util::ThreadUtil
+	class NonThread1
 
+		include ::Pantheios::Util::ThreadUtil::ThreadName
+	end
+
+	class Thread1 < Thread
+
+		include ::Pantheios::Util::ThreadUtil::ThreadName
+
+		def initialize
+
+			super
+		end
+	end
+
+
+	def test_NonThread1_1
+
+		t = NonThread1.new
+
+		assert_equal Thread.current.to_s, t.thread_name
+	end
+
+	def test_NonThread1_2
+
+		t = NonThread1.new
+
+		t.thread_name = 'the-thread'
+
+		assert_equal 'the-thread', t.thread_name
+	end
+
+
+	def test_Thread1_1
+
+		t = Thread1.new {}
+
+		assert_equal t.to_s, t.thread_name
+	end
+
+	def test_Thread1_2
+
+		t = Thread1.new {}
+
+		t.thread_name = 'another-thread'
+
+		assert_equal 'another-thread', t.thread_name
+	end
 end
 
