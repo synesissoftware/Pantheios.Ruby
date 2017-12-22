@@ -3,7 +3,27 @@ require 'pantheios/application_layer/param_name_list'
 require 'pantheios/application_layer/stock_severity_levels'
 require 'pantheios/util/version_util'
 
+require 'pantheios/core'
+
+
 module Pantheios
+# This inclusion module specifies the main logging API methods, including:
+#
+# - log
+# - log_v
+# - trace
+# - trace_v
+# - severity_logged?
+# - tracing?
+# - severity_to_string
+# - prefix_elements
+# - program_name
+# - program_id
+# - severity_string severity
+# - thread_id
+# - timestamp_format
+# - timestamp dt
+module Api
 
 	# Logs an arbitrary set of parameters at the given severity level
 	def log severity, *args
@@ -147,6 +167,8 @@ module Pantheios
 	def self.included receiver
 
 		receiver.extend self
+
+		::Pantheios::Core.register_include self, receiver
 	end
 
 	private
@@ -258,5 +280,7 @@ module Pantheios
 		$stderr.puts "[#{prefix}]: #{statement}"
 	end
 
+end # module Api
 end # module Pantheios
+
 
