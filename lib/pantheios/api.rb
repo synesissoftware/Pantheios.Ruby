@@ -13,15 +13,17 @@ module Pantheios
 # - log_v
 # - trace
 # - trace_v
+#
+# as well as those that may be overridden:
+#
 # - severity_logged?
 # - tracing?
-# - severity_to_string
+#
 # - prefix_elements
+# - process_id
 # - program_name
-# - program_id
 # - severity_string severity
 # - thread_id
-# - timestamp_format
 # - timestamp dt
 module Api
 
@@ -42,14 +44,14 @@ module Api
 
 	def trace *args
 
-		return nil unless severity_logged? :trace
+		return nil unless tracing?
 
 		do_trace_v_ args, 1
 	end
 
 	def trace_v argv
 
-		return nil unless severity_logged? :trace
+		return nil unless tracing?
 
 		do_trace_v_ argv, 1
 	end
@@ -58,7 +60,7 @@ module Api
 
 	def trace_blv b, lvars
 
-		return nil unless severity_logged? :trace
+		return nil unless tracing?
 
 		trace_v_impl 1, ApplicationLayer::ParamNameList[*lvars], :trace, lvars.map { |lv| b.local_variable_get(lv) }
 	end
@@ -68,13 +70,12 @@ module Api
 
 	def trace_b b
 
-		return nil unless severity_logged? :trace
+		return nil unless tracing?
 
 		trace_v_impl 1, ApplicationLayer::ParamNameList[*b.local_variables], :trace, b.local_variables.map { |lv| b.local_variable_get(lv) }
 	end
 	end # RUBY_VERSION
 
-	# Determines whether a given severity is logged
 
 	# Determines whether a given severity is logged
 	#
@@ -89,17 +90,15 @@ module Api
 	#   otherwise
 	def severity_logged? severity
 
-		true
+		::Pantheios::Core.severity_logged? severity
 	end
 
+	# Determines whether tracing (severity == :trace) is enabled. This is
+	# used in the trace methods (+trace+, +trace_v+, +trace_blv+, +trace_b+)
+	# and therefore it may be overridden independently of +severity_logged?+
 	def tracing?
 
 		severity_logged? :trace
-	end
-
-	def severity_to_string severity
-
-		severity.to_s
 	end
 
 
@@ -110,55 +109,60 @@ module Api
 	#
 	# Elements can be one of:
 	#   - +:program_name+
-	#   - +:program_id+
+	#   - +:process_id+
 	#   - +:severity+
 	#   - +:thread_id+
 	#   - +:timestamp+
+	#
+	# This is called from +prefix+
 	def prefix_elements
 
 		[ :program_name, :thread_id, :timestamp, :severity ]
 	end
 
-	# Default implementation to obtain the program name
+	# Obtains the process id
 	#
-	# * *Returns:*
-	#   the file stem of +$0+
+	# Unless overridden, returns the value provided by
+	# +::Pantheios::Core::process_id+
+	def process_id
+
+		::Pantheios::Core.process_id
+	end
+
+	# Obtains the program name
+	#
+	# Unless overridden, returns the value provided by
+	# +::Pantheios::Core::program_name+
 	def program_name
 
-		bn = File.basename $0
-
-		bn =~ /\.rb$/ ? $` : bn
+		::Pantheios::Core.program_name
 	end
 
-	def program_id
-
-		Process.pid
-	end
-
+	# Obtains the string corresponding to the severity
+	#
+	# Unless overridden, returns the value provided by
+	# +::Pantheios::Core::severity_string+
 	def severity_string severity
 
-		r = ApplicationLayer::StockSeverityLevels::STOCK_SEVERITY_LEVEL_STRINGS[severity] and return r
-
-		severity.to_s
+		::Pantheios::Core.severity_string severity
 	end
 
+	# Obtains the thread id
+	#
+	# Unless overridden, returns the value provided by
+	# +::Pantheios::Core::thread_id+
 	def thread_id
 
-		t = Thread.current
-
-		return t.thread_name if t.respond_to? :thread_name
-
-		t.to_s
+		::Pantheios::Core.thread_id
 	end
 
-	def timestamp_format
-
-		'%Y-%m-%d %H:%M:%S.%6N'
-	end
-
+	# Obtains a string-form of the timestamp
+	#
+	# Unless overridden, returns the value provided by
+	# +::Pantheios::Core::timestamp+
 	def timestamp dt
 
-		dt.strftime timestamp_format
+		::Pantheios::Core.timestamp dt, nil
 	end
 
 
@@ -243,9 +247,7 @@ module Api
 		log_raw severity, argv.join
 	end
 
-	def log_raw severity, statement
-
-		now = Time.now
+	def prefix t, severity
 
 		prels = prefix_elements.map do |el|
 
@@ -253,9 +255,9 @@ module Api
 			when :program_name
 
 				program_name
-			when :program_id
+			when :process_id
 
-				program_id
+				process_id
 			when :severity
 
 				severity_string severity
@@ -264,7 +266,7 @@ module Api
 				thread_id
 			when :timestamp
 
-				timestamp now
+				timestamp t
 			else
 
 				s = ::Symbol === el ? ":#{el}" : el.to_s
@@ -275,9 +277,14 @@ module Api
 			end
 		end
 
-		prefix	=	prels.join(', ') # TODO: need to do more intelligent joining
+		prels.join(', ') # TODO: need to do more intelligent joining
+	end
 
-		$stderr.puts "[#{prefix}]: #{statement}"
+	def log_raw severity, statement
+
+		now = Time.now
+
+		$stderr.puts "[#{prefix now, severity}]: #{statement}"
 	end
 
 end # module Api
