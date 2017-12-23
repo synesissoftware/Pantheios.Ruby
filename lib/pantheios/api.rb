@@ -46,14 +46,14 @@ module Api
 
 		return nil unless tracing?
 
-		do_trace_v_ args, 1
+		do_trace_v_ 1, args
 	end
 
 	def trace_v argv
 
 		return nil unless tracing?
 
-		do_trace_v_ argv, 1
+		do_trace_v_ 1, argv
 	end
 
 	if Util::VersionUtil.version_compare(RUBY_VERSION, [ 2, 1 ]) >= 0
@@ -187,7 +187,7 @@ module Api
 		log_raw_v severity, argv
 	end
 
-	def do_trace_v_ argv, call_depth
+	def do_trace_v_ call_depth, argv
 
 		if ApplicationLayer::ParamNameList === argv[0]
 
@@ -249,7 +249,7 @@ module Api
 
 	def prefix t, severity
 
-		prels = prefix_elements.map do |el|
+		prefix_elements.map do |el|
 
 			case el
 			when :program_name
@@ -275,9 +275,7 @@ module Api
 
 				nil
 			end
-		end
-
-		prels.join(', ') # TODO: need to do more intelligent joining
+		end.join(', ') # TODO: need to do more intelligent joining
 	end
 
 	def log_raw severity, statement
