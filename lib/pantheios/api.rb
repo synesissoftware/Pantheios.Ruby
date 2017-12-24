@@ -32,28 +32,28 @@ module Api
 
 		return nil unless severity_logged? severity
 
-		log_v_impl 1, severity, args
+		log_or_trace 1, severity, args
 	end
 
 	def log_v severity, argv
 
 		return nil unless severity_logged? severity
 
-		log_v_impl 1, severity, argv
+		log_or_trace 1, severity, argv
 	end
 
 	def trace *args
 
 		return nil unless tracing?
 
-		do_trace_v_ 1, args
+		trace_v_prep self, 1, args
 	end
 
 	def trace_v argv
 
 		return nil unless tracing?
 
-		do_trace_v_ 1, argv
+		trace_v_prep self, 1, argv
 	end
 
 	if Util::VersionUtil.version_compare(RUBY_VERSION, [ 2, 1 ]) >= 0
@@ -62,7 +62,7 @@ module Api
 
 		return nil unless tracing?
 
-		trace_v_impl 1, ApplicationLayer::ParamNameList[*lvars], :trace, lvars.map { |lv| b.local_variable_get(lv) }
+		trace_v_impl self, 1, ApplicationLayer::ParamNameList[*lvars], :trace, lvars.map { |lv| b.local_variable_get(lv) }
 	end
 	end # RUBY_VERSION
 
@@ -72,7 +72,7 @@ module Api
 
 		return nil unless tracing?
 
-		trace_v_impl 1, ApplicationLayer::ParamNameList[*b.local_variables], :trace, b.local_variables.map { |lv| b.local_variable_get(lv) }
+		trace_v_impl self, 1, ApplicationLayer::ParamNameList[*b.local_variables], :trace, b.local_variables.map { |lv| b.local_variable_get(lv) }
 	end
 	end # RUBY_VERSION
 
@@ -177,28 +177,28 @@ module Api
 
 	private
 
-	def log_v_impl call_depth, severity, argv
+	def log_or_trace call_depth, severity, argv
 
 		if :trace == severity
 
-			return trace_v_impl 1 + call_depth, nil, severity, argv
+			return trace_v_impl self, 1 + call_depth, nil, severity, argv
 		end
 
-		log_raw_v severity, argv
+		log_raw self, severity, argv.join
 	end
 
-	def do_trace_v_ call_depth, argv
+	def trace_v_prep prefix_provider, call_depth, argv
 
 		if ApplicationLayer::ParamNameList === argv[0]
 
-			trace_v_impl 1 + call_depth, argv[0], :trace, argv[1..-1]
+			trace_v_impl prefix_provider, 1 + call_depth, argv[0], :trace, argv[1..-1]
 		else
 
-			trace_v_impl 1 + call_depth, nil, :trace, argv
+			trace_v_impl prefix_provider, 1 + call_depth, nil, :trace, argv
 		end
 	end
 
-	def trace_v_impl call_depth, param_list, severity, argv
+	def trace_v_impl prefix_provider, call_depth, param_list, severity, argv
 
 		case param_list
 		when nil
@@ -239,13 +239,9 @@ module Api
 
 		stmt = "#{f}(#{sig})"
 
-		log_raw severity, stmt
+		log_raw prefix_provider, severity, stmt
 	end
 
-	def log_raw_v severity, argv
-
-		log_raw severity, argv.join
-	end
 
 	def prefix t, severity
 
@@ -278,7 +274,7 @@ module Api
 		end.join(', ') # TODO: need to do more intelligent joining
 	end
 
-	def log_raw severity, statement
+	def log_raw prefix_provider, severity, statement
 
 		now = Time.now
 
