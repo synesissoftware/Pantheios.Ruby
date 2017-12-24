@@ -5,7 +5,7 @@
 # Purpose:      Version for Pantheios.Ruby library
 #
 # Created:      2nd April 2011
-# Updated:      23rd December 2017
+# Updated:      24th December 2017
 #
 # Home:         http://github.com/synesissoftware/Pantheios-Ruby
 #
@@ -50,7 +50,7 @@
 module Pantheios
 
 	# Current version of the Pantheios.Ruby library
-	VERSION				=	'0.8.0'
+	VERSION				=	'0.8.1'
 
 	private
 	VERSION_PARTS_		=	VERSION.split(/[.]/).collect { |n| n.to_i } # :nodoc:

@@ -3,7 +3,7 @@
 #
 # Pantheios is both a namespace module and an inclusion module. When
 # included, it results in the automatic inclusion of the inclusion modules
-# +Pantheios::Api+, +Pantheios::ApplicationLayer+, and +Pantheios::Util+ (as
+# +Pantheios::API+, +Pantheios::ApplicationLayer+, and +Pantheios::Util+ (as
 # well as certain sub modules of +Pantheios::Util+; see +Pantheios::Util+
 # for details), unless the global symbol
 # +$pantheios_ruby_no_cascaded_includes+ is truey
@@ -23,7 +23,7 @@ module Pantheios
 
 			receiver.class_eval do
 
-				include ::Pantheios::Api
+				include ::Pantheios::API
 				include ::Pantheios::ApplicationLayer
 				include ::Pantheios::Util
 			end
