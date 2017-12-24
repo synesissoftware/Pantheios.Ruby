@@ -67,7 +67,7 @@ module Globals
 		def self.cattr receiver, name, types, initial_value
 
 
-			types = nil if types.empty?
+			types = nil if !types.nil? && types.empty?
 
 			receiver.class_eval do
 
@@ -94,6 +94,10 @@ module Globals
 	end
 
 	Helpers_.cattr self, 'HAS_CASCADED_INCLUDES', Internals_::BOOLEAN_CLASSES, true
+
+	Helpers_.cattr self, 'INITIAL_SERVICE_INSTANCES', nil, nil
+
+	Helpers_.cattr self, 'INITIAL_SERVICE_CLASSES', nil, nil
 
 	def self.included receiver
 

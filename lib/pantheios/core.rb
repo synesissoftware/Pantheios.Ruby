@@ -49,11 +49,137 @@ require 'pantheios/globals'
 require 'pantheios/application_layer/stock_severity_levels'
 require 'pantheios/util/process_util'
 
+require 'pantheios/services/simple_console_service'
+
 =begin
 =end
 
 module Pantheios
 module Core
+
+	module Constants_
+
+		REQUIRED_SERVICE_METHODS	=	%w{ severity_logged? log }.map { |name| name.to_sym }
+		REQUIRED_FRONTEND_METHODS	=	%w{ severity_logged?     }.map { |name| name.to_sym }
+		REQUIRED_BACKEND_METHODS	=	%w{                  log }.map { |name| name.to_sym }
+
+	end # module Constants_
+
+	module Internals_
+
+		class DefaultDiscriminator
+
+			def severity_logged? severity
+
+				return true if $DEBUG
+
+				levels = ::Pantheios::ApplicationLayer::StockSeverityLevels::STOCK_SEVERITY_LEVEL_VALUES
+
+				v_info = levels[:informational]
+				v_sev = levels[severity] if ::Symbol === severity
+
+				return false if v_sev > v_info
+
+				true
+			end
+		end
+
+		# :nodoc:
+		class State
+
+			def initialize default_fe
+
+				@mx_service			=	Mutex.new
+				@front_end			=	nil
+				@back_end			=	nil
+				@requires_prefix	=	false;
+				@default_fe			=	default_fe
+			end
+
+			def set_front_end fe
+
+				raise ::TypeError, "front-end instance (#{fe.class}) does not respond to all the required messages (#{Constants_::REQUIRED_FRONTEND_METHODS.join(', ')})" unless fe && Constants_::REQUIRED_FRONTEND_METHODS.all? { |m| fe.respond_to? m }
+
+				r	=	nil
+
+				fe	||=	@default_fe
+
+				@mx_service.synchronize do
+
+					r, @front_end = @front_end, fe
+				end
+
+				r = nil if r.object_id == @default_fe.object_id
+
+				return r
+			end
+
+			def set_back_end be
+
+				raise ::TypeError, "back-end instance (#{fe.class}) does not respond to all the required messages (#{Constants_::REQUIRED_BACKEND_METHODS.join(', ')})" unless be && Constants_::REQUIRED_BACKEND_METHODS.all? { |m| be.respond_to? m }
+
+				r	=	nil
+				srp	=	svc.respond_to?(:requires_prefix?) ? svc.requires_prefix? : true
+
+				@mx_service.synchronize do
+
+					r, @back_end, @requires_prefix = @back_end, be, srp
+				end
+
+				return r
+			end
+
+			def set_service svc
+
+				raise ::TypeError, "service instance (#{svc.class}) does not respond to all the required messages (#{Constants_::REQUIRED_SERVICE_METHODS.join(', ')})" unless svc && Constants_::REQUIRED_SERVICE_METHODS.all? { |m| svc.respond_to? m }
+
+				r	=	[]
+				srp	=	svc.respond_to?(:requires_prefix?) ? svc.requires_prefix? : true
+
+				@mx_service.synchronize do
+
+					r << @front_end
+					r << @back_end
+
+					@front_end, @back_end, @requires_prefix = svc, svc, srp
+				end
+
+				return r
+			end
+
+			def severity_logged? severity
+
+				@mx_service.synchronize do
+
+					return nil unless @front_end
+
+					@front_end.severity_logged? severity
+				end
+			end
+
+			def log
+
+			end
+
+			def discriminator
+
+				@mx_service.synchronize do
+
+					if @service && @service.respond_to?(:severity_logged?)
+
+						return @service
+					end
+
+					@front_end
+				end
+			end
+
+			attr_reader	:service
+			attr_reader	:front_end
+			attr_reader	:back_end
+			def requires_prefix?; @requires_prefix; end
+		end
+	end # module Internals_
 
 	def self.included receiver
 
@@ -61,9 +187,92 @@ module Core
 	end
 
 	# :nodoc:
+	def self.core_init
+
+		@@state = Internals_::State.new Internals_::DefaultDiscriminator.new
+
+		self.set_default_service
+	end
+
+	# :nodoc:
+	def self.set_default_service **options
+
+		# determine which log service to initialise as the default
+
+		(::Pantheios::Globals.INITIAL_SERVICE_INSTANCES || []).each do |inst|
+
+			next unless inst
+
+			return @@state.set_service inst
+		end
+
+		(::Pantheios::Globals.INITIAL_SERVICE_CLASSES || []).each do |cls|
+
+			inst = cls.new
+
+			return @@state.set_service inst
+		end
+
+		@@state.set_service ::Pantheios::Services::SimpleConsoleService.new
+	end
+
+	# Sets the front-end that will be used to evaluate whether a given log
+	# statement will be logged
+	#
+	# * *Parameters:*
+	#   - +fe+ The front-end instance. It must respond to the
+	#     +severity_logged?+ message, or a ::TypeError will be raised
+	#
+	# * *Returns:*
+	#   The previously registered instance, or +nil+ if no previous one was
+	#   registered
+	def self.set_front_end fe
+
+		@@state.set_front_end fe
+	end
+
+	# Sets the back-end used to emit the given log statement
+	#
+	# * *Parameters:*
+	#   - +be+ The back-end instance. It must respond to the
+	#     +log+ message, or a ::TypeError will be raised. It may also respond
+	#     to the +requires_prefix?+ message, which can be used to indicate
+	#     whether a prepared prefix is required; if not present, the
+	#     framework assumes that the back-end requires a prefix
+	#
+	# * *Returns:*
+	#   The previously registered instance, or +nil+ if no previous one was
+	#   registered
+	def self.set_back_end be
+
+		@@state.set_back_end be
+	end
+
+	# Sets the service that will be used to evaluate whether a given log
+	# statement will be logged and to emit it
+	#
+	# * *Parameters:*
+	#   - +svc+ The service instance. It must respond to the
+	#     +severity_logged?+ and +log+ messages, or a ::TypeError will be
+	#     raised.  It may also respond to the +requires_prefix?+ message,
+	#     which can be used to indicate whether a prepared prefix is
+	#     required; if not present, the framework assumes that the service
+	#     (back-end) requires a prefix
+	#
+	# * *Returns:*
+	#   An array of two elements, representing the previous front-end and
+	#   previous back-end
+	def self.set_service svc
+
+		@@state.set_service svc
+	end
+
+	self.core_init
+
+	# :nodoc:
 	def self.register_include includee, includer
 
-$stderr.puts "#{includee} included into #{includer}"
+		$stderr.puts "#{includee} included into #{includer}" if $DEBUG
 	end
 
 	# Default implementation to determine whether the given severity is
@@ -76,16 +285,7 @@ $stderr.puts "#{includee} included into #{includer}"
 	#   +false+; otherwise it return +true+
 	def self.severity_logged? severity
 
-		return true if $DEBUG
-
-		levels = ::Pantheios::ApplicationLayer::StockSeverityLevels::STOCK_SEVERITY_LEVEL_VALUES
-
-		v_info = levels[:informational]
-		v_sev = levels[severity] if ::Symbol === severity
-
-		return false if v_sev > v_info
-
-		true
+		@@state.severity_logged? severity
 	end
 
 	# Default implementation to obtain the process id
@@ -231,11 +431,13 @@ $stderr.puts "#{includee} included into #{includer}"
 	end
 
 	# Internal implementation method, not to be called by application code
-	def self.log_raw prefix_provider, severity, statement
+	def self.log_raw prefix_provider, severity, message
 
-		now = Time.now
+		now	=	Time.now
 
-		$stderr.puts "[#{prefix_provider.prefix now, severity}]: #{statement}"
+		prf	=	@@state.requires_prefix? ? prefix_provider.prefix(now, severity) + ': ' : nil
+
+		@@state.back_end.log severity, now, prf, message
 	end
 
 end # Core
