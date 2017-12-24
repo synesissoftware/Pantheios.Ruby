@@ -63,6 +63,7 @@ module Core
 	# :nodoc:
 	def self.register_include includee, includer
 
+$stderr.puts "#{includee} included into #{includer}"
 	end
 
 	# Default implementation to determine whether the given severity is
@@ -177,11 +178,31 @@ module Core
 			warn "param_list (#{param_list.class}) must be nil or an instance of #{ApplicationLayer::ParamNameList}" unless param_list
 		end
 
-		f = caller(call_depth + 1, 1)[0]
+		fl	=	nil
+		rx	=	nil
+		fn	=	caller(call_depth + 1, 1)[0]
 
-		if f =~ /.*in\s*\`(.+)\'\s*$/
+		if ::Class === prefix_provider
 
-			f = $1
+			rx	=	"#{prefix_provider}::"
+		else
+
+			rx	=	"#{prefix_provider.class}#"
+		end
+
+		if false;
+		elsif fn =~ /(.+)\:in\s*\`(.+)\'\s*$/
+
+			fl	=	$1
+			fn	=	$2
+
+			f	=	"#{fl}: #{rx}#{fn}"
+		elsif fn =~ /.*in\s*\`(.+)\'\s*$/
+
+			f	=	$1
+		else
+
+			f	=	fn
 		end
 
 		if param_list
