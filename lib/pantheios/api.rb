@@ -73,7 +73,7 @@ module Pantheios
 # - program_name
 # - severity_string severity
 # - thread_id
-# - timestamp dt
+# - timestamp t
 module API
 
 	# Logs an arbitrary set of parameters at the given severity level
@@ -212,9 +212,9 @@ module API
 	#
 	# Unless overridden, returns the value provided by
 	# +::Pantheios::Core::timestamp+
-	def timestamp dt
+	def timestamp t
 
-		::Pantheios::Core.timestamp dt, nil
+		::Pantheios::Core.timestamp t, nil
 	end
 
 	def prefix t, severity

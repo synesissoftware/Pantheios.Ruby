@@ -44,6 +44,11 @@
 # ######################################################################## #
 
 
+require 'pantheios/globals'
+
+require 'pantheios/application_layer/stock_severity_levels'
+require 'pantheios/util/process_util'
+
 =begin
 =end
 
@@ -52,7 +57,7 @@ module Core
 
 	def self.included receiver
 
-		abort "Attempt to include Pantheios::Core into #{receiver}. This is not allowed"
+		abort "Attempt to include #{self} into #{receiver}. This is not allowed"
 	end
 
 	# :nodoc:
@@ -60,12 +65,27 @@ module Core
 
 	end
 
-
+	# Default implementation to determine whether the given severity is
+	# logged
+	#
+	# * *Returns:*
+	#   If +$DEBUG+ is +true+, then returns +true+ - all statements are
+	#   emitted in debug mode. In normal operation, if the integral value of
+	#   +severity+ is greater than that of +:informational+ then it returns
+	#   +false+; otherwise it return +true+
 	def self.severity_logged? severity
+
+		return true if $DEBUG
+
+		levels = ::Pantheios::ApplicationLayer::StockSeverityLevels::STOCK_SEVERITY_LEVEL_VALUES
+
+		v_info = levels[:informational]
+		v_sev = levels[severity] if ::Symbol === severity
+
+		return false if v_sev > v_info
 
 		true
 	end
-
 
 	# Default implementation to obtain the process id
 	#
@@ -80,11 +100,12 @@ module Core
 	#
 	# * *Returns:*
 	#   The file stem of +$0+
+	#
+	# NOTE: this is implemented in terms of Process_Util.derive_process_name
+	# and the result is cached
 	def self.program_name
 
-		bn = File.basename $0
-
-		bn =~ /\.rb$/ ? $` : bn
+		@program_name ||= ::Pantheios::Util::ProcessUtil.derive_process_name $0
 	end
 
 	def self.severity_string severity
@@ -172,7 +193,7 @@ module Core
 				n	=	param_list[index0]
 
 				s	=	arg.to_s
-				s	=	"'#{s}'" if s.index /[,\s]/
+				s	=	"'#{s}'" if s.index(/[,\s]/)
 
 				sig	+=	', ' unless sig.empty?
 

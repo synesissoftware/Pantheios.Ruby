@@ -6,9 +6,11 @@
 # +Pantheios::API+, +Pantheios::ApplicationLayer+, and +Pantheios::Util+ (as
 # well as certain sub modules of +Pantheios::Util+; see +Pantheios::Util+
 # for details), unless the global symbol
-# +$pantheios_ruby_no_cascaded_includes+ is truey
+# +::Pantheios::Globals.HAS_CASCADED_INCLUDES+ is truey
 module Pantheios
 end # module Pantheios
+
+require 'pantheios/globals'
 
 require 'pantheios/api'
 require 'pantheios/application_layer'
@@ -19,7 +21,7 @@ module Pantheios
 
 	def self.included receiver
 
-		unless $pantheios_ruby_no_cascaded_includes
+		if ::Pantheios::Globals.HAS_CASCADED_INCLUDES
 
 			receiver.class_eval do
 
