@@ -55,7 +55,7 @@ class Test_Climate_minimal_CLASP < Test::Unit::TestCase
 
 		assert_not_nil r
 		assert_kind_of ::Hash, r
-		assert_equal 3, r.size
+		assert 3 <= r.size
 		assert_not_nil r[:flags]
 		assert_not_nil r[:options]
 		assert_not_nil r[:values]
@@ -103,7 +103,7 @@ class Test_Climate_minimal_CLASP < Test::Unit::TestCase
 
 		assert_not_nil r
 		assert_kind_of ::Hash, r
-		assert_equal 3, r.size
+		assert 3 <= r.size
 		assert_not_nil r[:flags]
 		assert_not_nil r[:options]
 		assert_not_nil r[:values]
@@ -233,7 +233,7 @@ class Test_Climate_minimal_CLASP < Test::Unit::TestCase
 
 		assert_not_nil r
 		assert_kind_of ::Hash, r
-		assert_equal 3, r.size
+		assert 3 <= r.size
 		assert_not_nil r[:flags]
 		assert_not_nil r[:options]
 		assert_not_nil r[:values]
@@ -290,7 +290,7 @@ class Test_Climate_minimal_CLASP < Test::Unit::TestCase
 
 		assert_not_nil r
 		assert_kind_of ::Hash, r
-		assert_equal 3, r.size
+		assert 3 <= r.size
 		assert_not_nil r[:flags]
 		assert_not_nil r[:options]
 		assert_not_nil r[:values]
@@ -334,7 +334,7 @@ class Test_Climate_minimal_CLASP < Test::Unit::TestCase
 
 		assert_not_nil r
 		assert_kind_of ::Hash, r
-		assert_equal 3, r.size
+		assert 3 <= r.size
 		assert_not_nil r[:flags]
 		assert_not_nil r[:options]
 		assert_not_nil r[:values]
