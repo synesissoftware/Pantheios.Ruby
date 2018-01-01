@@ -155,6 +155,8 @@ module LibCLImate
 #
 class Climate
 
+	include ::Xqsr3::Quality::ParameterChecking
+
 	#:stopdoc:
 
 	private
@@ -547,7 +549,7 @@ class Climate
 	#   - +:extras+:: 
 	def add_flag(name, options={}, &block)
 
-		::Xqsr3::Quality::ParameterChecking.check_parameter name, 'name', allow_nil: false, types: [ ::String, ::Symbol ]
+		check_parameter name, 'name', allow_nil: false, types: [ ::String, ::Symbol ]
 
 		aliases << CLASP.Flag(name, **options, &block)
 	end
@@ -562,7 +564,7 @@ class Climate
 	#   - +:extras+:: 
 	def add_option(name, options={}, &block)
 
-		::Xqsr3::Quality::ParameterChecking.check_parameter name, 'name', allow_nil: false, types: [ ::String, ::Symbol ]
+		check_parameter name, 'name', allow_nil: false, types: [ ::String, ::Symbol ]
 
 		aliases << CLASP.Option(name, **options, &block)
 	end
@@ -607,7 +609,7 @@ class Climate
 	# +climate.add_alias('--verbosity=verbose', '-v')+
 	def add_alias(name, *aliases)
 
-		::Xqsr3::Quality::ParameterChecking.check_parameter name, 'name', allow_nil: false, types: [ ::String, ::Symbol ]
+		check_parameter name, 'name', allow_nil: false, types: [ ::String, ::Symbol ]
 		raise ArgumentError, "must supply at least one alias" if aliases.empty?
 
 		self.aliases << CLASP.Option(name, aliases: aliases)
