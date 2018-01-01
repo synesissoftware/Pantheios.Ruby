@@ -359,7 +359,198 @@ class Test_Climate_minimal < Test::Unit::TestCase
 		assert_equal 0, lines.size
 		assert_equal '2', verbosity
 	end
+
+	def test_one_custom_option_that_is_required
+
+		str = StringIO.new
+
+		climate = LibCLImate::Climate.new do |climate|
+
+			climate.program_name = 'program'
+
+			climate.add_option('--verbosity', alias: '-v', help: 'determines level of verbose operation', required: true)
+		end
+
+		assert climate.aliases[2].required?
+
+		r = climate.run %w{ -v 2 }
+
+		assert_not_nil r
+		assert_kind_of ::Hash, r
+		assert 3 <= r.size
+		assert_not_nil r[:flags]
+		assert_not_nil r[:options]
+		assert_not_nil r[:values]
+		assert_equal 4, r[:flags].size
+		assert_equal 0, r[:flags][:given].size
+		assert_equal 0, r[:flags][:handled].size
+		assert_equal 0, r[:flags][:unhandled].size
+		assert_equal 0, r[:flags][:unknown].size
+		assert_equal 4, r[:options].size
+		assert_equal 1, r[:options][:given].size
+		assert_equal 0, r[:options][:handled].size
+		assert_equal 1, r[:options][:unhandled].size
+		assert_equal 0, r[:options][:unknown].size
+		assert_equal 0, r[:values].size
+		assert_equal 0, r[:missing_option_aliases].size
+		lines	=	str.string.split(/\n/)
+		lines	=	lines.reject { |line| line.chomp.strip.empty? }
+		lines	=	lines.map { |line| line.chomp.strip }
+
+		assert_equal 0, lines.size
+	end
+
+	def test_one_custom_option_that_is_required_and_missing
+
+		str = StringIO.new
+		stre = StringIO.new
+
+		climate = LibCLImate::Climate.new do |climate|
+
+			climate.program_name = 'program'
+			climate.stdout = str
+			climate.stderr = stre
+			climate.exit_on_usage = false
+			climate.exit_on_missing = false
+
+			climate.add_option('--verbosity', alias: '-v', help: 'determines level of verbose operation', required: true)
+		end
+
+		r = climate.run %w{ }
+
+		assert climate.aliases[2].required?
+
+		assert_not_nil r
+		assert_kind_of ::Hash, r
+		assert 3 <= r.size
+		assert_not_nil r[:flags]
+		assert_not_nil r[:options]
+		assert_not_nil r[:values]
+		assert_equal 4, r[:flags].size
+		assert_equal 0, r[:flags][:given].size
+		assert_equal 0, r[:flags][:handled].size
+		assert_equal 0, r[:flags][:unhandled].size
+		assert_equal 0, r[:flags][:unknown].size
+		assert_equal 4, r[:options].size
+		assert_equal 0, r[:options][:given].size
+		assert_equal 0, r[:options][:handled].size
+		assert_equal 0, r[:options][:unhandled].size
+		assert_equal 0, r[:options][:unknown].size
+		assert_equal 0, r[:values].size
+		assert_equal 1, r[:missing_option_aliases].size
+		lines	=	str.string.split(/\n/)
+		lines	=	lines.reject { |line| line.chomp.strip.empty? }
+		lines	=	lines.map { |line| line.chomp.strip }
+		elines	=	stre.string.split(/\n/)
+		elines	=	elines.reject { |line| line.chomp.strip.empty? }
+		elines	=	elines.map { |line| line.chomp.strip }
+
+		assert_equal 0, lines.size
+		assert_equal 1, elines.size
+		assert_equal "program: '--verbosity' not specified; use --help for usage", elines[0]
+	end
+
+	def test_one_custom_option_that_is_required_and_missing_with_required_message_custom
+
+		str = StringIO.new
+		stre = StringIO.new
+
+		climate = LibCLImate::Climate.new do |climate|
+
+			climate.program_name = 'program'
+			climate.stdout = str
+			climate.stderr = stre
+			climate.exit_on_usage = false
+			climate.exit_on_missing = false
+
+			climate.add_option('--verbosity', alias: '-v', help: 'determines level of verbose operation', required: true, required_message: 'Verbosity not specified')
+		end
+
+		r = climate.run %w{ }
+
+		assert climate.aliases[2].required?
+
+		assert_not_nil r
+		assert_kind_of ::Hash, r
+		assert 3 <= r.size
+		assert_not_nil r[:flags]
+		assert_not_nil r[:options]
+		assert_not_nil r[:values]
+		assert_equal 4, r[:flags].size
+		assert_equal 0, r[:flags][:given].size
+		assert_equal 0, r[:flags][:handled].size
+		assert_equal 0, r[:flags][:unhandled].size
+		assert_equal 0, r[:flags][:unknown].size
+		assert_equal 4, r[:options].size
+		assert_equal 0, r[:options][:given].size
+		assert_equal 0, r[:options][:handled].size
+		assert_equal 0, r[:options][:unhandled].size
+		assert_equal 0, r[:options][:unknown].size
+		assert_equal 0, r[:values].size
+		assert_equal 1, r[:missing_option_aliases].size
+		lines	=	str.string.split(/\n/)
+		lines	=	lines.reject { |line| line.chomp.strip.empty? }
+		lines	=	lines.map { |line| line.chomp.strip }
+		elines	=	stre.string.split(/\n/)
+		elines	=	elines.reject { |line| line.chomp.strip.empty? }
+		elines	=	elines.map { |line| line.chomp.strip }
+
+		assert_equal 0, lines.size
+		assert_equal 1, elines.size
+		assert_equal "program: Verbosity not specified", elines[0]
+	end
+
+	def test_one_custom_option_that_is_required_and_missing_with_required_message_name
+
+		str = StringIO.new
+		stre = StringIO.new
+
+		climate = LibCLImate::Climate.new do |climate|
+
+			climate.program_name = 'program'
+			climate.stdout = str
+			climate.stderr = stre
+			climate.exit_on_usage = false
+			climate.exit_on_missing = false
+
+			climate.add_option('--verbosity', alias: '-v', help: 'determines level of verbose operation', required: true, required_message: "\0Verbosity")
+		end
+
+		r = climate.run %w{ }
+
+		assert climate.aliases[2].required?
+
+		assert_not_nil r
+		assert_kind_of ::Hash, r
+		assert 3 <= r.size
+		assert_not_nil r[:flags]
+		assert_not_nil r[:options]
+		assert_not_nil r[:values]
+		assert_equal 4, r[:flags].size
+		assert_equal 0, r[:flags][:given].size
+		assert_equal 0, r[:flags][:handled].size
+		assert_equal 0, r[:flags][:unhandled].size
+		assert_equal 0, r[:flags][:unknown].size
+		assert_equal 4, r[:options].size
+		assert_equal 0, r[:options][:given].size
+		assert_equal 0, r[:options][:handled].size
+		assert_equal 0, r[:options][:unhandled].size
+		assert_equal 0, r[:options][:unknown].size
+		assert_equal 0, r[:values].size
+		assert_equal 1, r[:missing_option_aliases].size
+		lines	=	str.string.split(/\n/)
+		lines	=	lines.reject { |line| line.chomp.strip.empty? }
+		lines	=	lines.map { |line| line.chomp.strip }
+		elines	=	stre.string.split(/\n/)
+		elines	=	elines.reject { |line| line.chomp.strip.empty? }
+		elines	=	elines.map { |line| line.chomp.strip }
+
+		assert_equal 0, lines.size
+		assert_equal 1, elines.size
+		assert_equal "program: Verbosity not specified; use --help for usage", elines[0]
+	end
 end
 
 # ############################## end of file ############################# #
+
 

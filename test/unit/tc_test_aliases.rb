@@ -36,7 +36,7 @@ class Test_Climate_minimal < Test::Unit::TestCase
 
 			assert_not_nil r
 			assert_kind_of ::Hash, r
-			assert_equal 3, r.size
+			assert 3 <= r.size
 			assert_equal 0, r.flags[:given].size
 
 			assert_equal 1, options.size

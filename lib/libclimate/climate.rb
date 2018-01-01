@@ -275,6 +275,7 @@ class Climate
 
 		@aliases			=	[]
 		@exit_on_unknown	=	true
+		@exit_on_missing	=	true
 		@exit_on_usage		=	true
 		@info_lines			=	nil
 		@program_name		=	program_name
@@ -293,6 +294,12 @@ class Climate
 	# An array of aliases attached to the climate instance, whose contents should be modified by adding (or removing) CLASP aliases
 	# @return [Array] The aliases
 	attr_reader :aliases
+	# Indicates whether exit will be called (with non-zero exit code) when a
+	# required command-line option is missing
+	# @return [Boolean]
+	# @return *true* exit(1) will be called
+	# @return *false* exit will not be called
+	attr_accessor :exit_on_missing
 	# Indicates whether exit will be called (with non-zero exit code) when an unknown command-line flag or option is encountered
 	# @return [Boolean]
 	# @return *true* exit(1) will be called
@@ -352,6 +359,8 @@ class Climate
 			},
 
 			values:	values,
+
+			missing_option_aliases: [],
 		}
 
 		flags.each do |f|
@@ -466,6 +475,41 @@ class Climate
 
 				results[:options][:unknown] << o
 			end
+		end
+
+
+			# now police any required options
+
+			required_aliases = aliases.select do |a|
+
+				a.kind_of?(::CLASP::Option) && a.required?
+			end
+
+			required_aliases = Hash[required_aliases.map { |a| [ a.name, a ] }]
+
+			given_options = Hash[results[:options][:given].map { |o| [ o.name, o ]}]
+
+			required_aliases.each do |k, a|
+
+				unless given_options.has_key? k
+
+					message = a.required_message
+
+					if exit_on_missing
+
+						self.abort message
+					else
+
+						if program_name && !program_name.empty?
+
+							message = "#{program_name}: #{message}"
+						end
+
+						stderr.puts message
+					end
+
+					results[:missing_option_aliases] << a
+				end
 		end
 
 		def results.flags
