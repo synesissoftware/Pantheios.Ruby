@@ -365,7 +365,7 @@ class Climate
 
 				selector	=	:unhandled
 
-				# see if it has a :action attribute (which will have been
+				# see if it has an :action attribute (which will have been
 				# monkey-patched to CLASP.Flag()
 
 				if al.respond_to?(:action) && !al.action.nil?
@@ -422,7 +422,7 @@ class Climate
 
 				selector	=	:unhandled
 
-				# see if it has a :action attribute (which will have been
+				# see if it has an :action attribute (which will have been
 				# monkey-patched to CLASP.Option()
 
 				if al.respond_to?(:action) && !al.action.nil?
