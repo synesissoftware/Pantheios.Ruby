@@ -338,7 +338,7 @@ class Climate
 				given:		flags,
 				handled:	[],
 				unhandled:	[],
-				unknown:	[]
+				unknown:	[],
 			},
 
 			options: {
@@ -346,10 +346,10 @@ class Climate
 				given:		options,
 				handled:	[],
 				unhandled:	[],
-				unknown:	[]
+				unknown:	[],
 			},
 
-			values:	values
+			values:	values,
 		}
 
 		flags.each do |f|
