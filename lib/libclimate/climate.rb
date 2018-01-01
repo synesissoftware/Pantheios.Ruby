@@ -5,13 +5,13 @@
 # Purpose:      Definition of the ::LibCLImate::Climate class
 #
 # Created:      13th July 2015
-# Updated:      16th March 2017
+# Updated:      1st January 2018
 #
 # Home:         http://github.com/synesissoftware/libCLImate.Ruby
 #
 # Author:       Matthew Wilson
 #
-# Copyright (c) 2015-2017, Matthew Wilson and Synesis Software
+# Copyright (c) 2015-2018, Matthew Wilson and Synesis Software
 # All rights reserved.
 #
 # Redistribution and use in source and binary forms, with or without
@@ -128,7 +128,30 @@ module LibCLImate
 
 # Class used to gather together the CLI specification, and execute it
 #
+# The standard usage pattern is as follows:
 #
+#   PROGRAM_VERSION = [ 0, 1, 2 ]
+#
+#   program_options = {}
+#
+#   climate = LibCLImate::Climate.new do |cl|
+#
+#     cl.add_flag('--verbose', alias: '-v', help: 'Makes program output verbose') { program_options[:verbose] = true }
+#
+#     cl.add_option('--flavour', alias: '-f', help: 'Specifies the flavour') do |o, a|
+#
+#       program_options[:flavour] = check_flavour(o.value) or cl.abort "Invalid flavour '#{o.value}'; use --help for usage"
+#     end
+#
+#     cl.usage_value = '<value-1> [ ... <value-N> ]'
+#
+#     cl.info_lines = [
+#
+#       'ACME CLI program (using libCLImate)',
+#       :version,
+#       'An example program',
+#     ]
+#   end
 #
 class Climate
 
@@ -147,9 +170,51 @@ class Climate
 
 	def show_version_
 
-		ver = version || []
+		CLASP.show_version aliases, stream: stdout, program_name: program_name, version: version, exit: exit_on_usage ? 0 : nil
+	end
 
-		if ver.empty?
+	def infer_version_ ctxt
+
+		# algorithm:
+		#
+		# 1. PROGRAM_VERSION: loaded from ctxt / global
+		# 2. PROGRAM_VER(SION)_(MAJOR|MINOR|REVISION|BUILD): loaded from
+		#    ctxt / global
+
+		if ctxt
+
+			ctxt = ctxt.class unless ::Class === ctxt
+
+			return ctxt.const_get(:PROGRAM_VERSION) if ctxt.const_defined? :PROGRAM_VERSION
+
+			ver = []
+
+			if ctxt.const_defined? :PROGRAM_VER_MAJOR
+
+				ver << ctxt.const_get(:PROGRAM_VER_MAJOR)
+
+				if ctxt.const_defined? :PROGRAM_VER_MINOR
+
+					ver << ctxt.const_get(:PROGRAM_VER_MINOR)
+
+					if ctxt.const_defined? :PROGRAM_VER_REVISION
+
+						ver << ctxt.const_get(:PROGRAM_VER_REVISION)
+
+						if ctxt.const_defined? :PROGRAM_VER_BUILD
+
+							ver << ctxt.const_get(:PROGRAM_VER_BUILD)
+						end
+					end
+				end
+
+				return ver
+			end
+		else
+
+			return PROGRAM_VERSION if defined? PROGRAM_VERSION
+
+			ver = []
 
 			if defined? PROGRAM_VER_MAJOR
 
@@ -162,14 +227,20 @@ class Climate
 					if defined? PROGRAM_VER_REVISION
 
 						ver << PROGRAM_VER_REVISION
+
+						if defined? PROGRAM_VER_BUILD
+
+							ver << PROGRAM_VER_BUILD
+						end
 					end
 				end
+
+				return ver
 			end
 		end
 
-		CLASP.show_version aliases, stream: stdout, program_name: program_name, version: version, exit: exit_on_usage ? 0 : nil
+		nil
 	end
-
 	#:startdoc:
 
 	public
@@ -184,6 +255,8 @@ class Climate
 	# * *Options*:
 	#   - +:no_help_flag+:: Prevents the use of the CLASP::Flag.Help flag-alias
 	#   - +:no_version_flag+:: Prevents the use of the CLASP::Version.Help flag-alias
+	#   - +:version+:: A version specification. If not specified, this is
+	#     inferred
 	#
 	# * *Block*:: An optional block which receives the constructing instance, allowing the user to modify the attributes.
 	def initialize(options={}) # :yields: climate
@@ -206,7 +279,8 @@ class Climate
 		@stdout				=	$stdout
 		@stderr				=	$stderr
 		@usage_values		=	usage_values
-		@version			=	[]
+		version_context		=	options[:version_context]
+		@version			=	options[:version] || infer_version_(version_context)
 
 		@aliases << CLASP::Flag.Help(handle: proc { show_usage_ }) unless options[:no_help_flag]
 		@aliases << CLASP::Flag.Version(handle: proc { show_version_ }) unless options[:no_version_flag]
@@ -234,7 +308,7 @@ class Climate
 	attr_accessor :stderr
 	# @return [String] Optional string to describe the program values, eg \<xyz "[ { <<directory> | &lt;file> } ]"
 	attr_accessor :usage_values
-	# @return [String, Array] A version string or an array of integers representing the version components
+	# @return [String, Array] A version string or an array of integers representing the version component(s)
 	attr_accessor :version
 
 	# Executes the prepared Climate instance
