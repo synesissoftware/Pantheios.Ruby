@@ -5,7 +5,7 @@
 # Purpose:      The Pantheios.Ruby core (::Pantheios::Core)
 #
 # Created:      2nd April 2011
-# Updated:      24th December 2017
+# Updated:      25th December 2017
 #
 # Home:         http://github.com/synesissoftware/Pantheios-Ruby
 #
@@ -435,7 +435,7 @@ module Core
 
 		now	=	Time.now
 
-		prf	=	@@state.requires_prefix? ? prefix_provider.prefix(now, severity) + ': ' : nil
+		prf	=	@@state.requires_prefix? ? '[' + prefix_provider.prefix(now, severity) + ']: ' : nil
 
 		@@state.back_end.log severity, now, prf, message
 	end
