@@ -3,10 +3,10 @@
 #############################################################################
 # File:         test/scratch/blankzeroes.rb
 #
-# Purpose:      COMPLETE_ME
+# Purpose:      This filter program converts 0 values in a TSV into blanks
 #
-# Created:      14 05 2016
-# Updated:      14 05 2016
+# Created:      14th May 2016
+# Updated:      1st January 2018
 #
 # Author:       Matthew Wilson
 #
@@ -24,14 +24,19 @@ require 'libclimate'
 
 PROGRAM_VER_MAJOR               =   0
 PROGRAM_VER_MINOR               =   1
-PROGRAM_VER_REVISION            =   2
+PROGRAM_VER_REVISION            =   3
+PROGRAM_VER_BUILD               =   5
 
 # ##########################################################
 # command-line parsing
 
-LibCLImate::Climate.new do |climate|
+LibCLImate::Climate.new do |cl|
 
-	climate.version = [ PROGRAM_VER_MAJOR, PROGRAM_VER_MINOR, PROGRAM_VER_REVISION ]
+	cl.info_lines = [
+
+		:version,
+		'converts 0 values into blanks',
+	]
 end.run
 
 # ##########################################################
