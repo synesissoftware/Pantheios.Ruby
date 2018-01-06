@@ -1,17 +1,17 @@
 
 # ######################################################################## #
-# File:         lib/pantheios/version.rb
+# File:         lib/pantheios/services/simple_console_log_service.rb
 #
 # Purpose:      Version for Pantheios.Ruby library
 #
-# Created:      2nd April 2011
+# Created:      14th June 2015
 # Updated:      6th January 2018
 #
 # Home:         http://github.com/synesissoftware/Pantheios-Ruby
 #
 # Author:       Matthew Wilson
 #
-# Copyright (c) 2011-2018, Matthew Wilson and Synesis Software
+# Copyright (c) 2015-2018, Matthew Wilson and Synesis Software
 # All rights reserved.
 #
 # Redistribution and use in source and binary forms, with or without
@@ -48,20 +48,35 @@
 =end
 
 module Pantheios
+module Services
 
-	# Current version of the Pantheios.Ruby library
-	VERSION				=	'0.11.1'
+# A class that fulfils the Pantheios *LogService* protocol that sallows all
+# severities and logs to the console (via +$stdout+ and +$stderr+)
+#
+# NOTE: The *LogService* protocol is implemented by a class that provides
+# the instance methods +severity_logged?(severity : Object) : boolean+ and
+# +log(severity : Object, t : Time, prefix : String, msg : String)+
+class SimpleConsoleLogService
 
-	private
-	VERSION_PARTS_		=	VERSION.split(/[.]/).collect { |n| n.to_i } # :nodoc:
-	public
-	# Major version of the Pantheios.Ruby library
-	VERSION_MAJOR		=	VERSION_PARTS_[0] # :nodoc:
-	# Minor version of the Pantheios.Ruby library
-	VERSION_MINOR		=	VERSION_PARTS_[1] # :nodoc:
-	# Revision version of the Pantheios.Ruby library
-	VERSION_REVISION	=	VERSION_PARTS_[2] # :nodoc:
+	def severity_logged? severity
 
+		true
+	end
+
+	def log sev, t, pref, msg
+
+		stm = infer_stream sev
+
+		stm.puts "#{pref}#{msg}"
+	end
+
+	def infer_stream sev
+
+		(sev.to_i < 6) ? $stderr : $stdout
+	end
+end
+
+end # module Services
 end # module Pantheios
 
 # ############################## end of file ############################# #

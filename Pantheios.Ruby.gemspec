@@ -18,7 +18,7 @@ END_DESC
 	spec.homepage		=	'http://www.pantheios.org/'
 	spec.license		=	'Modified BSD'
 
-	spec.add_development_dependency 'xqsr3', [ '>= 0.17.1', '< 1.0' ]
+	spec.add_development_dependency 'xqsr3', [ '>= 0.21.1', '< 1.0' ]
 
 	spec.files			=	Dir[ 'Rakefile', '{bin,examples,lib,man,spec,test}/**/*', 'README*', 'LICENSE*' ] & `git ls-files -z`.split("\0")
 end

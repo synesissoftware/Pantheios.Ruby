@@ -5,13 +5,13 @@
 # Purpose:      The Pantheios.Ruby core (::Pantheios::Core)
 #
 # Created:      2nd April 2011
-# Updated:      25th December 2017
+# Updated:      6th January 2018
 #
 # Home:         http://github.com/synesissoftware/Pantheios-Ruby
 #
 # Author:       Matthew Wilson
 #
-# Copyright (c) 2011-2017, Matthew Wilson and Synesis Software
+# Copyright (c) 2011-2018, Matthew Wilson and Synesis Software
 # All rights reserved.
 #
 # Redistribution and use in source and binary forms, with or without
@@ -213,7 +213,7 @@ module Core
 			return @@state.set_service inst
 		end
 
-		@@state.set_service ::Pantheios::Services::SimpleConsoleService.new
+		@@state.set_service ::Pantheios::Services::SimpleConsoleLogService.new
 	end
 
 	# Sets the front-end that will be used to evaluate whether a given log
@@ -442,5 +442,7 @@ module Core
 
 end # Core
 end # Pantheios
+
+# ############################## end of file ############################# #
 
 
