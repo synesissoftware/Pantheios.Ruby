@@ -59,7 +59,7 @@ module StockSeverityLevels
 
 		STOCK_SEVERITY_LEVELS_ = {
 
-			:emergency => [ 1, 'Emergency' ],
+			:emergency => [ 1, 'Emergency', [ :violation ] ],
 			:alert => [ 2, 'Alert' ],
 			:critical => [ 3, 'Critical' ],
 			:failure => [ 4, 'Failure' ],
@@ -73,6 +73,21 @@ module StockSeverityLevels
 			:debug4 => [ 12, 'Debug-4' ],
 			:trace => [ 13, 'Trace' ],
 		}
+
+		def self.create_level_keys m
+
+			r = m.keys
+
+			m.each do |k, ar|
+
+				(ar[2] || []).each do |al|
+
+					r << al
+				end
+			end
+
+			r.uniq
+		end
 
 		def self.create_level_value_map m
 
@@ -111,8 +126,11 @@ module StockSeverityLevels
 	end
 	public
 
-	# Ordered list of stock severity levels
-	STOCK_SEVERITY_LEVELS = Internal_::STOCK_SEVERITY_LEVELS_.keys
+	# Ordered list of stock severity levels, without any aliases
+	STOCK_SEVERITY_LEVELS_PRIME = Internal_::STOCK_SEVERITY_LEVELS_.keys
+
+	# Ordered list of stock severity levels, some of which may be aliases
+	STOCK_SEVERITY_LEVELS = Internal_.create_level_keys Internal_::STOCK_SEVERITY_LEVELS_
 
 	# Mapping of severity levels (and level aliases) to integral
 	# equivalent
