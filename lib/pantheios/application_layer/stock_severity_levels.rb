@@ -72,6 +72,7 @@ module StockSeverityLevels
 			:debug3 => [ 11, 'Debug-3' ],
 			:debug4 => [ 12, 'Debug-4' ],
 			:trace => [ 13, 'Trace' ],
+			:benchmark => [ 14, 'Benchmark' ],
 		}
 
 		def self.create_level_keys m
@@ -143,4 +144,7 @@ end # module StockSeverityLevels
 
 end # module ApplicationLayer
 end # module Pantheios
+
+# ############################## end of file ############################# #
+
 
