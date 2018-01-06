@@ -59,7 +59,7 @@ module StockSeverityLevels
 
 		STOCK_SEVERITY_LEVELS_ = {
 
-			:emergency => [ 1, 'Emergency', [ :violation ] ],
+			:violation => [ 1, 'Violation', [ :emergency ] ],
 			:alert => [ 2, 'Alert' ],
 			:critical => [ 3, 'Critical' ],
 			:failure => [ 4, 'Failure' ],

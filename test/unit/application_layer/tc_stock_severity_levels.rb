@@ -14,7 +14,7 @@ class Test_StockSeverityLevels < Test::Unit::TestCase
 
 	EXPECTED_LEVELS_PRIME = %w{
 
-		emergency
+		violation
 		alert
 		critical
 		failure
@@ -31,7 +31,7 @@ class Test_StockSeverityLevels < Test::Unit::TestCase
 
 	EXPECTED_LEVELS = %w{
 
-		violation
+		emergency
 		info
 		warn
 	}.map { |s| s.to_sym } + EXPECTED_LEVELS_PRIME
