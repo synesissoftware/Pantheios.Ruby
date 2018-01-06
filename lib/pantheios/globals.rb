@@ -66,7 +66,6 @@ module Globals
 
 		def self.cattr receiver, name, types, initial_value
 
-
 			types = nil if !types.nil? && types.empty?
 
 			receiver.class_eval do
