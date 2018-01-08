@@ -5,13 +5,13 @@
 # Purpose:      The Pantheios.Ruby "globals" (::Pantheios::Globals)
 #
 # Created:      24th December 2017
-# Updated:      24th December 2017
+# Updated:      8th January 2018
 #
 # Home:         http://github.com/synesissoftware/Pantheios-Ruby
 #
 # Author:       Matthew Wilson
 #
-# Copyright (c) 2017, Matthew Wilson and Synesis Software
+# Copyright (c) 2017-2018, Matthew Wilson and Synesis Software
 # All rights reserved.
 #
 # Redistribution and use in source and binary forms, with or without
@@ -105,5 +105,7 @@ module Globals
 
 end # module Globals
 end # module Pantheios
+
+# ############################## end of file ############################# #
 
 
