@@ -44,6 +44,8 @@
 # ######################################################################## #
 
 
+require 'pantheios/application_layer/stock_severity_levels'
+
 =begin
 =end
 
@@ -71,6 +73,8 @@ class SimpleConsoleLogService
 	end
 
 	def infer_stream sev
+
+		sev = ::Pantheios::ApplicationLayer::StockSeverityLevels::STOCK_SEVERITY_LEVEL_VALUES[sev] if ::Symbol === sev
 
 		(sev.to_i < 6) ? $stderr : $stdout
 	end

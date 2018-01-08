@@ -25,6 +25,27 @@ class Test_SimpleConsoleLogservice < Test::Unit::TestCase
 
 	if  defined?(SimpleConsoleLogService)
 
+		def self.log_and_get_streams sev, msg, pref = nil, t = nil
+
+			prev_stdout, prev_stderr = $stdout, $stderr
+
+			begin
+
+				$stdout	=	StringIO.new
+				$stderr	=	StringIO.new
+
+				svc		=	SimpleConsoleLogService.new
+				t		||=	Time.now
+
+				svc.log sev, t, pref, msg
+
+				[ $stdout.string, $stderr.string ]
+			ensure
+
+				$stdout, $stderr = prev_stdout, prev_stderr
+			end
+		end
+
 		def test_SimpleConsoleLogService_type_is_a_class
 
 			assert_kind_of(::Class, SimpleConsoleLogService)
@@ -80,6 +101,30 @@ class Test_SimpleConsoleLogservice < Test::Unit::TestCase
 			ensure
 
 				$stdout, $stderr = prev_stdout, prev_stderr
+			end
+		end
+
+		def test_writing_to_streams_based_on_severities
+
+			r	=	nil
+
+			stderr_levels = %w{ violation emergency alert critical failure warning warn }.map { |s| s.to_sym }
+			stdout_levels = %w{ notice informational info debug0 debug1 debug2 debug3 debug4 trace }.map { |s| s.to_sym }
+
+			stderr_levels.each do |sev|
+
+				r	=	self.class.log_and_get_streams sev, 'msg'
+
+				assert_empty r[0], "SimpleConsoleLogService wrote unexpectedly to $stdout for severity #{sev}"
+				assert_not_empty r[1], "SimpleConsoleLogService failed to write to $stderr for severity #{sev}"
+			end
+
+			stdout_levels.each do |sev|
+
+				r	=	self.class.log_and_get_streams sev, 'msg'
+
+				assert_not_empty r[0], "SimpleConsoleLogService failed to write to $stdout for severity #{sev}"
+				assert_empty r[1], "SimpleConsoleLogService wrote unexpectedly to $stderr for severity #{sev}"
 			end
 		end
 	end
