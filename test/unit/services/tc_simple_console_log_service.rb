@@ -55,7 +55,7 @@ class Test_SimpleConsoleLogservice < Test::Unit::TestCase
 			end
 		end
 
-		def test_log_does_nothing_to_standard_streams
+		def test_log_writes_to_standard_streams
 
 			prev_stdout, prev_stderr = $stdout, $stderr
 
@@ -84,4 +84,5 @@ class Test_SimpleConsoleLogservice < Test::Unit::TestCase
 		end
 	end
 end
+
 
