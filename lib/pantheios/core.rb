@@ -73,10 +73,10 @@ module Core
 
 				return true if $DEBUG
 
-				levels = ::Pantheios::ApplicationLayer::StockSeverityLevels::STOCK_SEVERITY_LEVEL_VALUES
+				levels	=	::Pantheios::ApplicationLayer::StockSeverityLevels::STOCK_SEVERITY_LEVEL_VALUES
 
-				v_info = levels[:informational]
-				v_sev = levels[severity] if ::Symbol === severity
+				v_info	=	levels[:informational]
+				v_sev	=	levels[severity] if ::Symbol === severity
 
 				return false if v_sev > v_info
 
