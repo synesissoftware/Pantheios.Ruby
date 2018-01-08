@@ -47,9 +47,10 @@
 require 'pantheios/globals'
 
 require 'pantheios/application_layer/stock_severity_levels'
-require 'pantheios/util/process_util'
 
 require 'pantheios/services/simple_console_log_service'
+
+require 'pantheios/util/process_util'
 
 =begin
 =end
