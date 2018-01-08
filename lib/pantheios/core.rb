@@ -5,7 +5,7 @@
 # Purpose:      The Pantheios.Ruby core (::Pantheios::Core)
 #
 # Created:      2nd April 2011
-# Updated:      6th January 2018
+# Updated:      8th January 2018
 #
 # Home:         http://github.com/synesissoftware/Pantheios-Ruby
 #
@@ -49,7 +49,7 @@ require 'pantheios/globals'
 require 'pantheios/application_layer/stock_severity_levels'
 require 'pantheios/util/process_util'
 
-require 'pantheios/services/simple_console_service'
+require 'pantheios/services/simple_console_log_service'
 
 =begin
 =end
