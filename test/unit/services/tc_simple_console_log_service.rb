@@ -75,8 +75,8 @@ class Test_SimpleConsoleLogservice < Test::Unit::TestCase
 				stdout_s	=	$stdout.string
 				stderr_s	=	$stderr.string
 
-				assert_not_empty stdout_s, "NullLogService has not written to $stdout!"
-				assert_not_empty stderr_s, "NullLogService has not written to $stderr!"
+				assert_not_empty stdout_s, "SimpleConsoleLogService has not written to $stdout!"
+				assert_not_empty stderr_s, "SimpleConsoleLogService has not written to $stderr!"
 			ensure
 
 				$stdout, $stderr = prev_stdout, prev_stderr
