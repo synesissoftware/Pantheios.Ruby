@@ -5,7 +5,7 @@
 # Purpose:      The Pantheios.Ruby core (::Pantheios::Core)
 #
 # Created:      2nd April 2011
-# Updated:      8th January 2018
+# Updated:      22nd January 2018
 #
 # Home:         http://github.com/synesissoftware/Pantheios-Ruby
 #
@@ -88,7 +88,7 @@ module Core
 		# :nodoc:
 		class State
 
-			def initialize default_fe
+			def initialize default_fe, **options
 
 				@mx_service			=	Mutex.new
 				@front_end			=	nil
@@ -148,13 +148,22 @@ module Core
 				return r
 			end
 
-			def severity_logged? severity
+			if ::Pantheios::Globals.SYNCHRONISED_SEVERITY_LOGGED?
 
-				@mx_service.synchronize do
+				def severity_logged? severity
 
-					return nil unless @front_end
+					@mx_service.synchronize do
 
-					@front_end.severity_logged? severity
+						return nil unless @front_end
+
+						@front_end.severity_logged? severity
+					end
+				end
+			else
+
+				def severity_logged? severity
+
+					return @front_end.severity_logged? severity
 				end
 			end
 
@@ -354,20 +363,72 @@ module Core
 	end
 
 
+
 	# Internal implementation method, not to be called by application code
-	def self.trace_v_prep prefix_provider, call_depth, argv
+	def self.get_block_value_ &block
 
-		if ApplicationLayer::ParamNameList === argv[0]
+		case block.arity
+		when 0
 
-			self.trace_v_impl prefix_provider, 1 + call_depth, argv[0], :trace, argv[1..-1]
+			yield
+		when 1
+
+			yield severity
+		when 2
+
+			yield severity, argv
+		when 3
+
+			yield severity, argv, self
 		else
 
-			self.trace_v_impl prefix_provider, 1 + call_depth, nil, :trace, argv
+			warn 'too many parameters in logging block'
+
+			yield severity, argv, self
 		end
 	end
 
 	# Internal implementation method, not to be called by application code
-	def self.trace_v_impl prefix_provider, call_depth, param_list, severity, argv
+	def self.log_v_impl prefix_provider, severity, argv, &block
+
+		argv << get_block_value_(&block) if block_given?
+
+		self.log_raw prefix_provider, severity, argv.join
+	end
+
+	# Internal implementation method, not to be called by application code
+	def self.trace_v_impl prefix_provider, call_depth, param_list, severity, argv, &block
+
+		unless param_list
+
+			if ApplicationLayer::ParamNameList === argv[0]
+
+				param_list	=	argv.shift
+			end
+		end
+
+		if block_given?
+
+			br = get_block_value_ &block
+
+			if ApplicationLayer::ParamNameList === br
+
+				param_list	=	br
+			else
+				if ::Array === br
+
+					if ApplicationLayer::ParamNameList === br[0]
+
+						param_list	=	br.shift
+					end
+
+					argv += br
+				else
+
+					argv << br
+				end
+			end
+		end
 
 		case param_list
 		when nil

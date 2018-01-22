@@ -5,13 +5,13 @@
 # Purpose:      The Pantheios.Ruby API (::Pantheios::API)
 #
 # Created:      2nd April 2011
-# Updated:      24th December 2017
+# Updated:      22nd January 2018
 #
 # Home:         http://github.com/synesissoftware/Pantheios-Ruby
 #
 # Author:       Matthew Wilson
 #
-# Copyright (c) 2011-2017, Matthew Wilson and Synesis Software
+# Copyright (c) 2011-2018, Matthew Wilson and Synesis Software
 # All rights reserved.
 #
 # Redistribution and use in source and binary forms, with or without
@@ -77,54 +77,54 @@ module Pantheios
 module API
 
 	# Logs an arbitrary set of parameters at the given severity level
-	def log severity, *args
+	def log severity, *args, &block
 
 		return nil unless severity_logged? severity
 
-		log_or_trace 1, severity, args
+		log_or_trace_with_block_ 1, severity, args, &block
 	end
 
 	# Logs an array of parameters at the given severity level
-	def log_v severity, argv
+	def log_v severity, argv, &block
 
 		return nil unless severity_logged? severity
 
-		log_or_trace 1, severity, argv
+		log_or_trace_with_block_ 1, severity, argv, &block
 	end
 
 	# Logs an arbitrary set of parameters at the Trace (:trace) level
-	def trace *args
+	def trace *args, &block
 
 		return nil unless tracing?
 
-		::Pantheios::Core.trace_v_prep self, 1, args
+		trace_with_block_ 1, args, &block
 	end
 
 	# Logs an array of parameters at the Trace (:trace) level
-	def trace_v argv
+	def trace_v argv, &block
 
 		return nil unless tracing?
 
-		::Pantheios::Core.trace_v_prep self, 1, argv
+		trace_with_block_ 1, argv, &block
 	end
 
 	if Util::VersionUtil.version_compare(RUBY_VERSION, [ 2, 1 ]) >= 0
 
-	def trace_blv b, lvars
+	def trace_blv b, lvars, &block
 
 		return nil unless tracing?
 
-		::Pantheios::Core.trace_v_impl self, 1, ApplicationLayer::ParamNameList[*lvars], :trace, lvars.map { |lv| b.local_variable_get(lv) }
+		::Pantheios::Core.trace_v_impl(self, 1, ApplicationLayer::ParamNameList[*lvars], :trace, lvars.map { |lv| b.local_variable_get(lv) }, &block)
 	end
 	end # RUBY_VERSION
 
 	if Util::VersionUtil.version_compare(RUBY_VERSION, [ 2, 2 ]) >= 0
 
-	def trace_b b
+	def trace_b b, &block
 
 		return nil unless tracing?
 
-		::Pantheios::Core.trace_v_impl self, 1, ApplicationLayer::ParamNameList[*b.local_variables], :trace, b.local_variables.map { |lv| b.local_variable_get(lv) }
+		::Pantheios::Core.trace_v_impl(self, 1, ApplicationLayer::ParamNameList[*b.local_variables], :trace, b.local_variables.map { |lv| b.local_variable_get(lv) }, &block)
 	end
 	end # RUBY_VERSION
 
@@ -259,14 +259,19 @@ module API
 	private
 
 	# Private implementation method that should not need to be overridden
-	def log_or_trace call_depth, severity, argv
+	def log_or_trace_with_block_ call_depth, severity, argv, &block
 
 		if :trace == severity
 
-			return ::Pantheios::Core.trace_v_impl self, 1 + call_depth, nil, severity, argv
+			return ::Pantheios::Core.trace_v_impl self, 1 + call_depth, nil, severity, argv, &block
 		end
 
-		::Pantheios::Core.log_raw self, severity, argv.join
+		::Pantheios::Core.log_v_impl self, severity, argv, &block
+	end
+
+	def trace_with_block_ call_depth, argv, &block
+
+		return ::Pantheios::Core.trace_v_impl self, 1 + call_depth, nil, :trace, argv, &block
 	end
 
 end # module API

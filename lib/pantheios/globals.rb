@@ -5,7 +5,7 @@
 # Purpose:      The Pantheios.Ruby "globals" (::Pantheios::Globals)
 #
 # Created:      24th December 2017
-# Updated:      8th January 2018
+# Updated:      22nd January 2018
 #
 # Home:         http://github.com/synesissoftware/Pantheios-Ruby
 #
@@ -54,6 +54,18 @@ module Pantheios
 #
 # NOTE: The "globals" in this namespace are operative before
 # +::Pantheios::Core+ and +::Pantheios::API+
+#
+# === Variables
+#
+# * *HAS_CASCADED_INCLUDES* [boolean] Determines whether including
+#   +::Pantheios+ also includes all relevant parts of subordinate
+#   namespaces. See the documentation for the +::Pantheios+ namespace for
+#   further details
+#
+# * *SYNCHRONISED_SEVERITY_LOGGED* [boolean] Determines whether the core
+#   protects the call to the underlying log-service's +severity_logged?+
+#   with a mutex (which has a non-trivial cost).
+#
 module Globals
 
 	module Internals_
@@ -64,17 +76,24 @@ module Globals
 
 	module Helpers_
 
-		def self.cattr receiver, name, types, initial_value
+		def self.cattr receiver, name, types, initial_value, **options
+
+			if options[:boolean] && types.nil?
+
+				types = Internals_::TRUTHY_CLASSES
+			end
 
 			types = nil if !types.nil? && types.empty?
 
 			receiver.class_eval do
 
-				field_name = '@' + name
+				field_name	=	'@' + name
+				get_name	=	name
+				get_name	+=	'?' if options[:boolean]
 
 				instance_variable_set field_name, initial_value
 
-				define_singleton_method(name) do
+				define_singleton_method(get_name) do
 
 					instance_variable_get field_name
 				end
@@ -97,6 +116,8 @@ module Globals
 	Helpers_.cattr self, 'INITIAL_SERVICE_INSTANCES', nil, nil
 
 	Helpers_.cattr self, 'INITIAL_SERVICE_CLASSES', nil, nil
+
+	Helpers_.cattr self, 'SYNCHRONISED_SEVERITY_LOGGED', nil, true, boolean: true
 
 	def self.included receiver
 
