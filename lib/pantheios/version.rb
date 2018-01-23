@@ -50,7 +50,7 @@
 module Pantheios
 
 	# Current version of the Pantheios.Ruby library
-	VERSION				=	'0.12.2'
+	VERSION				=	'0.13.1'
 
 	private
 	VERSION_PARTS_		=	VERSION.split(/[.]/).collect { |n| n.to_i } # :nodoc:

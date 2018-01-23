@@ -53,7 +53,7 @@ require 'pantheios/application_layer/stock_severity_levels'
 module Pantheios
 module Services
 
-# A class that fulfils the Pantheios *LogService* protocol that sallows all
+# A class that fulfils the Pantheios *LogService* protocol that allows all
 # severities and logs to the console (via +$stdout+ and +$stderr+)
 #
 # NOTE: The *LogService* protocol is implemented by a class that provides
