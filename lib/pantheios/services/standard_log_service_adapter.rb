@@ -156,7 +156,7 @@ class StandardLogServiceAdapter
 			@at_value	=	nil
 		when ::Symbol
 
-			@at_value	=	STOCK_SEVS_EXT2NUM[adapter_threshold]
+			@at_value	=	STOCK_SEVS_EXT2NUM[threshold]
 		when ::Integer
 
 			@at_value	=	threshold
