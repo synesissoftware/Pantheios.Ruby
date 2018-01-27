@@ -51,6 +51,7 @@ require 'pantheios/application_layer/stock_severity_levels'
 require 'pantheios/services/simple_console_log_service'
 
 require 'pantheios/util/process_util'
+require 'pantheios/util/reflection_util'
 
 =begin
 =end
@@ -132,7 +133,13 @@ module Core
 
 			def set_service svc
 
+				raise ::ArgumentError, 'service instance may not be nil' if svc.nil?
+
 				raise ::TypeError, "service instance (#{svc.class}) does not respond to all the required messages ([ #{Constants_::REQUIRED_SERVICE_METHODS.join(', ')} ])" unless Constants_::REQUIRED_SERVICE_METHODS.all? { |m| svc.respond_to? m }
+
+				nrcs	=	::Pantheios::Util::ReflectionUtil.non_root_classes svc
+
+				raise ::TypeError, "service instance class - #{svc.class} - inherits some of the required messages - [ #{Constants_::REQUIRED_SERVICE_METHODS.join(', ')} ] - from the top-level" unless Constants_::REQUIRED_SERVICE_METHODS.all? { |m| nrcs.any? { |nr| nr.instance_methods(false).include? m } }
 
 				r	=	[]
 				srp	=	svc.respond_to?(:requires_prefix?) ? svc.requires_prefix? : true
