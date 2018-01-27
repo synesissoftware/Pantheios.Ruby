@@ -5,7 +5,7 @@
 # Purpose:      The Pantheios.Ruby core (::Pantheios::Core)
 #
 # Created:      2nd April 2011
-# Updated:      22nd January 2018
+# Updated:      23rd January 2018
 #
 # Home:         http://github.com/synesissoftware/Pantheios-Ruby
 #
@@ -99,7 +99,7 @@ module Core
 
 			def set_front_end fe
 
-				raise ::TypeError, "front-end instance (#{fe.class}) does not respond to all the required messages (#{Constants_::REQUIRED_FRONTEND_METHODS.join(', ')})" unless fe && Constants_::REQUIRED_FRONTEND_METHODS.all? { |m| fe.respond_to? m }
+				raise ::TypeError, "front-end instance (#{fe.class}) does not respond to all the required messages ([ #{Constants_::REQUIRED_FRONTEND_METHODS.join(', ')} ])" unless fe && Constants_::REQUIRED_FRONTEND_METHODS.all? { |m| fe.respond_to? m }
 
 				r	=	nil
 
@@ -117,7 +117,7 @@ module Core
 
 			def set_back_end be
 
-				raise ::TypeError, "back-end instance (#{fe.class}) does not respond to all the required messages (#{Constants_::REQUIRED_BACKEND_METHODS.join(', ')})" unless be && Constants_::REQUIRED_BACKEND_METHODS.all? { |m| be.respond_to? m }
+				raise ::TypeError, "back-end instance (#{fe.class}) does not respond to all the required messages ([ #{Constants_::REQUIRED_BACKEND_METHODS.join(', ')} ])" unless be && Constants_::REQUIRED_BACKEND_METHODS.all? { |m| be.respond_to? m }
 
 				r	=	nil
 				srp	=	svc.respond_to?(:requires_prefix?) ? svc.requires_prefix? : true
@@ -132,7 +132,7 @@ module Core
 
 			def set_service svc
 
-				raise ::TypeError, "service instance (#{svc.class}) does not respond to all the required messages (#{Constants_::REQUIRED_SERVICE_METHODS.join(', ')})" unless svc && Constants_::REQUIRED_SERVICE_METHODS.all? { |m| svc.respond_to? m }
+				raise ::TypeError, "service instance (#{svc.class}) does not respond to all the required messages ([ #{Constants_::REQUIRED_SERVICE_METHODS.join(', ')} ])" unless Constants_::REQUIRED_SERVICE_METHODS.all? { |m| svc.respond_to? m }
 
 				r	=	[]
 				srp	=	svc.respond_to?(:requires_prefix?) ? svc.requires_prefix? : true
