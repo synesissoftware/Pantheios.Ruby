@@ -5,7 +5,7 @@
 # Purpose:      The Pantheios.Ruby core (::Pantheios::Core)
 #
 # Created:      2nd April 2011
-# Updated:      23rd January 2018
+# Updated:      27th January 2018
 #
 # Home:         http://github.com/synesissoftware/Pantheios-Ruby
 #
@@ -319,11 +319,29 @@ module Core
 	# * *Returns:*
 	#   The file stem of +$0+
 	#
-	# NOTE: this is implemented in terms of Process_Util.derive_process_name
-	# and the result is cached
+	# NOTE: this is implemented in terms of
+	# +Process_Util.derive_process_name+ and the result is cached
 	def self.program_name
 
 		@program_name ||= ::Pantheios::Util::ProcessUtil.derive_process_name $0
+	end
+
+	# Sets the program name
+	#
+	# * *Parameters:*
+	#   - +name+:: [String] The (new) program name. May be +nil+, in which
+	#   case +program_name+ will obtain the program name from
+	#   +Process_Util.derive_process_name+
+	#
+	# * *Returns:*
+	#   The previous version
+	#
+	# NOTE: to reset the value, set to +nil+
+	def self.program_name= name
+
+		previous, @program_name = @program_name, name
+
+		previous
 	end
 
 	def self.severity_string severity
