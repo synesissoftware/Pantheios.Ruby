@@ -37,7 +37,9 @@ end
 
 Benchmark.benchmark(Benchmark::CAPTION, 24, Benchmark::FORMAT, 'total:', 'avg:') do |r|
 
-	at_0 = r.report("arguments (1-arg)") do
+	totals	=	[]
+
+	totals << r.report("arguments (1-arg)") do
 
 		for i in (0...N) do
 
@@ -45,7 +47,7 @@ Benchmark.benchmark(Benchmark::CAPTION, 24, Benchmark::FORMAT, 'total:', 'avg:')
 		end
 	end
 
-	bt_0 = r.report("blocks (1-arg)") do
+	totals << r.report("blocks (1-arg)") do
 
 		for i in (0...N) do
 
@@ -53,7 +55,16 @@ Benchmark.benchmark(Benchmark::CAPTION, 24, Benchmark::FORMAT, 'total:', 'avg:')
 		end
 	end
 
-	at_1 = r.report("arguments (simple)") do
+	totals << r.report("args-if (1-arg)") do
+
+		for i in (0...N) do
+
+			log :notice, 'the cat in the hat.' if severity_logged? :notice
+		end
+	end
+
+
+	totals << r.report("arguments (simple)") do
 
 		for i in (0...N) do
 
@@ -61,7 +72,7 @@ Benchmark.benchmark(Benchmark::CAPTION, 24, Benchmark::FORMAT, 'total:', 'avg:')
 		end
 	end
 
-	bt_1 = r.report("blocks (simple)") do
+	totals << r.report("blocks (simple)") do
 
 		for i in (0...N) do
 
@@ -69,7 +80,16 @@ Benchmark.benchmark(Benchmark::CAPTION, 24, Benchmark::FORMAT, 'total:', 'avg:')
 		end
 	end
 
-	at_2 = r.report("arguments (complex)") do
+	totals << r.report("args-if (simple)") do
+
+		for i in (0...N) do
+
+			log :notice, 'the ', 'cat ', 'in ', 'the ', 'hat.' if severity_logged? :notice
+		end
+	end
+
+
+	totals << r.report("arguments (complex)") do
 
 		cat	=	'cat'
 		hat	=	:hat
@@ -81,7 +101,7 @@ Benchmark.benchmark(Benchmark::CAPTION, 24, Benchmark::FORMAT, 'total:', 'avg:')
 		end
 	end
 
-	bt_2 = r.report("blocks (complex)") do
+	totals << r.report("blocks (complex)") do
 
 		cat	=	'cat'
 		hat	=	:hat
@@ -93,7 +113,20 @@ Benchmark.benchmark(Benchmark::CAPTION, 24, Benchmark::FORMAT, 'total:', 'avg:')
 		end
 	end
 
-	[ at_0 + at_1 + at_2 + bt_0 + bt_1 + bt_2, (at_0 + at_1 + at_2 + bt_0 + bt_1 + bt_2) / 2 ]
+	totals << r.report("args-if (complex)") do
+
+		cat	=	'cat'
+		hat	=	:hat
+		t	=	Time.now
+
+		for i in (0...N) do
+
+			log :notice, "the #{cat} in the #{hat} (#{t})" if severity_logged? :notice
+		end
+	end
+
+
+	[ totals.inject(:+), totals.inject(:+) / totals.size ]
 end
 
 
