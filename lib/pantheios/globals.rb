@@ -5,7 +5,7 @@
 # Purpose:      The Pantheios.Ruby "globals" (::Pantheios::Globals)
 #
 # Created:      24th December 2017
-# Updated:      22nd January 2018
+# Updated:      4th February 2018
 #
 # Home:         http://github.com/synesissoftware/Pantheios-Ruby
 #
@@ -62,6 +62,11 @@ module Pantheios
 #   namespaces. See the documentation for the +::Pantheios+ namespace for
 #   further details
 #
+# * *PROCESS_NAME* A string specifying the process name, or one of the
+#   recognised symbols - :script, :script_basename, :script_dirname,
+#   :script_realpath, :script_stem - that directs inference of the process
+#   name. See +Pantheios::Util::ProcessUtil::derive_process_name+
+#
 # * *SYNCHRONISED_SEVERITY_LOGGED* [boolean] Determines whether the core
 #   protects the call to the underlying log-service's +severity_logged?+
 #   with a mutex (which has a non-trivial cost).
@@ -70,8 +75,10 @@ module Globals
 
 	module Internals_
 
-		BOOLEAN_CLASSES	=	[ ::FalseClass, ::TrueClass ]
-		TRUTHY_CLASSES	=	BOOLEAN_CLASSES + [ ::NilClass ]
+		BOOLEAN_CLASSES			=	[ ::FalseClass, ::TrueClass ]
+		TRUTHY_CLASSES			=	BOOLEAN_CLASSES + [ ::NilClass ]
+
+		PROCESS_NAME_CLASSES	=	[ ::Symbol, ::String ]
 	end
 
 	module Helpers_
@@ -116,6 +123,8 @@ module Globals
 	Helpers_.cattr self, 'INITIAL_SERVICE_INSTANCES', nil, nil
 
 	Helpers_.cattr self, 'INITIAL_SERVICE_CLASSES', nil, nil
+
+	Helpers_.cattr self, 'PROCESS_NAME', Internals_::PROCESS_NAME_CLASSES, nil
 
 	Helpers_.cattr self, 'SYNCHRONISED_SEVERITY_LOGGED', nil, true, boolean: true
 

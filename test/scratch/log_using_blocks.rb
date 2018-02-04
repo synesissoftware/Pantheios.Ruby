@@ -16,6 +16,11 @@
 
 $:.unshift File.join(File.dirname(__FILE__), *(['..'] * 2), 'lib')
 
+require 'pantheios/globals'
+
+Pantheios::Globals.PROCESS_NAME = :script_stem
+
+
 require 'pantheios'
 
 include Pantheios

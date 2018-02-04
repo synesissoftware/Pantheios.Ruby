@@ -206,6 +206,31 @@ module Core
 	# :nodoc:
 	def self.core_init
 
+		# process-name
+
+		prg_nam	=	nil
+
+		case Pantheios::Globals.PROCESS_NAME
+		when nil
+
+			;
+		when ::Symbol
+
+			prg_nam	=	::Pantheios::Util::ProcessUtil.derive_process_name $0, style: Pantheios::Globals.PROCESS_NAME
+		when ::String
+
+			prg_nam	=	Pantheios::Globals.PROCESS_NAME.strip
+			prg_nam	=	nil if prg_name.empty?
+		else
+
+			warn "ignoring unsupported Globals.PROCESS_NAME type - '#{Pantheios::Globals.PROCESS_NAME.class}'"
+		end
+
+		@process_name = prg_nam if prg_nam
+
+
+		# state (incl. default service)
+
 		@@state = Internals_::State.new Internals_::DefaultDiscriminator.new
 
 		self.set_default_service
