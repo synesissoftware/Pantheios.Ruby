@@ -70,7 +70,7 @@ module Pantheios
 #
 # - prefix_elements
 # - process_id
-# - program_name
+# - process_name
 # - severity_string severity
 # - thread_id
 # - timestamp t
@@ -160,7 +160,7 @@ module API
 	# === Elements
 	#
 	# Elements can be one of:
-	#   - +:program_name+
+	#   - +:process_name+
 	#   - +:process_id+
 	#   - +:severity+
 	#   - +:thread_id+
@@ -169,7 +169,7 @@ module API
 	# This is called from +prefix+
 	def prefix_elements
 
-		[ :program_name, :thread_id, :timestamp, :severity ]
+		[ :process_name, :thread_id, :timestamp, :severity ]
 	end
 
 	# Obtains the process id
@@ -184,10 +184,10 @@ module API
 	# Obtains the program name
 	#
 	# Unless overridden, returns the value provided by
-	# +::Pantheios::Core::program_name+
-	def program_name
+	# +::Pantheios::Core::process_name+
+	def process_name
 
-		::Pantheios::Core.program_name
+		::Pantheios::Core.process_name
 	end
 
 	# Obtains the string corresponding to the severity
@@ -222,9 +222,9 @@ module API
 		prefix_elements.map do |el|
 
 			case el
-			when :program_name
+			when :program_name, :process_name
 
-				program_name
+				process_name
 			when :process_id
 
 				process_id
