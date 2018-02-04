@@ -52,6 +52,7 @@ require 'pantheios/services/simple_console_log_service'
 
 require 'pantheios/util/process_util'
 require 'pantheios/util/reflection_util'
+require 'pantheios/util/thread_util'
 
 =begin
 =end
@@ -227,6 +228,45 @@ module Core
 		end
 
 		@process_name = prg_nam if prg_nam
+
+
+		# main thread-name
+		#
+		# This is obtained from Pantheios::Globals.MAIN_THREAD_NAME, which
+		# may be either ::String or [ ::String, ::Thread ]
+
+		mt_th	=	nil
+		mt_nam	=	nil
+
+		case pg_mtn = ::Pantheios::Globals.MAIN_THREAD_NAME
+		when nil
+
+			;
+		when ::Array
+
+			if pg_mtn.size != 2
+
+				warn "ignoring array of wrong length - #{pg_mtn.size} given; 2-required - for Globals.MAIN_THREAD_TYPE"
+			else
+
+				mt_th	=	pg_mtn[0]
+				mt_nam	=	pg_mtn[1]
+
+				if ::Thread === mt_nam
+
+					mt_th, mt_nam = mt_nam, mt_th
+				end
+			end
+		when ::String
+
+			mt_th	=	Thread.current
+			mt_nam	=	pg_mtn
+		else
+
+			warn "ignoring unsupported Globals.MAIN_THREAD_NAME type - '#{Pantheios::Globals.MAIN_THREAD_NAME.class}'"
+		end
+
+		::Pantheios::Util::ThreadUtil.set_thread_name mt_th, mt_nam if mt_nam
 
 
 		# state (incl. default service)

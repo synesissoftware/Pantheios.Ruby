@@ -6,7 +6,7 @@
 # Purpose:      COMPLETE_ME
 #
 # Created:      22nd January 2018
-# Updated:      22nd January 2018
+# Updated:      5th February 2018
 #
 # Author:       Matthew Wilson
 #
@@ -18,6 +18,7 @@ $:.unshift File.join(File.dirname(__FILE__), *(['..'] * 2), 'lib')
 
 require 'pantheios/globals'
 
+Pantheios::Globals.MAIN_THREAD_NAME = [ Thread.current, 'main' ]
 Pantheios::Globals.PROCESS_NAME = :script_stem
 
 

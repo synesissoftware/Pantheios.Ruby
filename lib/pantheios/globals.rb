@@ -57,6 +57,14 @@ module Pantheios
 #
 # === Variables
 #
+# * *MAIN_THREAD_NAME* A string specifying the main thread name, or an array
+#   containing a thread instance and a string specifying the thread and its
+#   name
+#
+#   NOTE: This feature is subject to the initialising threads: if the string
+#   form is used then the first initialising thread of Pantheios.Ruby will
+#   be the named thread
+#
 # * *HAS_CASCADED_INCLUDES* [boolean] Determines whether including
 #   +::Pantheios+ also includes all relevant parts of subordinate
 #   namespaces. See the documentation for the +::Pantheios+ namespace for
@@ -123,6 +131,8 @@ module Globals
 	Helpers_.cattr self, 'INITIAL_SERVICE_INSTANCES', nil, nil
 
 	Helpers_.cattr self, 'INITIAL_SERVICE_CLASSES', nil, nil
+
+	Helpers_.cattr self, 'MAIN_THREAD_NAME', [ ::Array, ::String ], nil
 
 	Helpers_.cattr self, 'PROCESS_NAME', Internals_::PROCESS_NAME_CLASSES, nil
 
