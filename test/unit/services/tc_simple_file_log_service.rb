@@ -126,6 +126,22 @@ class Test_SimpleFileLogservice < Test::Unit::TestCase
 			assert_type_has_instance_methods SimpleFileLogService, [ :severity_logged?, :log ]
 		end
 
+		def test_ctor_failures_with_invalid_log_file_or_path
+
+			assert_raise_with_message(::ArgumentError, /log_file_or_path.*not.*nil/) { SimpleFileLogService.new nil }
+
+			assert_raise_with_message(::TypeError, [ /log_file_or_path.*must be/, /::File/, /::IO/, /::String/, /::StringIO/ ]) { SimpleFileLogService.new // }
+		end
+
+		def test_ctor_failures_with_invalid_options
+
+			assert_raise_with_message(::ArgumentError, /:roll_depth.*non.*negative.*integer/) { SimpleFileLogService.new '/dev/null', roll_depth: true }
+			assert_raise_with_message(::ArgumentError, /:roll_depth.*non.*negative.*integer/) { SimpleFileLogService.new '/dev/null', roll_depth: -1 }
+
+			assert_raise_with_message(::ArgumentError, /:roll_size.*non.*negative.*integer/) { SimpleFileLogService.new '/dev/null', roll_size: true }
+			assert_raise_with_message(::ArgumentError, /:roll_size.*non.*negative.*integer/) { SimpleFileLogService.new '/dev/null', roll_size: -1 }
+		end
+
 		def test_severity_logged_false_with_large_range_of_integers
 
 			output	=	StringIO.new
@@ -136,8 +152,6 @@ class Test_SimpleFileLogservice < Test::Unit::TestCase
 
 				assert_true(svc.severity_logged?(sev), "severity '#{sev}' (#{sev.class}) was not logged")
 			end
-
-#			lines	=	output.string.split /\n/
 		end
 
 		def test_simple_logging_with_StringIO_1

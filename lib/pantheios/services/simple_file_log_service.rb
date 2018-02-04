@@ -68,6 +68,8 @@ class SimpleFileLogService
 		DEFAULT_ROLL_DEPTH		=	7
 		DEFAULT_ROLL_SIZE		=	1024 * 1024
 
+		RECOGNISED_OPTIONS		=	%w{ roll_depth roll_period roll_size }.map { |s| s.to_sym }
+
 	end # module SimpleFileLogService_Constants
 
 	#
@@ -77,7 +79,9 @@ class SimpleFileLogService
 	#   - +log_file_or_path+:: [ +::File+, +::IO+, +::String+ ] A file or an
 	#     IO that will be used as the target of the log statements, or a
 	#     string specifying the path of the file to be used as the target
-	#   - +options+:: [ ::Hash ] Options
+	#   - +options+:: [ ::Hash ] Options. Options other than those listed
+	#     are ignored silently (except if +$DEBUG+, in which case a
+	#     +warn+ing will be issued)
 	#
 	# * *Options:*
 	#   - +:roll_period+:: ( +:daily+, +:weekly+, +:monthly+ ) The
@@ -98,9 +102,17 @@ class SimpleFileLogService
 		roll_size	=	options[:roll_size]
 		roll_depth	=	options[:roll_depth]
 
+		if $DEBUG
+
+			options.each do |k, v|
+
+				warn "#{self.class}##{__method__}(): ignoring unrecognised option '#{k}'" unless SimpleFileLogService_Constants::RECOGNISED_OPTIONS.include?(:k)
+			end
+		end
+
 		if roll_period && (roll_size || roll_depth)
 
-			warn "caller specified :roll_depth/:roll_period with :roll_size to #{self.class}##{__method__}() - ignoring :roll_period"
+			warn "#{self.class}##{__method__}(): caller specified :roll_depth/:roll_period with :roll_size to #{self.class}##{__method__}() - ignoring :roll_period" if $DEBUG
 
 			roll_period = nil
 		end
@@ -142,6 +154,9 @@ class SimpleFileLogService
 			logger_init_args	<<	roll_period.to_s
 			logger_init_args	<<	0
 		end
+
+		raise ArgumentError, ":roll_depth must be a non-negative integer" unless roll_depth.nil? || (::Integer === roll_depth && roll_depth >= 0)
+		raise ArgumentError, ":roll_size must be a non-negative integer" unless roll_size.nil? || (::Integer === roll_size && roll_size >= 0)
 
 
 		case log_file_or_path
