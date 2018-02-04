@@ -12,3 +12,6 @@
 *.swp
 *.tmp
 
+test/scratch/log_files/log_rolling_by_period_daily*
+test/scratch/log_files/log_rolling_by_size_and_depth*
+
