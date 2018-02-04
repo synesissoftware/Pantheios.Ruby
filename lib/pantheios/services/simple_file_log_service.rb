@@ -158,26 +158,49 @@ class SimpleFileLogService
 		raise ArgumentError, ":roll_depth must be a non-negative integer" unless roll_depth.nil? || (::Integer === roll_depth && roll_depth >= 0)
 		raise ArgumentError, ":roll_size must be a non-negative integer" unless roll_size.nil? || (::Integer === roll_size && roll_size >= 0)
 
+		file_proc = lambda do
+
+			@logger			=	::Logger.new log_file_or_path, *logger_init_args
+			@log_file_path	=	log_file_or_path.path
+		end
+
+		io_proc = lambda do
+
+			@logger			=	::Logger.new log_file_or_path, *logger_init_args
+			@log_file_path	=	log_file_or_path.respond_to?(:path) ? log_file_or_path.path : nil
+		end
 
 		case log_file_or_path
 		when nil
 
 			raise ArgumentError, 'log_file_or_path may not be nil'
-		when ::File, ::Tempfile
+		when ::IO#, ::StringIO
 
-			@logger			=	::Logger.new log_file_or_path, *logger_init_args
-			@log_file_path	=	log_file_or_path.path
-		when ::IO, ::StringIO
+			io_proc.call
+		when ::File#, ::Tempfile
 
-			@logger			=	::Logger.new log_file_or_path, *logger_init_args
-			@log_file_path	=	log_file_or_path.respond_to?(:path) ? log_file_or_path.path : nil
+			file_proc.call
 		when ::String
 
 			@logger			=	::Logger.new log_file_or_path, *logger_init_args
 			@log_file_path	=	log_file_or_path
 		else
 
-			raise TypeError, "log_file_or_path type must be one of #{::File}, #{::IO}, #{::String}, #{::StringIO}"
+			ancestor_names	=	log_file_or_path.class.ancestors.map(&:to_s)
+
+			if false
+
+				;
+			elsif ancestor_names.include?('StringIO')
+
+				io_proc.call
+			elsif ancestor_names.include?('Tempfile')
+
+				file_proc.call
+			else
+
+				raise TypeError, "log_file_or_path type must be one of #{::File}, #{::IO}, #{::String}, #{::StringIO}"
+			end
 		end
 
 		self

@@ -216,14 +216,14 @@ module Core
 
 		# determine which log service to initialise as the default
 
-		(::Pantheios::Globals.INITIAL_SERVICE_INSTANCES || []).each do |inst|
+		([::Pantheios::Globals.INITIAL_SERVICE_INSTANCES].flatten || []).each do |inst|
 
 			next unless inst
 
 			return @@state.set_service inst
 		end
 
-		(::Pantheios::Globals.INITIAL_SERVICE_CLASSES || []).each do |cls|
+		([::Pantheios::Globals.INITIAL_SERVICE_CLASSES].flatten || []).each do |cls|
 
 			inst = cls.new
 
