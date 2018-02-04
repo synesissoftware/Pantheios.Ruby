@@ -5,7 +5,7 @@
 # Purpose:      The Pantheios.Ruby core (::Pantheios::Core)
 #
 # Created:      2nd April 2011
-# Updated:      27th January 2018
+# Updated:      5th February 2018
 #
 # Home:         http://github.com/synesissoftware/Pantheios-Ruby
 #
@@ -314,36 +314,43 @@ module Core
 		Process.pid
 	end
 
-	# Default implementation to obtain the program name
+	# Default implementation to obtain the process name
 	#
 	# * *Returns:*
 	#   The file stem of +$0+
 	#
 	# NOTE: this is implemented in terms of
 	# +Process_Util.derive_process_name+ and the result is cached
-	def self.program_name
+	def self.process_name
 
-		@program_name ||= ::Pantheios::Util::ProcessUtil.derive_process_name $0
+		@process_name ||= ::Pantheios::Util::ProcessUtil.derive_process_name $0
 	end
 
-	# Sets the program name
+	# [DEPRECATED] Use +process_name+
+	def self.program_name; self.process_name; end
+
+	# Sets the process name
 	#
 	# * *Parameters:*
-	#   - +name+:: [String] The (new) program name. May be +nil+, in which
-	#   case +program_name+ will obtain the program name from
+	#   - +name+:: [String] The (new) process name. May be +nil+, in which
+	#   case +process_name+ will obtain the process name from
 	#   +Process_Util.derive_process_name+
 	#
 	# * *Returns:*
 	#   The previous version
 	#
 	# NOTE: to reset the value, set to +nil+
-	def self.program_name= name
+	def self.process_name= name
 
-		previous, @program_name = @program_name, name
+		previous, @process_name = @process_name, name
 
 		previous
 	end
 
+	# [DEPRECATED] Use +process_name=+
+	def self.program_name= name; self.process_name = name; end
+
+	# Obtains a string form of the given severity
 	def self.severity_string severity
 
 		r = ApplicationLayer::StockSeverityLevels::STOCK_SEVERITY_LEVEL_STRINGS[severity] and return r
