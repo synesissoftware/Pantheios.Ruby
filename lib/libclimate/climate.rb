@@ -5,7 +5,7 @@
 # Purpose:      Definition of the ::LibCLImate::Climate class
 #
 # Created:      13th July 2015
-# Updated:      1st January 2018
+# Updated:      4th February 2018
 #
 # Home:         http://github.com/synesissoftware/libCLImate.Ruby
 #
@@ -260,20 +260,26 @@ class Climate
 	# * *Options*:
 	#   - +:no_help_flag+:: Prevents the use of the CLASP::Flag.Help flag-alias
 	#   - +:no_version_flag+:: Prevents the use of the CLASP::Version.Help flag-alias
+	#   - +:program_name+:: [ ::String ] An explicit program-name, which is
+	#     inferred from +$0+ if this is +nil+
 	#   - +:version+:: A version specification. If not specified, this is
 	#     inferred
 	#
 	# * *Block*:: An optional block which receives the constructing instance, allowing the user to modify the attributes.
 	def initialize(options={}) # :yields: climate
 
+		check_parameter options, 'options', allow_nil: true, type: ::Hash
+
 		options ||=	{}
 
-		program_name = File.basename($0)
-		program_name = (program_name =~ /\.rb$/) ? "#$`(#$&)" : program_name
+		check_option options, :program_name, type: ::String, allow_nil: true
 
-		if defined? Colcon
+		pr_name		=	options[:program_name]
 
-			program_name = "#{::Colcon::Decorations::Bold}#{program_name}#{::Colcon::Decorations::Unbold}"
+		unless pr_name
+
+			pr_name	=	File.basename($0)
+			pr_name	=	(pr_name =~ /\.rb$/) ? "#$`(#$&)" : pr_name
 		end
 
 		@aliases			=	[]
@@ -281,7 +287,7 @@ class Climate
 		@exit_on_missing	=	true
 		@exit_on_usage		=	true
 		@info_lines			=	nil
-		@program_name		=	program_name
+		set_program_name pr_name
 		@stdout				=	$stdout
 		@stderr				=	$stderr
 		@usage_values		=	usage_values
@@ -292,6 +298,16 @@ class Climate
 		@aliases << CLASP::Flag.Version(handle: proc { show_version_ }) unless options[:no_version_flag]
 
 		yield self if block_given?
+	end
+
+	def set_program_name name
+
+		if defined? Colcon
+
+			name = "#{::Colcon::Decorations::Bold}#{name}#{::Colcon::Decorations::Unbold}"
+		end
+
+		@program_name	=	name
 	end
 
 	# An array of aliases attached to the climate instance, whose contents should be modified by adding (or removing) CLASP aliases
