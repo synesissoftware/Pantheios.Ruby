@@ -1,12 +1,12 @@
 
 # ######################################################################## #
-# File:         lib/pantheios/services/simple_console_log_service.rb
+# File:         lib/pantheios/services/null_log_service.rb
 #
 # Purpose:      Definition of the ::Pantheios::Services::NullLogService
 #               class
 #
 # Created:      14th June 2015
-# Updated:      22nd January 2018
+# Updated:      8th February 2018
 #
 # Home:         http://github.com/synesissoftware/Pantheios-Ruby
 #
