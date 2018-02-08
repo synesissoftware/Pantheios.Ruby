@@ -100,11 +100,11 @@ class MultiplexingLogService
 	#     instance
 	def initialize services, **options
 
+		@tss_sym	=	self.to_s.to_sym
 		@services	=	services.map { |svc| MultiplexingLogService_Internals_::ServiceManagementInfo.new svc }
 		@options	=	options.dup
 		@mode		=	options[:level_cache_mode]
 		@unsync_pf	=	options[:unsync_process_lcm]
-		@tss_sym	=	self.to_s.to_sym
 
 		@process_m	=	{}
 		@mx			=	Mutex.new unless @unsync_pf
@@ -118,23 +118,44 @@ class MultiplexingLogService
 		sym	=	@tss_sym
 		tc	=	Thread.current
 		m	=	tc.thread_variable_get sym
-		m	=	tc.thread_variable_set sym, {} unless m
+
+		unless m
+
+			tc.thread_variable_set sym, (m = {})
+		end
 
 		m
 	end
 
-	def svc_sev_logged_pf_ m, svc, severity
+	def svc_sev_logged_tf_ m, svc, severity
 
-		m[svc]	||=	{}
+		m[svc.object_id]	||=	{}
 
-		unless m[svc].has_key? severity
+		unless m[svc.object_id].has_key? severity
 
 			r = svc.severity_logged? severity
 
-			m[svc][severity] = r
+			m[svc.object_id][severity] = r
 		else
 
-			r = m[svc][severity]
+			r = m[svc.object_id][severity]
+		end
+
+		r
+	end
+
+	def svc_sev_logged_pf_ m, svc, severity
+
+		m[svc.object_id]	||=	{}
+
+		unless m[svc.object_id].has_key? severity
+
+			r = svc.severity_logged? severity
+
+			m[svc.object_id][severity] = r
+		else
+
+			r = m[svc.object_id][severity]
 		end
 
 		r
@@ -168,19 +189,7 @@ class MultiplexingLogService
 
 				svc	=	smi.service
 
-				m[svc]	||=	{}
-
-				unless m[svc].has_key? severity
-
-					r = svc.severity_logged? severity
-
-					m[svc][severity] = r
-				else
-
-					r = m[svc][severity]
-				end
-
-				r
+				svc_sev_logged_tf_ m, svc, severity
 			end
 		else # :none
 
@@ -209,7 +218,8 @@ class MultiplexingLogService
 			when :thread_fixed
 
 				m	=	tss_m
-				isl	=	m[svc] && m[svc][sev]
+
+				isl	=	svc_sev_logged_tf_ m, svc, sev
 			else # :none
 
 				isl	=	svc.severity_logged? sev

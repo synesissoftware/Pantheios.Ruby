@@ -65,10 +65,15 @@ class EventLogService
 	end
 end
 
+scls		=	Pantheios::Services::SimpleConsoleLogService.new
+
+def scls.severity_logged? severity; ![ :benchmark, :trace, :violation ].include? severity; end
+
 services	=	[
 
 	BenchmarkLogService.new,
 	EventLogService.new,
+	scls,
 ]
 
 lcm = :none
