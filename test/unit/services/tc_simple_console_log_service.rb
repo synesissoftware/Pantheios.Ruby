@@ -96,7 +96,7 @@ class Test_SimpleConsoleLogservice < Test::Unit::TestCase
 				stdout_s	=	$stdout.string
 				stderr_s	=	$stderr.string
 
-				assert_not_empty stdout_s, "SimpleConsoleLogService has not written to $stdout!"
+				assert_empty stdout_s, "SimpleConsoleLogService has written to $stdout!"
 				assert_not_empty stderr_s, "SimpleConsoleLogService has not written to $stderr!"
 			ensure
 
@@ -123,8 +123,8 @@ class Test_SimpleConsoleLogservice < Test::Unit::TestCase
 
 				r	=	self.class.log_and_get_streams sev, 'msg'
 
-				assert_not_empty r[0], "SimpleConsoleLogService failed to write to $stdout for severity #{sev}"
-				assert_empty r[1], "SimpleConsoleLogService wrote unexpectedly to $stderr for severity #{sev}"
+				assert_empty r[0], "SimpleConsoleLogService wrote to $stdout for severity #{sev}"
+				assert_not_empty r[1], "SimpleConsoleLogService failed to write to $stderr for severity #{sev}"
 			end
 		end
 	end

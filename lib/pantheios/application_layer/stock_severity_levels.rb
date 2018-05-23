@@ -7,7 +7,7 @@
 #               namespace module
 #
 # Created:      2nd April 2011
-# Updated:      6th January 2018
+# Updated:      12th March 2018
 #
 # Home:         http://github.com/synesissoftware/Pantheios-Ruby
 #
@@ -71,8 +71,8 @@ module StockSeverityLevels
 			:debug2 => [ 10, 'Debug-2' ],
 			:debug3 => [ 11, 'Debug-3' ],
 			:debug4 => [ 12, 'Debug-4' ],
-			:trace => [ 13, 'Trace' ],
-			:benchmark => [ 14, 'Benchmark' ],
+			:trace => [ 15, 'Trace' ],
+			:benchmark => [ 16, 'Benchmark' ],
 		}
 
 		def self.create_level_keys m
