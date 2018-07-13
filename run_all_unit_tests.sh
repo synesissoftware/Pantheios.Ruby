@@ -42,18 +42,18 @@
 #
 # ######################################################################## #
 
-source="${BASH_SOURCE[0]}"
+Source="${BASH_SOURCE[0]}"
 
-while [ -h "$source" ]; do
+while [ -h "$Source" ]; do
 
-  dir="$(cd -P "$(dirname "$source")" && pwd)"
-  source="$(readlink "$source")"
-  [[ $source != /* ]] && source="$dir/$source"
+  Dir="$(cd -P "$(dirname "$Source")" && pwd)"
+  Source="$(readlink "$Source")"
+  [[ $Source != /* ]] && Source="$Dir/$Source"
 done
-dir="$(cd -P "$( dirname "$source" )" && pwd)"
+Dir="$(cd -P "$( dirname "$Source" )" && pwd)"
 
-separate=
-debug_flag=
+Separate=
+DebugFlag=
 
 for v in "$@"
 do
@@ -62,13 +62,13 @@ do
 
 		--debug)
 
-			debug_flag=--debug
+			DebugFlag=--debug
 
 			;;
 
 		--help)
 
-			echo "USAGE: $source { | --help | [ --debug ] [ --separate ] }"
+			echo "USAGE: $Source { | --help | [ --debug ] [ --separate ] }"
 			echo
 			echo "flags:"
 			echo
@@ -87,7 +87,7 @@ do
 
 		--separate)
 
-			separate=true
+			Separate=true
 
 			;;
 
@@ -100,12 +100,12 @@ do
 	esac
 done
 
-if [ -z "$separate" ]; then
+if [ -z "$Separate" ]; then
 
-	ruby $debug_flag $dir/test/unit/ts_all.rb
+	ruby $DebugFlag $Dir/test/unit/ts_all.rb
 else
 
-	find $dir -name 'tc_*.rb' -exec ruby $debug_flag {} \;
+	find $Dir -name 'tc_*.rb' -exec ruby $DebugFlag {} \;
 fi
 
 # ############################## end of file ############################# #
