@@ -5,7 +5,7 @@
 # Purpose:      The Pantheios.Ruby core (::Pantheios::Core)
 #
 # Created:      2nd April 2011
-# Updated:      5th February 2018
+# Updated:      5th September 2018
 #
 # Home:         http://github.com/synesissoftware/Pantheios-Ruby
 #
@@ -527,6 +527,10 @@ module Core
 			end
 		end
 
+		fl	=	nil
+		rx	=	nil
+		fn	=	caller(call_depth + 1, 1)[0]
+
 		case param_list
 		when nil
 			;
@@ -536,10 +540,6 @@ module Core
 
 			warn "param_list (#{param_list.class}) must be nil or an instance of #{ApplicationLayer::ParamNameList}" unless param_list
 		end
-
-		fl	=	nil
-		rx	=	nil
-		fn	=	caller(call_depth + 1, 1)[0]
 
 		if ::Class === prefix_provider
 
