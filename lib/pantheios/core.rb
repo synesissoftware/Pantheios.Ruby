@@ -535,10 +535,11 @@ module Core
 		when nil
 			;
 		when ApplicationLayer::ParamNameList
-			;
+
+			warn "#{fn}: param_list must contain only strings or symbols" unless param_list.all? { |p| p.kind_of?(::String) || p.kind_of?(::Symbol) }
 		else
 
-			warn "param_list (#{param_list.class}) must be nil or an instance of #{ApplicationLayer::ParamNameList}" unless param_list
+			warn "#{fn}: param_list (#{param_list.class}) must be nil or an instance of #{ApplicationLayer::ParamNameList}" unless param_list
 		end
 
 		if ::Class === prefix_provider
