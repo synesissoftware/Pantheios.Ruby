@@ -5,6 +5,10 @@
 
 # files (by name)
 
+.DS_Store
+
+.ruby-version
+
 # files (by pattern)
 
 *~

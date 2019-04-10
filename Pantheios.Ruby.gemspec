@@ -1,8 +1,19 @@
-# gemspec for Pantheios.Ruby
+# ######################################################################### #
+# File:         Pantheios.Ruby.gemspec
+#
+# Purpose:      Gemspec for Pantheios.Ruby library
+#
+# Created:      15th December 2017
+# Updated:      10th April 2019
+#
+# ######################################################################### #
+
 
 $:.unshift File.join(File.dirname(__FILE__), 'lib')
 
 require 'pantheios/version'
+
+require 'date'
 
 Gem::Specification.new do |spec|
 
@@ -15,11 +26,13 @@ A Ruby version of the popular C++ (and .NET) logging API library
 END_DESC
 	spec.authors		=	[ 'Matt Wilson' ]
 	spec.email			=	'matthew@synesis.com.au'
-	spec.homepage		=	'http://www.pantheios.org/'
-	spec.license		=	'Modified BSD'
-
-	spec.add_development_dependency 'xqsr3', [ '>= 0.21.1', '< 1.0' ]
+	spec.homepage		=	'http://github.com/synesissoftware/Pantheios.Ruby'
+	spec.license		=	'BSD-3-Clause'
 
 	spec.files			=	Dir[ 'Rakefile', '{bin,examples,lib,man,spec,test}/**/*', 'README*', 'LICENSE*' ] & `git ls-files -z`.split("\0")
+
+	spec.required_ruby_version = '>= 2'
+
+	spec.add_development_dependency 'xqsr3', [ '~> 0.31' ]
 end
 
