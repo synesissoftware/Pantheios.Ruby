@@ -506,7 +506,7 @@ module Core
 
 		if block_given?
 
-			br = get_block_value_ &block
+			br = get_block_value_(&block)
 
 			if ApplicationLayer::ParamNameList === br
 

@@ -6,7 +6,7 @@
 #               ::Pantheios::Services::SimpleConsoleLogService class
 #
 # Created:      14th June 2015
-# Updated:      6th January 2018
+# Updated:      12th March 2018
 #
 # Home:         http://github.com/synesissoftware/Pantheios-Ruby
 #
@@ -45,8 +45,6 @@
 # ######################################################################## #
 
 
-require 'pantheios/application_layer/stock_severity_levels'
-
 =begin
 =end
 
@@ -73,11 +71,14 @@ class SimpleConsoleLogService
 		stm.puts "#{pref}#{msg}"
 	end
 
+	# Overrideable method that determines which stream to write, based on a
+	# severity. This implementation always returns +$stderr+
+	#
+	# Overrides must return an object that supports the +puts(String)+
+	# method
 	def infer_stream sev
 
-		sev = ::Pantheios::ApplicationLayer::StockSeverityLevels::STOCK_SEVERITY_LEVEL_VALUES[sev] if ::Symbol === sev
-
-		(sev.to_i < 6) ? $stderr : $stdout
+		$stderr
 	end
 end
 
