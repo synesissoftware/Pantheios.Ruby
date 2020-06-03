@@ -27,6 +27,7 @@ class Test_StockSeverityLevels < Test::Unit::TestCase
 		debug3
 		debug4
 		trace
+		benchmark
 	}.map { |s| s.to_sym }
 
 	EXPECTED_LEVELS = %w{
@@ -51,6 +52,7 @@ class Test_StockSeverityLevels < Test::Unit::TestCase
 		if defined? StockSeverityLevels
 
 			assert StockSeverityLevels.const_defined?(:STOCK_SEVERITY_LEVELS)
+			assert StockSeverityLevels.const_defined?(:STOCK_SEVERITY_LEVELS_PRIME)
 			assert StockSeverityLevels.const_defined?(:STOCK_SEVERITY_LEVEL_VALUES)
 			assert StockSeverityLevels.const_defined?(:STOCK_SEVERITY_LEVEL_STRINGS)
 		end
@@ -58,17 +60,35 @@ class Test_StockSeverityLevels < Test::Unit::TestCase
 
 	def test_StockSeverityLevels_expected_levels
 
+		# all the ones that we expect exist
+
 		EXPECTED_LEVELS.each do |sev|
 
 			assert(StockSeverityLevels::STOCK_SEVERITY_LEVELS.include?(sev), "did not find level #{::Symbol === sev ? ':' : ''}#{sev} in #{StockSeverityLevels}::STOCK_SEVERITY_LEVELS")
+		end
+
+		# we expect all the ones that exist
+
+		StockSeverityLevels::STOCK_SEVERITY_LEVELS.each do |sev|
+
+			assert(EXPECTED_LEVELS.include?(sev), "found unexpected level #{::Symbol === sev ? ':' : ''}#{sev} in #{StockSeverityLevels}::STOCK_SEVERITY_LEVELS")
 		end
 	end
 
 	def test_StockSeverityLevels_expected_prime_levels
 
+		# all the ones that we expect exist
+
 		EXPECTED_LEVELS_PRIME.each do |sev|
 
 			assert(StockSeverityLevels::STOCK_SEVERITY_LEVELS_PRIME.include?(sev), "did not find level #{::Symbol === sev ? ':' : ''}#{sev} in #{StockSeverityLevels}::STOCK_SEVERITY_LEVELS")
+		end
+
+		# we expect all the ones that exist
+
+		StockSeverityLevels::STOCK_SEVERITY_LEVELS_PRIME.each do |sev|
+
+			assert(EXPECTED_LEVELS_PRIME.include?(sev), "found unexpected level #{::Symbol === sev ? ':' : ''}#{sev} in #{StockSeverityLevels}::STOCK_SEVERITY_LEVELS")
 		end
 	end
 

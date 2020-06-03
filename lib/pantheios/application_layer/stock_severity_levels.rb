@@ -7,12 +7,13 @@
 #               namespace module
 #
 # Created:      2nd April 2011
-# Updated:      12th March 2018
+# Updated:      3rd June 2020
 #
 # Home:         http://github.com/synesissoftware/Pantheios-Ruby
 #
 # Author:       Matthew Wilson
 #
+# Copyright (c) 2019-2020, Matthew Wilson and Synesis Information Systems
 # Copyright (c) 2011-2018, Matthew Wilson and Synesis Software
 # All rights reserved.
 #
@@ -127,17 +128,17 @@ module StockSeverityLevels
 	end
 	public
 
-	# Ordered list of stock severity levels, without any aliases
+	# Ordered list of stock severity level symbols, without any aliases
 	STOCK_SEVERITY_LEVELS_PRIME = Internal_::STOCK_SEVERITY_LEVELS_.keys
 
-	# Ordered list of stock severity levels, some of which may be aliases
+	# Unordered list of stock severity levels, some of which may be aliases
 	STOCK_SEVERITY_LEVELS = Internal_.create_level_keys Internal_::STOCK_SEVERITY_LEVELS_
 
-	# Mapping of severity levels (and level aliases) to integral
+	# Mapping of severity level (and level alias) symbols to integral
 	# equivalent
 	STOCK_SEVERITY_LEVEL_VALUES = Internal_.create_level_value_map Internal_::STOCK_SEVERITY_LEVELS_
 
-	# Mapping of severity levels (and level aliases) to string
+	# Mapping of severity level (and level alias) symbols to string
 	STOCK_SEVERITY_LEVEL_STRINGS = Internal_.create_level_string_map Internal_::STOCK_SEVERITY_LEVELS_
 
 end # module StockSeverityLevels
