@@ -22,6 +22,7 @@ module ThreadUtil
 		t.thread_name = name
 	end
 
+	# Obtains the name of the calling thread
 	def self.get_thread_name t
 
 		t ||= Thread.current

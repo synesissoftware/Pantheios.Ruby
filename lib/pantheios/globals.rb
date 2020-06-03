@@ -5,12 +5,13 @@
 # Purpose:      The Pantheios.Ruby "globals" (::Pantheios::Globals)
 #
 # Created:      24th December 2017
-# Updated:      4th February 2018
+# Updated:      3rd June 2020
 #
 # Home:         http://github.com/synesissoftware/Pantheios-Ruby
 #
 # Author:       Matthew Wilson
 #
+# Copyright (c) 2019-2020, Matthew Wilson and Synesis Information Systems
 # Copyright (c) 2017-2018, Matthew Wilson and Synesis Software
 # All rights reserved.
 #
@@ -57,6 +58,18 @@ module Pantheios
 #
 # === Variables
 #
+# * *HAS_CASCADED_INCLUDES* [boolean] Determines whether including
+#   +::Pantheios+ also includes all relevant parts of subordinate
+#   namespaces. See the documentation for the +::Pantheios+ namespace for
+#   further details
+#
+# * *INITIAL_SERVICE_CLASSES* [ svc-class, [ svc-class ] ] Specifies
+#   the service class(es) that will be used to create the initial service
+#   instance. Ignored if INITIAL_SERVICE_INSTANCES specifies an instance
+#
+# * *INITIAL_SERVICE_INSTANCES* [ svc-instance, [ svc-instance ] ] Specifies
+#   the initial service instance
+#
 # * *MAIN_THREAD_NAME* A string specifying the main thread name, or an array
 #   containing a thread instance and a string specifying the thread and its
 #   name
@@ -64,11 +77,6 @@ module Pantheios
 #   NOTE: This feature is subject to the initialising threads: if the string
 #   form is used then the first initialising thread of Pantheios.Ruby will
 #   be the named thread
-#
-# * *HAS_CASCADED_INCLUDES* [boolean] Determines whether including
-#   +::Pantheios+ also includes all relevant parts of subordinate
-#   namespaces. See the documentation for the +::Pantheios+ namespace for
-#   further details
 #
 # * *PROCESS_NAME* A string specifying the process name, or one of the
 #   recognised symbols - :script, :script_basename, :script_dirname,

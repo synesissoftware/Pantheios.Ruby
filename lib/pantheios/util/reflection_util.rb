@@ -9,6 +9,8 @@ module ReflectionUtil
 		ROOT_CLASSES = [ ::Object, ::BasicObject ]
 	end
 
+	# Obtains a list of all classes pertaining to +o+, excepting root
+	# objects (+::Object+ and +::BaseObject+).
 	def self.non_root_classes o
 
 		return [] if o.nil?
