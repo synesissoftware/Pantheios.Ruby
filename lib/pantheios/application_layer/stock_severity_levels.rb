@@ -60,21 +60,21 @@ module StockSeverityLevels
 
 		STOCK_SEVERITY_LEVELS_ = {
 
-			:violation => [ 1, 'Violation', [ :emergency ] ],
-			:alert => [ 2, 'Alert' ],
-			:critical => [ 3, 'Critical' ],
-			:failure => [ 4, 'Failure', [ :fail ] ],
-			:warning => [ 5, 'Warning', [ :warn ] ],
-			:notice => [ 6, 'Notice' ],
-			:informational => [ 7, 'Informational', [ :info ] ],
-			:debug0 => [ 8, 'Debug-0' ],
-			:debug1 => [ 9, 'Debug-1' ],
-			:debug2 => [ 10, 'Debug-2' ],
-			:debug3 => [ 11, 'Debug-3' ],
-			:debug4 => [ 12, 'Debug-4' ],
-			:debug5 => [ 13, 'Debug-5' ],
-			:trace => [ 15, 'Trace' ],
-			:benchmark => [ 16, 'Benchmark' ],
+			:violation => [ 1, 'Violation', :relative, [ :emergency ] ],
+			:alert => [ 2, 'Alert', :relative ],
+			:critical => [ 3, 'Critical', :relative ],
+			:failure => [ 4, 'Failure', :relative, [ :fail ] ],
+			:warning => [ 5, 'Warning', :relative, [ :warn ] ],
+			:notice => [ 6, 'Notice', :relative ],
+			:informational => [ 7, 'Informational', :relative, [ :info ] ],
+			:debug0 => [ 8, 'Debug-0', :relative ],
+			:debug1 => [ 9, 'Debug-1', :relative ],
+			:debug2 => [ 10, 'Debug-2', :relative ],
+			:debug3 => [ 11, 'Debug-3', :relative ],
+			:debug4 => [ 12, 'Debug-4', :relative ],
+			:debug5 => [ 13, 'Debug-5', :relative ],
+			:trace => [ 15, 'Trace', :relative ],
+			:benchmark => [ 16, 'Benchmark', :separate ],
 		}
 
 		def self.create_level_keys m
@@ -83,7 +83,7 @@ module StockSeverityLevels
 
 			m.each do |k, ar|
 
-				(ar[2] || []).each do |al|
+				(ar[3] || []).each do |al|
 
 					r << al
 				end
@@ -101,7 +101,7 @@ module StockSeverityLevels
 				warn 'invalid start-up' unless ::Symbol === s
 				warn 'invalid start-up' unless ::Array === ar
 
-				([s] + (ar[2] || [])).each do |al|
+				([s] + (ar[3] || [])).each do |al|
 
 					r[al] = ar[0]
 				end
@@ -109,6 +109,7 @@ module StockSeverityLevels
 
 			r
 		end
+
 		def self.create_level_string_map m
 
 			r = {}
@@ -118,7 +119,7 @@ module StockSeverityLevels
 				warn 'invalid start-up' unless ::Symbol === s
 				warn 'invalid start-up' unless ::Array === ar
 
-				([s] + (ar[2] || [])).each do |al|
+				([s] + (ar[3] || [])).each do |al|
 
 					r[al] = ar[1]
 				end
@@ -136,9 +137,36 @@ module StockSeverityLevels
 				warn 'invalid start-up' unless ::Symbol === s
 				warn 'invalid start-up' unless ::Array === ar
 
-				([s] + (ar[2] || [])).each do |al|
+				([s] + (ar[3] || [])).each do |al|
 
 					r[al] = s
+				end
+			end
+
+			r
+		end
+
+		def self.create_level_relative_map m
+
+			r = {}
+
+			m.each do |s, ar|
+
+				warn 'invalid start-up' unless ::Symbol === s
+				warn 'invalid start-up' unless ::Array === ar
+
+				relativity = ar[2]
+
+				case relativity
+				when :relative
+
+					([s] + (ar[3] || [])).each do |al|
+
+						r[al] = relativity
+					end
+				else
+
+					;
 				end
 			end
 
@@ -156,6 +184,11 @@ module StockSeverityLevels
 	# Mapping of severity level aliases - with may be symbols and strings -
 	# to the prime stock severity level symbols
 	STOCK_SEVERITY_LEVEL_ALIASES = Internal_.create_level_aliases Internal_::STOCK_SEVERITY_LEVELS_
+
+	# Mapping of severity level aliases - with may be symbols and strings -
+	# containing only those levels that are relative, i.e. may participate
+	# meaningfully in a threshold-based filtering
+	STOCK_SEVERITY_LEVELS_RELATIVE = Internal_.create_level_relative_map Internal_::STOCK_SEVERITY_LEVELS_
 
 	# Mapping of severity level (and level alias) symbols to integral
 	# equivalent
