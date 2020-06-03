@@ -63,7 +63,7 @@ module StockSeverityLevels
 			:violation => [ 1, 'Violation', [ :emergency ] ],
 			:alert => [ 2, 'Alert' ],
 			:critical => [ 3, 'Critical' ],
-			:failure => [ 4, 'Failure' ],
+			:failure => [ 4, 'Failure', [ :fail ] ],
 			:warning => [ 5, 'Warning', [ :warn ] ],
 			:notice => [ 6, 'Notice' ],
 			:informational => [ 7, 'Informational', [ :info ] ],
@@ -72,6 +72,7 @@ module StockSeverityLevels
 			:debug2 => [ 10, 'Debug-2' ],
 			:debug3 => [ 11, 'Debug-3' ],
 			:debug4 => [ 12, 'Debug-4' ],
+			:debug5 => [ 13, 'Debug-5' ],
 			:trace => [ 15, 'Trace' ],
 			:benchmark => [ 16, 'Benchmark' ],
 		}
@@ -125,6 +126,24 @@ module StockSeverityLevels
 
 			r
 		end
+
+		def self.create_level_aliases m
+
+			r = {}
+
+			m.each do |s, ar|
+
+				warn 'invalid start-up' unless ::Symbol === s
+				warn 'invalid start-up' unless ::Array === ar
+
+				([s] + (ar[2] || [])).each do |al|
+
+					r[al] = s
+				end
+			end
+
+			r
+		end
 	end
 	public
 
@@ -133,6 +152,10 @@ module StockSeverityLevels
 
 	# Unordered list of stock severity levels, some of which may be aliases
 	STOCK_SEVERITY_LEVELS = Internal_.create_level_keys Internal_::STOCK_SEVERITY_LEVELS_
+
+	# Mapping of severity level aliases - with may be symbols and strings -
+	# to the prime stock severity level symbols
+	STOCK_SEVERITY_LEVEL_ALIASES = Internal_.create_level_aliases Internal_::STOCK_SEVERITY_LEVELS_
 
 	# Mapping of severity level (and level alias) symbols to integral
 	# equivalent

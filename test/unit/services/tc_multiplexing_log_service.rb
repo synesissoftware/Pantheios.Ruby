@@ -89,7 +89,7 @@ class Test_MultiplexingLogservice < Test::Unit::TestCase
 
 			log_multiple_statements svc
 
-			assert_equal 11, svc_0.items.size
+			assert_equal 12, svc_0.items.size
 			assert_equal  4, svc_1.items.size
 			assert_equal  6, svc_2.items.size
 		end
@@ -104,7 +104,7 @@ class Test_MultiplexingLogservice < Test::Unit::TestCase
 
 			log_multiple_statements svc
 
-			assert_equal 11, svc_0.items.size
+			assert_equal 12, svc_0.items.size
 			assert_equal  4, svc_1.items.size
 			assert_equal  6, svc_2.items.size
 		end
@@ -119,7 +119,7 @@ class Test_MultiplexingLogservice < Test::Unit::TestCase
 
 			log_multiple_statements svc
 
-			assert_equal 11, svc_0.items.size
+			assert_equal 12, svc_0.items.size
 			assert_equal  4, svc_1.items.size
 			assert_equal  6, svc_2.items.size
 		end
@@ -134,7 +134,7 @@ class Test_MultiplexingLogservice < Test::Unit::TestCase
 
 			log_multiple_statements svc
 
-			assert_equal 11, svc_0.items.size
+			assert_equal 12, svc_0.items.size
 			assert_equal  4, svc_1.items.size
 			assert_equal  6, svc_2.items.size
 		end

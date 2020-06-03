@@ -4,7 +4,7 @@
 # Purpose:      Gemspec for Pantheios.Ruby library
 #
 # Created:      15th December 2017
-# Updated:      5th June 2019
+# Updated:      3rd June 2020
 #
 # ######################################################################### #
 
@@ -33,6 +33,6 @@ END_DESC
 
 	spec.required_ruby_version = '>= 2'
 
-	spec.add_development_dependency 'xqsr3', [ '~> 0.31' ]
+	spec.add_development_dependency 'xqsr3', [ '~> 0.36' ]
 end
 

@@ -26,6 +26,7 @@ class Test_StockSeverityLevels < Test::Unit::TestCase
 		debug2
 		debug3
 		debug4
+		debug5
 		trace
 		benchmark
 	}.map { |s| s.to_sym }
@@ -33,6 +34,7 @@ class Test_StockSeverityLevels < Test::Unit::TestCase
 	EXPECTED_LEVELS = %w{
 
 		emergency
+		fail
 		info
 		warn
 	}.map { |s| s.to_sym } + EXPECTED_LEVELS_PRIME
@@ -118,6 +120,51 @@ class Test_StockSeverityLevels < Test::Unit::TestCase
 
 			strings[string] = string
 		end
+	end
+
+	def test_StockSeverityLevels_aliases
+
+		aliases = StockSeverityLevels::STOCK_SEVERITY_LEVEL_ALIASES
+
+		assert_equal :violation, aliases[:violation]
+		assert_equal :violation, aliases[:emergency]
+
+		assert_equal :alert, aliases[:alert]
+
+		assert_equal :critical, aliases[:critical]
+
+		assert_equal :failure, aliases[:failure]
+		assert_equal :failure, aliases[:fail]
+		#assert_equal :failure, aliases[:error]
+
+		assert_equal :warning, aliases[:warning]
+		assert_equal :warning, aliases[:warn]
+
+		assert_equal :notice, aliases[:notice]
+
+		assert_equal :informational, aliases[:informational]
+		assert_equal :informational, aliases[:info]
+
+		%i{ debug0 debug1 debug2 debug3 debug4 debug5 }.each do |sev|
+
+			assert_equal sev, aliases[sev]
+		end
+
+		assert_equal :trace, aliases[:trace]
+
+		assert_equal :benchmark, aliases[:benchmark]
+	end
+
+	def test_StockSeverityLevels_recognised_values_are_nil
+
+		EXPECTED_LEVELS.each do |sev|
+
+			assert_not_nil StockSeverityLevels::STOCK_SEVERITY_LEVEL_VALUES[sev]
+			assert_nil StockSeverityLevels::STOCK_SEVERITY_LEVEL_VALUES[sev.to_s]
+		end
+
+		assert_nil StockSeverityLevels::STOCK_SEVERITY_LEVEL_VALUES[nil]
+		assert_nil StockSeverityLevels::STOCK_SEVERITY_LEVEL_VALUES['failure']
 	end
 end
 
