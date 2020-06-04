@@ -7,7 +7,7 @@
 #               namespace module
 #
 # Created:      2nd April 2011
-# Updated:      3rd June 2020
+# Updated:      4th June 2020
 #
 # Home:         http://github.com/synesissoftware/Pantheios-Ruby
 #
@@ -96,12 +96,12 @@ module StockSeverityLevels
 
 			r = {}
 
-			m.each do |s, ar|
+			m.each do |sev, ar|
 
-				warn 'invalid start-up' unless ::Symbol === s
+				warn 'invalid start-up' unless ::Symbol === sev
 				warn 'invalid start-up' unless ::Array === ar
 
-				([s] + (ar[3] || [])).each do |al|
+				([sev] + (ar[3] || [])).each do |al|
 
 					r[al] = ar[0]
 				end
@@ -114,14 +114,16 @@ module StockSeverityLevels
 
 			r = {}
 
-			m.each do |s, ar|
+			m.each do |sev, ar|
 
-				warn 'invalid start-up' unless ::Symbol === s
+				warn 'invalid start-up' unless ::Symbol === sev
 				warn 'invalid start-up' unless ::Array === ar
 
-				([s] + (ar[3] || [])).each do |al|
+				([sev] + (ar[3] || [])).each do |al|
 
-					r[al] = ar[1]
+					s = ar[1]
+
+					r[al] = s
 				end
 			end
 
@@ -132,14 +134,14 @@ module StockSeverityLevels
 
 			r = {}
 
-			m.each do |s, ar|
+			m.each do |sev, ar|
 
-				warn 'invalid start-up' unless ::Symbol === s
+				warn 'invalid start-up' unless ::Symbol === sev
 				warn 'invalid start-up' unless ::Array === ar
 
-				([s] + (ar[3] || [])).each do |al|
+				([sev] + (ar[3] || [])).each do |al|
 
-					r[al] = s
+					r[al] = sev
 				end
 			end
 
@@ -150,9 +152,9 @@ module StockSeverityLevels
 
 			r = {}
 
-			m.each do |s, ar|
+			m.each do |sev, ar|
 
-				warn 'invalid start-up' unless ::Symbol === s
+				warn 'invalid start-up' unless ::Symbol === sev
 				warn 'invalid start-up' unless ::Array === ar
 
 				relativity = ar[2]
@@ -160,7 +162,7 @@ module StockSeverityLevels
 				case relativity
 				when :relative
 
-					([s] + (ar[3] || [])).each do |al|
+					([sev] + (ar[3] || [])).each do |al|
 
 						r[al] = relativity
 					end

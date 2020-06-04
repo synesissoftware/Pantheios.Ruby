@@ -5,12 +5,13 @@
 # Purpose:      The Pantheios.Ruby core (::Pantheios::Core)
 #
 # Created:      2nd April 2011
-# Updated:      5th September 2018
+# Updated:      4th June 2020
 #
 # Home:         http://github.com/synesissoftware/Pantheios-Ruby
 #
 # Author:       Matthew Wilson
 #
+# Copyright (c) 2019-2020, Matthew Wilson and Synesis Information Systems
 # Copyright (c) 2011-2018, Matthew Wilson and Synesis Software
 # All rights reserved.
 #
@@ -196,7 +197,7 @@ module Core
 			attr_reader	:front_end
 			attr_reader	:back_end
 			def requires_prefix?; @requires_prefix; end
-		end
+		end # class State
 	end # module Internals_
 
 	def self.included receiver
