@@ -1,15 +1,15 @@
 #!/usr/bin/env ruby
 
-$:.unshift File.join(File.dirname(__FILE__), *([ '..' ] * 1), 'lib')
+$:.unshift File.join(File.dirname(__FILE__), *(['..'] * 1), 'lib')
 
 # requires (0)
 
 require 'pantheios/globals'
-require 'pantheios/services/simple_console_log_service'
+require 'pantheios/services/coloured_console_log_service'
 
 # globals
 
-Pantheios::Globals.INITIAL_SERVICE_CLASSES = [ Pantheios::Services::SimpleConsoleLogService ]
+Pantheios::Globals.INITIAL_SERVICE_CLASSES = [ Pantheios::Services::ColouredConsoleLogService ]
 Pantheios::Globals.MAIN_THREAD_NAME = [ Thread.current, 'main' ]
 Pantheios::Globals.PROCESS_NAME = :script_stem
 

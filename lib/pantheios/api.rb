@@ -5,13 +5,13 @@
 # Purpose:      The Pantheios.Ruby API (::Pantheios::API)
 #
 # Created:      2nd April 2011
-# Updated:      22nd January 2018
+# Updated:      4th June 2020
 #
 # Home:         http://github.com/synesissoftware/Pantheios-Ruby
 #
 # Author:       Matthew Wilson
 #
-# Copyright (c) 2011-2018, Matthew Wilson and Synesis Software
+# Copyright (c) 2011-2019, Matthew Wilson and Synesis Software
 # All rights reserved.
 #
 # Redistribution and use in source and binary forms, with or without
@@ -47,7 +47,6 @@
 =begin
 =end
 
-
 require 'pantheios/application_layer/param_name_list'
 require 'pantheios/application_layer/stock_severity_levels'
 require 'pantheios/util/version_util'
@@ -74,6 +73,8 @@ module Pantheios
 # - severity_string severity
 # - thread_id
 # - timestamp t
+# - prefix_parts
+# - prefix
 module API
 
 	# Logs an arbitrary set of parameters at the given severity level
@@ -217,7 +218,13 @@ module API
 		::Pantheios::Core.timestamp t, nil
 	end
 
-	def prefix t, severity
+	# Assembles the prefix according to +prefix_elements+ into an array of
+	# parts
+	#
+	# * *Parameters:*
+	#   - +t+ [ Date, Time, DateTime ] The timestamp of the log entry
+	#   - +severity+ The severity
+	def prefix_parts t, severity
 
 		prefix_elements.map do |el|
 
@@ -245,9 +252,18 @@ module API
 
 				nil
 			end
-		end.join(', ') # TODO: need to do more intelligent joining
+		end
 	end
 
+	# Assembles the +prefix_parts+ into a string
+	#
+	# * *Parameters:*
+	#   - +t+ [ Date, Time, DateTime ] The timestamp of the log entry
+	#   - +severity+ The severity
+	def prefix t, severity
+
+		prefix_parts(t, severity).join(', ')
+	end
 
 	def self.included receiver
 

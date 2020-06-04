@@ -123,6 +123,8 @@ module StockSeverityLevels
 
 					s = ar[1]
 
+					s.define_singleton_method(:severity) { sev }
+
 					r[al] = s
 				end
 			end

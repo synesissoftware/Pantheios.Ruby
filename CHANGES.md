@@ -1,5 +1,14 @@
 # **Pantheios.Ruby** Changes
 
+## 0.22.0 - 4th June 2020
+
+* added `Pantheios::Services::ColouredConsoleLogService`, which does exactly what it says on the tin. Current version colours only on UNIX bash and choice of colours is fixed, but this will change in a future version
+* added `Pantheios::API#prefix_parts` method, which assembles the prefix parts into an array
+* changed core to work in terms of a back-end\'s `requires_prefix?` method, which may return `false` (no prefix), `true` (prefix-string), or `:parts` (prefix parts array)
+* adds the `severity` attribute to each string in the `Pantheios::ApplicationLayer::StockSeverityLevels::STOCK_SEVERITY_LEVEL_STRINGS` array
+* fixed defect in core's `set_back_end`
+* added **examples/coloured_console_log_service.rb**
+
 ## 0.21.0 - 3rd June 2020
 
 * added `Pantheios::FrontEnds::ThresholdFrontEnd`, which provides severity filtering based on a threshold

@@ -123,7 +123,7 @@ module Core
 				raise ::TypeError, "back-end instance (#{fe.class}) does not respond to all the required messages ([ #{Constants_::REQUIRED_BACKEND_METHODS.join(', ')} ])" unless be && Constants_::REQUIRED_BACKEND_METHODS.all? { |m| be.respond_to? m }
 
 				r	=	nil
-				srp	=	svc.respond_to?(:requires_prefix?) ? svc.requires_prefix? : true
+				srp	=	be.respond_to?(:requires_prefix?) ? be.requires_prefix? : true
 
 				@mx_service.synchronize do
 
@@ -596,7 +596,24 @@ module Core
 
 		now	=	Time.now
 
-		prf	=	@@state.requires_prefix? ? '[' + prefix_provider.prefix(now, severity) + ']: ' : nil
+		srp	=	@@state.requires_prefix?
+
+		case srp
+		when false
+
+			prf = nil
+		when true
+
+			prf = '[' + prefix_provider.prefix(now, severity) + ']: '
+		when :parts
+
+			prf = prefix_provider.prefix_parts(now, severity)
+		else
+
+			warn "invalid value '#{srp}' returned by #requires_prefix? of the Pantheios Core's state's service (which is of type #{@@state.service.class}"
+
+			prf = nil
+		end
 
 		@@state.back_end.log severity, now, prf, message
 	end

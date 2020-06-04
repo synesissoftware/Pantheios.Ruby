@@ -6,12 +6,13 @@
 #               ::Pantheios::Services::MultiplexingLogService class
 #
 # Created:      14th June 2015
-# Updated:      8th February 2018
+# Updated:      4th June 2020
 #
 # Home:         http://github.com/synesissoftware/Pantheios-Ruby
 #
 # Author:       Matthew Wilson
 #
+# Copyright (c) 2019-2020, Matthew Wilson and Synesis Information Systems
 # Copyright (c) 2015-2018, Matthew Wilson and Synesis Software
 # All rights reserved.
 #
@@ -56,7 +57,7 @@ module Services
 #
 # NOTE: The *LogService* protocol is implemented by a class that provides
 # the instance methods +severity_logged?(severity : Object) : boolean+ and
-# +log(severity : Object, t : Time, prefix : String, msg : String)+
+# +log(severity : Object, t : Time, prefix : String|Array, msg : String)+
 class MultiplexingLogService
 
 	module MultiplexingLogService_Internals_
@@ -166,6 +167,43 @@ class MultiplexingLogService
 		@services.any? { |smi| svc_sev_logged_pf_ m, smi.service, severity }
 	end
 	public
+
+	# Indicates whether any of the services require a prefix and, if so,
+	# what it may require
+	#
+	# === Return
+	# (+false+, +true+, +:parts+) An indicator what the most needy of the
+	# multiplexed services requires
+	def requires_prefix?
+
+		return @requires_prefix unless @requires_prefix.nil?
+
+		requires_prefix = false
+
+		@services.each do |svc|
+
+			if svc.respond_to? :requires_prefix?
+
+				case rp = svc.requires_prefix?
+				when nil, false
+
+					;
+				when true
+
+					requires_prefix ||= true
+				when :parts
+
+					requires_prefix = rp
+					break
+				else
+
+					warn "unrecognised return from requires_prefix? for service #{svc}: #{rp} (#{rp.class})"
+				end
+			end
+		end
+
+		@requires_prefix = requires_prefix
+	end
 
 	# Indicates whether the given severity is to be logged by any of the
 	# multiplexed log services
