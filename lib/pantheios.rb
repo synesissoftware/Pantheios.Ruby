@@ -6,7 +6,7 @@
 # +Pantheios::API+, +Pantheios::ApplicationLayer+, and +Pantheios::Util+ (as
 # well as certain sub modules of +Pantheios::Util+; see +Pantheios::Util+
 # for details), unless the global symbol
-# +::Pantheios::Globals.HAS_CASCADED_INCLUDES+ is truey
+# +::Pantheios::Globals.HAS_CASCADED_INCLUDES+ is falsey
 module Pantheios
 end # module Pantheios
 
@@ -19,7 +19,8 @@ require 'pantheios/version'
 
 module Pantheios
 
-	def self.included receiver
+	# @!visibility private
+	def self.included receiver # :nodoc:
 
 		if ::Pantheios::Globals.HAS_CASCADED_INCLUDES
 

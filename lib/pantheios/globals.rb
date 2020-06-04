@@ -89,7 +89,8 @@ module Pantheios
 #
 module Globals
 
-	module Internals_
+	# @!visibility private
+	module Internals_ # :nodoc: all
 
 		BOOLEAN_CLASSES			=	[ ::FalseClass, ::TrueClass ]
 		TRUTHY_CLASSES			=	BOOLEAN_CLASSES + [ ::NilClass ]
@@ -97,7 +98,8 @@ module Globals
 		PROCESS_NAME_CLASSES	=	[ ::Symbol, ::String ]
 	end
 
-	module Helpers_
+	# @!visibility private
+	module Helpers_ # :nodoc: all
 
 		def self.cattr receiver, name, types, initial_value, **options
 
@@ -146,7 +148,8 @@ module Globals
 
 	Helpers_.cattr self, 'SYNCHRONISED_SEVERITY_LOGGED', nil, true, boolean: true
 
-	def self.included receiver
+	# @!visibility private
+	def self.included receiver # :nodoc:
 
 		abort "Attempt to include #{self} into #{receiver}. This is not allowed"
 	end

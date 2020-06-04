@@ -61,7 +61,8 @@ require 'pantheios/util/thread_util'
 module Pantheios
 module Core
 
-	module Constants_
+	# @!visibility private
+	module Constants_ # :nodoc: all
 
 		REQUIRED_SERVICE_METHODS	=	%w{ severity_logged? log }.map { |name| name.to_sym }
 		REQUIRED_FRONTEND_METHODS	=	%w{ severity_logged?     }.map { |name| name.to_sym }
@@ -69,9 +70,11 @@ module Core
 
 	end # module Constants_
 
-	module Internals_
+	# @!visibility private
+	module Internals_ # :nodoc: all
 
-		class DefaultDiscriminator
+		# @!visibility private
+		class DefaultDiscriminator # :nodoc:
 
 			def severity_logged? severity
 
@@ -88,8 +91,8 @@ module Core
 			end
 		end
 
-		# :nodoc:
-		class State
+		# @!visibility private
+		class State # :nodoc:
 
 			def initialize default_fe, **options
 
@@ -200,13 +203,14 @@ module Core
 		end # class State
 	end # module Internals_
 
-	def self.included receiver
+	# @!visibility private
+	def self.included receiver # :nodoc:
 
 		abort "Attempt to include #{self} into #{receiver}. This is not allowed"
 	end
 
-	# :nodoc:
-	def self.core_init
+	# @!visibility private
+	def self.core_init # :nodoc:
 
 		# process-name
 
@@ -277,8 +281,8 @@ module Core
 		self.set_default_service
 	end
 
-	# :nodoc:
-	def self.set_default_service **options
+	# @!visibility private
+	def self.set_default_service **options # :nodoc:
 
 		# determine which log service to initialise as the default
 
@@ -463,7 +467,9 @@ module Core
 
 
 	# Internal implementation method, not to be called by application code
-	def self.get_block_value_ &block
+	#
+	# @!visibility private
+	def self.get_block_value_ &block # :nodoc:
 
 		case block.arity
 		when 0
@@ -487,7 +493,9 @@ module Core
 	end
 
 	# Internal implementation method, not to be called by application code
-	def self.log_v_impl prefix_provider, severity, argv, &block
+	#
+	# @!visibility private
+	def self.log_v_impl prefix_provider, severity, argv, &block # :nodoc:
 
 		argv << get_block_value_(&block) if block_given?
 
@@ -495,7 +503,9 @@ module Core
 	end
 
 	# Internal implementation method, not to be called by application code
-	def self.trace_v_impl prefix_provider, call_depth, param_list, severity, argv, &block
+	#
+	# @!visibility private
+	def self.trace_v_impl prefix_provider, call_depth, param_list, severity, argv, &block # :nodoc:
 
 		unless param_list
 
@@ -592,7 +602,9 @@ module Core
 	end
 
 	# Internal implementation method, not to be called by application code
-	def self.log_raw prefix_provider, severity, message
+	#
+	# @!visibility private
+	def self.log_raw prefix_provider, severity, message # :nodoc:
 
 		now	=	Time.now
 

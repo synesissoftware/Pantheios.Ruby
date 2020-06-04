@@ -60,7 +60,8 @@ module Services
 # +log(severity : Object, t : Time, prefix : String|Array, msg : String)+
 class MultiplexingLogService
 
-	module MultiplexingLogService_Internals_
+	# @!visibility private
+	module MultiplexingLogService_Internals_ # :nodoc: all
 
 		class ServiceManagementInfo
 

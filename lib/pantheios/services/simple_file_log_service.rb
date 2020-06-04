@@ -95,8 +95,6 @@ class SimpleFileLogService
 	#   - +:roll_depth+:: [ ::Integer ] The depth of the size-based log
 	#     rolling. Overrides the second element in an array specified for
 	#     +:roll_size+ 
-
-
 	def initialize log_file_or_path, **options
 
 		roll_period	=	options[:roll_period]

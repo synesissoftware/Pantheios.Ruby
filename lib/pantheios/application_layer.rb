@@ -7,7 +7,8 @@ require 'pantheios/core'
 module Pantheios
 module ApplicationLayer
 
-	def self.included receiver
+	# @!visibility private
+	def self.included receiver # :nodoc:
 
 		receiver.extend self
 

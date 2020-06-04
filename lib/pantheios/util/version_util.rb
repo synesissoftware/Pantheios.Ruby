@@ -2,6 +2,7 @@
 module Pantheios
 module Util
 
+# version utilities
 module VersionUtil
 
 	# Compares two version designators and returns a spaceship comparison

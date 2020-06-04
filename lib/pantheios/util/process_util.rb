@@ -2,13 +2,13 @@
 module Pantheios
 module Util
 
+# process utilities
 module ProcessUtil
 
 	#
 	# * *Options:*
-	#   - +:style+:: (:script, :script_basename, :script_dirname,
-	#   :script_realpath, :script_stem) directs the inference of the process
-	#   name. If none specified, :script_stem is assumed
+	#   - +:style+:: (:script, :script_basename, :script_dirname, :script_realpath, :script_stem) directs
+	#   the inference of the process name. If none specified, :script_stem is assumed
 	def self.derive_process_name dollar0 = nil, **options
 
 		dollar0	||=	$0

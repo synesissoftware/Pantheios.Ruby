@@ -265,7 +265,8 @@ module API
 		prefix_parts(t, severity).join(', ')
 	end
 
-	def self.included receiver
+	# @!visibility private
+	def self.included receiver # :nodoc:
 
 		receiver.extend self
 

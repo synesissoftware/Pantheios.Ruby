@@ -2,6 +2,7 @@
 module Pantheios
 module Util
 
+# reflection utilities
 module ReflectionUtil
 
 	module ReflectionUtil_Constants

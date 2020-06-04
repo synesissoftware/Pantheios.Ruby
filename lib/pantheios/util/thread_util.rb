@@ -2,6 +2,7 @@
 module Pantheios
 module Util
 
+# threading utilities
 module ThreadUtil
 
 	# Creates (if necessary) and sets the given thread's +thread_name+

@@ -1,5 +1,9 @@
 # **Pantheios.Ruby** Changes
 
+## 0.22.0.1 - 4th June 2020
+
+* tidied up the documentation markup
+
 ## 0.22.0 - 4th June 2020
 
 * added `Pantheios::Services::ColouredConsoleLogService`, which does exactly what it says on the tin. Current version colours only on UNIX bash and choice of colours is fixed, but this will change in a future version

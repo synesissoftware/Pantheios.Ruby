@@ -6,7 +6,7 @@
 #               class
 #
 # Created:      3rd June 2020
-# Updated:      3rd June 2020
+# Updated:      4th June 2020
 #
 # Home:         http://github.com/synesissoftware/Pantheios-Ruby
 #
@@ -60,8 +60,6 @@ module FrontEnds
 # the instance method +severity_logged?(severity : Object)+
 class ThresholdFrontEnd
 
-	include ::Pantheios::ApplicationLayer
-
 	# Initialises the instance
 	#
 	# === Signature
@@ -75,6 +73,10 @@ class ThresholdFrontEnd
 	#     +severity_logged?+. May be +nil+, in which case
 	#     +::Pantheios::ApplicationLayer::StockSeverityLevels::STOCK_SEVERITY_LEVEL_VALUES+
 	#     is used
+	#
+	# * *Exceptions:*
+	#   - +::TypeError+ raised if a value given for +:value_lookup_map+ is
+	#     not a ::hash
 	def initialize(threshold_severity, **options)
 
 		m = options[:value_lookup_map]
@@ -87,13 +89,24 @@ class ThresholdFrontEnd
 			@relativity_lookup_map = ::Hash.new(:relative)
 		else
 
-			@value_lookup_map = StockSeverityLevels::STOCK_SEVERITY_LEVEL_VALUES
-			@relativity_lookup_map = StockSeverityLevels::STOCK_SEVERITY_LEVELS_RELATIVE
+			@value_lookup_map = ::Pantheios::ApplicationLayer::StockSeverityLevels::STOCK_SEVERITY_LEVEL_VALUES
+			@relativity_lookup_map = ::Pantheios::ApplicationLayer::StockSeverityLevels::STOCK_SEVERITY_LEVELS_RELATIVE
 		end
 
 		self.threshold = threshold_severity
 	end
 
+	# Determines whether a given severity is logged
+	#
+	# === Signature
+	#
+	# * *Parameters:*
+	#   - +severity+:: The severity level, which should be a known log
+	#   severity symbol or an integral equivalent
+	#
+	# * *Returns:*
+	#   a +truey+ value if the severity should be logged; a +falsey+ value
+	#   otherwise
 	def severity_logged? severity
 
 		case severity

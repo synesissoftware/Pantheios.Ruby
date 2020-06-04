@@ -56,8 +56,10 @@ module ApplicationLayer
 module StockSeverityLevels
 
 	private
-	module Internal_
+	# @!visibility private
+	module Internal_ # :nodoc: all
 
+		# @!visibility private
 		STOCK_SEVERITY_LEVELS_ = {
 
 			:violation => [ 1, 'Violation', :relative, [ :emergency ] ],
@@ -77,7 +79,8 @@ module StockSeverityLevels
 			:benchmark => [ 16, 'Benchmark', :separate ],
 		}
 
-		def self.create_level_keys m
+		# @!visibility private
+		def self.create_level_keys m # :nodoc:
 
 			r = m.keys
 
@@ -92,7 +95,8 @@ module StockSeverityLevels
 			r.uniq
 		end
 
-		def self.create_level_value_map m
+		# @!visibility private
+		def self.create_level_value_map m # :nodoc:
 
 			r = {}
 
@@ -110,7 +114,8 @@ module StockSeverityLevels
 			r
 		end
 
-		def self.create_level_string_map m
+		# @!visibility private
+		def self.create_level_string_map m # :nodoc:
 
 			r = {}
 
@@ -132,7 +137,8 @@ module StockSeverityLevels
 			r
 		end
 
-		def self.create_level_aliases m
+		# @!visibility private
+		def self.create_level_aliases m # :nodoc:
 
 			r = {}
 
@@ -150,7 +156,8 @@ module StockSeverityLevels
 			r
 		end
 
-		def self.create_level_relative_map m
+		# @!visibility private
+		def self.create_level_relative_map m # :nodoc:
 
 			r = {}
 
