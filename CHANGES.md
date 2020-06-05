@@ -1,5 +1,9 @@
 # **Pantheios.Ruby** Changes
 
+## 0.22.0.2 - 5th June 2020
+
+* added **examples/threshold_front_end.rb**
+
 ## 0.22.0.1 - 4th June 2020
 
 * tidied up the documentation markup
