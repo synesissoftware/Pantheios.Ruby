@@ -44,4 +44,254 @@
 * minor documentation improvements;
 
 
+## 0.20.3.1 - 5th June 2019
+
+* added example/simple_logging(.rb);
+
+
+## 0.20.3 - 5th June 2019
+
+* fix to trace() implementation;
+
+
+## 0.20.2.1 - 19th October 2018
+
+* dependencies;
+
+
+## 0.20.2 - 11th April 2019
+
+* merge (=> 0.18.2);
+
+
+## 0.20.1 - 13th July 2018
+
+* run_all_unit_tests(.sh) : ~ improving variable names (to avoid clashes);
+
+
+## 0.19.2 - 8th February 2018
+
+* Pantheios::Services::MultiplexingLogService : ~ fixed multiplexing output defect;
+
+
+## 0.19.1 - 8th February 2018
+
+* added Pantheios::Services::MultiplexingLogService class;
+
+
+## 0.18.1 - 5th February 2018
+
+* added Pantheios::Globals::MAIN_THREAD_NAME;
+
+
+## 0.17.1 - 5th February 2018
+
+* added Pantheios::Globals.PROCESS_NAME;
+
+
+## 0.16.1 - 4th February 2018
+
+* fix;
+
+
+## 0.15.1 - 4th February 2018
+
+* added more tests of postfix severity_logged? performance;
+
+
+## 0.14.1 - 27th January 2018
+
+* added ReflectionUtil and improved policing of specific service instance;
+
+
+## 0.13.4 - 27th January 2018
+
+* fixed defect;
+
+
+## 0.13.2 - 27th January 2018
+
+* tidying;
+
+
+## 0.13.1 - 23rd January 2018
+
+* added StandardLogServiceAdapter class, which provides instance adaptation of Ruby's ::Logger;
+
+
+## 0.12.2 - 23rd January 2018
+
+* documentation;
+
+
+## 0.12.1 - 22nd January 2018
+
+* added block support; + added SYNCHRONISED_SEVERITY_LOGGED global; ~ refactoring for improved performance;
+
+
+## 0.11.2 - 8th January 2018
+
+* SimpleConsoleLogService : ~ corrected handling of symbol as severity;
+
+
+## 0.11.1 - 6th January 2018
+
+* renamed SimpleConsoleService => SimpleConsoleLogService; + added NullLogService class; + added log service class tests;
+
+
+## 0.10.1 - 6th January 2018
+
+* added :benchmark severity level;
+
+
+## 0.9.4 - 6th January 2018
+
+* added unit-tests for stock severity levels;
+
+
+## 0.9.3 - 6th January 2018
+
+* tagged release;
+
+
+## 0.9.2 - 2nd January 2018
+
+* prefix now in [ ];
+
+
+## 0.9.1 - 24th December 2017
+
+* fixing;
+
+
+## 0.8.2 - 24th December 2017
+
+* tag;
+
+
+## 0.8.1 - 24th December 2017
+
+* tag;
+
+
+## 0.8.0 - 23rd December 2017
+
+* starting to break out impl. into Pantheios::Core;
+
+
+## 0.7.4 - 1st March 2018
+
+* updated dependencies;
+
+
+## 0.7.3 - 5th February 2018
+
+* LibCLImate::Climate::set_program_name(), which uses Colcon if available;
+
+
+## 0.7.2 - 3rd January 2018
+
+* merge version update;
+
+
+## 0.7.1 - 22nd December 2017
+
+* Api into Pantheios::Api; nested inclusion when 'include ::Pantheios'; Core.register_include();
+
+
+## 0.6.5 - 1st January 2018
+
+* preparatory mods;
+
+
+## 0.6.4 - 1st January 2018
+
+* fixed the version inference;
+
+
+## 0.6.3 - 22nd June 2017
+
+* tagged release;
+
+
+## 0.6.2 - 15th December 2017
+
+* tagged release;
+
+
+## 0.6.1 - 16th March 2017
+
+* added inference of version;
+
+
+## 0.5.8 - 17th October 2016
+
+* tidying up contract enforcements;
+
+
+## 0.5.7 - 17th October 2016
+
+* simplified unit test;
+
+
+## 0.5.6 - 17th October 2016
+
+* updated documentation;
+
+
+## 0.5.5 - 26th June 2016
+
+* changed hash-bangs;
+
+
+## 0.5.4 - 18th June 2016
+
+* fixed lacking blocks in new add_*() methods;
+
+
+## 0.5.3 - 17th June 2016
+
+* fix;
+
+
+## 0.4.1 - 14th June 2016
+
+* tidying;
+
+
+## 0.3.1 - 13th June 2016
+
+* merge;
+
+
+## 0.2.4 - 13th June 2016
+
+* 0.2.4 changes;
+
+
+## 0.2.3 - 12th June 2016
+
+* fixed extras handling for flags;
+
+
+## 0.2.2 - 11th June 2016
+
+* merge;
+
+
+## 0.2.1 - 6th June 2016
+
+* specified ranges for dependent libraries;
+
+
+## 0.1.2 - 14th May 2016
+
+* added Climate class, and basics of API;
+
+
+## 0.1.1 - 14th July 2015
+
+* added basic skeleton (0.1.1);
+
+
 <!-- ########################### end of file ########################### -->
