@@ -1,4 +1,4 @@
-# **Pantheios.Ruby** Examples
+# Pantheios.Ruby - Examples <!-- omit in toc -->
 
 |Name|Source & Description|Summary|
 |---|---|---|

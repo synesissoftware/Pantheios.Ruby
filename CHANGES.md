@@ -1,4 +1,4 @@
-# **Pantheios.Ruby** Changes
+# Pantheios.Ruby - Changes <!-- omit in toc -->
 
 ## 0.22.0.2 - 5th June 2020
 

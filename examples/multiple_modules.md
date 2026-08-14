@@ -1,4 +1,4 @@
-# Pantheios.Ruby Example - **multiple_modules**
+# Pantheios.Ruby - Example - **multiple_modules**
 
 ## Summary
 
