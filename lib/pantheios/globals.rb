@@ -1,11 +1,11 @@
-
+# frozen_string_literal: true
 # ######################################################################## #
 # File:         lib/pantheios/globals.rb
 #
 # Purpose:      The Pantheios.Ruby "globals" (::Pantheios::Globals)
 #
 # Created:      24th December 2017
-# Updated:      3rd June 2020
+# Updated:      15th August 2026
 #
 # Home:         http://github.com/synesissoftware/Pantheios-Ruby
 #

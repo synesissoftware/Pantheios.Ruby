@@ -1,4 +1,4 @@
-
+# frozen_string_literal: true
 # ######################################################################## #
 # File:         lib/pantheios/services/simple_file_log_service.rb
 #
@@ -6,7 +6,7 @@
 #               ::Pantheios::Services::SimpleFileLogService class
 #
 # Created:      17th June 2015
-# Updated:      4th June 2020
+# Updated:      15th August 2026
 #
 # Home:         http://github.com/synesissoftware/Pantheios-Ruby
 #

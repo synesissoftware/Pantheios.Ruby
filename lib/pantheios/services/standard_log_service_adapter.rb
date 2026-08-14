@@ -1,4 +1,4 @@
-
+# frozen_string_literal: true
 # ######################################################################## #
 # File:         lib/pantheios/services/standard_log_service_adapter.rb
 #
@@ -6,7 +6,7 @@
 #               ::Pantheios::Services::StandardLogServiceAdapter class
 #
 # Created:      18th June 2015
-# Updated:      4th June 2020
+# Updated:      15th August 2026
 #
 # Home:         http://github.com/synesissoftware/Pantheios-Ruby
 #

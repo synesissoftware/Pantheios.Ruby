@@ -1,4 +1,4 @@
-
+# frozen_string_literal: true
 # ######################################################################## #
 # File:         lib/pantheios/services/coloured_console_log_service.rb
 #
@@ -6,7 +6,7 @@
 #               ::Pantheios::Services::ColouredConsoleLogService class
 #
 # Created:      19th June 2019
-# Updated:      4th June 2020
+# Updated:      15th August 2026
 #
 # Home:         http://github.com/synesissoftware/Pantheios-Ruby
 #

@@ -1,11 +1,11 @@
-
+# frozen_string_literal: true
 # ######################################################################## #
 # File:         lib/pantheios/core.rb
 #
 # Purpose:      The Pantheios.Ruby core (::Pantheios::Core)
 #
 # Created:      2nd April 2011
-# Updated:      4th June 2020
+# Updated:      15th August 2026
 #
 # Home:         http://github.com/synesissoftware/Pantheios-Ruby
 #

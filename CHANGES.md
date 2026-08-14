@@ -3,6 +3,7 @@
 
 ## 0.22.1 - 15th August 2026
 
+* added `# frozen_string_literal: true` to all **lib/** sources;
 * modernised gemspec (**metadata** URIs, HTTPS homepage);
 * added Synesis documentation scaffolding (**AUTHORS.md**, **CHANGES.md**, **EXAMPLES.md**, **FAQ.md**, **NEWS.md**, **README.md**, **TODO.md**);
 * added **Rakefile**;
