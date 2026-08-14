@@ -29,8 +29,6 @@
 # files (by name)
 
 .DS_Store
-
-.ruby-version
 .repl_history
 .ruby-version
 .rvmrc
