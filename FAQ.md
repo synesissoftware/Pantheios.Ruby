@@ -1,7 +1,7 @@
 # Pantheios.Ruby - FAQ <!-- omit in toc -->
 
 The FAQ list is under (constant) development. If you post a question on the
-[Issues](https://github.com/synesissoftware/libpath.Ruby/issues) forum
+[Issues](https://github.com/synesissoftware/Pantheios.Ruby/issues) forum
 it will be used to create one.
 
 
