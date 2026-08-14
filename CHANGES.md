@@ -1,5 +1,11 @@
 # Pantheios.Ruby - Changes <!-- omit in toc -->
 
+
+## 0.22.1 - 15th August 2026
+
+T.B.C.
+
+
 ## 0.22.0.2 - 5th June 2020
 
 * added **examples/threshold_front_end.rb**
