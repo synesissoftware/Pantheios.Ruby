@@ -1,12 +1,13 @@
-
 # directories (by name)
 
-/.bzr/
 /.bundle/
+/.bzr/
 /.config/
 /.svn/
+/.vscode/
 /.yardoc/
 
+/_build/
 /_yardoc/
 
 /InstalledFiles/
@@ -24,7 +25,9 @@
 /tmp/
 /vendor/bundle/
 
+
 # directories (by pattern)
+
 
 # files (by name)
 
@@ -32,6 +35,11 @@
 .repl_history
 .ruby-version
 .rvmrc
+
+Gemfile.lock
+
+/spec/examples.txt
+
 
 # files (by pattern)
 
@@ -50,4 +58,3 @@
 
 test/scratch/log_files/log_rolling_by_period_daily*
 test/scratch/log_files/log_rolling_by_size_and_depth*
-
