@@ -46,6 +46,10 @@ gem install pantheios-ruby
 
 or add it to your `Gemfile`.
 
+**Pantheios.Ruby** requires Ruby **2.0+**.
+
+> **NOTE**: On **Ruby 4+**, also install [**logger**](https://rubygems.org/gems/logger) (`gem install logger`, or `gem 'logger'` in your Gemfile). See [Runtime Dependencies](#runtime-dependencies-aka-normal-dependencies).
+
 Use via **require**, as in:
 
 ```Ruby
@@ -91,7 +95,9 @@ Libraries upon which **Pantheios.Ruby** depends:
 
 ##### Runtime Dependencies (aka "Normal Dependencies")
 
-* \<none>;
+* \<none> declared in **pantheios-ruby.gemspec**;
+
+> **NOTE**: On **Ruby 4+**, **logger** is required at runtime (`lib/pantheios/services/simple_file_log_service.rb`, `lib/pantheios/services/standard_log_service_adapter.rb`) but is no longer a default gem and is not listed in **pantheios-ruby.gemspec** (so older Rubies in the `[2.0, 4)` range still resolve). Install it explicitly, e.g. `gem install logger`, or add `gem 'logger'` to your Gemfile. This repository’s **Gemfile** pulls it in when `RUBY_VERSION >= '4'`.
 
 
 ##### Development Dependencies

@@ -22,6 +22,8 @@ gem 'pantheios-ruby'
 
 then `bundle install`.
 
+On **Ruby 4+**, also add `gem 'logger'` (or `gem install logger`): **logger** left the default-gem set and is required by the file and standard-adapter log services.
+
 
 ## From a source checkout
 

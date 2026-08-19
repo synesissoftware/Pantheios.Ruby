@@ -11,6 +11,14 @@ lockfile false if respond_to?(:lockfile)
 
 gemspec
 
+# logger left the default-gem set in Ruby 4; file/log-adapter services
+# require it. Not declared in the gemspec: the logger gem itself requires
+# Ruby >= 2.5 and would break resolution on 2.0–2.4.
+if Gem::Version.new(RUBY_VERSION) >= Gem::Version.new('4')
+
+  gem "logger", '~> 1.0'
+end
+
 # rake 13 requires Ruby >= 2.3
 if Gem::Version.new(RUBY_VERSION) >= Gem::Version.new("2.3")
 

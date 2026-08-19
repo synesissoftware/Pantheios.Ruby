@@ -12,6 +12,7 @@
 * **EXAMPLES.md** example links are repo-relative (`./examples/…`);
 * library source **Home:** URLs now use `https`;
 * **StockSeverityLevels** attaches `:severity` to a `dup` of each stock level string so frozen string literals still work on Ruby **3.4**;
+* **Gemfile** pulls in **logger** when `RUBY_VERSION >= '4'` (no longer a default gem; the **logger** gem requires Ruby **>= 2.5**, so it is not declared in **pantheios-ruby.gemspec**);
 
 
 ## 0.22.1 - 15th August 2026
