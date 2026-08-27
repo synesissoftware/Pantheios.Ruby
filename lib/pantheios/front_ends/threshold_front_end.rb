@@ -1,4 +1,4 @@
-
+# frozen_string_literal: true
 # ######################################################################## #
 # File:         lib/pantheios/front_ends/threshold_front_end.rb
 #
@@ -6,7 +6,7 @@
 #               class
 #
 # Created:      3rd June 2020
-# Updated:      4th June 2020
+# Updated:      15th August 2026
 #
 # Home:         http://github.com/synesissoftware/Pantheios-Ruby
 #

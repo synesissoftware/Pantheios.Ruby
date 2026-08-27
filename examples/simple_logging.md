@@ -1,4 +1,4 @@
-# Pantheios.Ruby Example - **simple_logging**
+# Pantheios.Ruby - Example - **simple_logging**
 
 ## Summary
 
