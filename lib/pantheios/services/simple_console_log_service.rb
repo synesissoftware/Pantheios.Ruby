@@ -1,4 +1,4 @@
-
+# frozen_string_literal: true
 # ######################################################################## #
 # File:         lib/pantheios/services/simple_console_log_service.rb
 #
@@ -6,9 +6,9 @@
 #               ::Pantheios::Services::SimpleConsoleLogService class
 #
 # Created:      14th June 2015
-# Updated:      4th June 2020
+# Updated:      15th August 2026
 #
-# Home:         http://github.com/synesissoftware/Pantheios-Ruby
+# Home:         https://github.com/synesissoftware/Pantheios.Ruby
 #
 # Author:       Matthew Wilson
 #

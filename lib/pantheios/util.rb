@@ -1,3 +1,4 @@
+# frozen_string_literal: true
 
 require 'pantheios/util/process_util'
 require 'pantheios/util/thread_util'

@@ -1,4 +1,4 @@
-
+# frozen_string_literal: true
 # The main module for Pantheios
 #
 # Pantheios is both a namespace module and an inclusion module. When

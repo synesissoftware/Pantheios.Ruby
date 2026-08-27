@@ -1,13 +1,13 @@
-
+# frozen_string_literal: true
 # ######################################################################## #
 # File:         lib/pantheios/api.rb
 #
 # Purpose:      The Pantheios.Ruby API (::Pantheios::API)
 #
 # Created:      2nd April 2011
-# Updated:      4th June 2020
+# Updated:      15th August 2026
 #
-# Home:         http://github.com/synesissoftware/Pantheios-Ruby
+# Home:         https://github.com/synesissoftware/Pantheios.Ruby
 #
 # Author:       Matthew Wilson
 #

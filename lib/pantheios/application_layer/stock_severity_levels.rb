@@ -1,4 +1,4 @@
-
+# frozen_string_literal: true
 # ######################################################################## #
 # File:         lib/pantheios/application_layer/stock_severity_levels.rb
 #
@@ -7,9 +7,9 @@
 #               namespace module
 #
 # Created:      2nd April 2011
-# Updated:      4th June 2020
+# Updated:      15th August 2026
 #
-# Home:         http://github.com/synesissoftware/Pantheios-Ruby
+# Home:         https://github.com/synesissoftware/Pantheios.Ruby
 #
 # Author:       Matthew Wilson
 #
@@ -124,11 +124,10 @@ module StockSeverityLevels
 				warn 'invalid start-up' unless ::Symbol === sev
 				warn 'invalid start-up' unless ::Array === ar
 
+				s = ar[1].dup
+				s.define_singleton_method(:severity) { sev }
+
 				([sev] + (ar[3] || [])).each do |al|
-
-					s = ar[1]
-
-					s.define_singleton_method(:severity) { sev }
 
 					r[al] = s
 				end

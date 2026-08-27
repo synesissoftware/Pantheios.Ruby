@@ -1,17 +1,17 @@
-
+# frozen_string_literal: true
 # ######################################################################## #
 # File:         lib/pantheios/version.rb
 #
 # Purpose:      Version for Pantheios.Ruby library
 #
 # Created:      2nd April 2011
-# Updated:      5th June 2020
+# Updated:      19th August 2026
 #
-# Home:         http://github.com/synesissoftware/Pantheios-Ruby
+# Home:         https://github.com/synesissoftware/Pantheios.Ruby
 #
 # Author:       Matthew Wilson
 #
-# Copyright (c) 2019-2020, Matthew Wilson and Synesis Information Systems
+# Copyright (c) 2019-2026, Matthew Wilson and Synesis Information Systems
 # Copyright (c) 2011-2019, Matthew Wilson and Synesis Software
 # All rights reserved.
 #
@@ -51,7 +51,7 @@
 module Pantheios
 
 	# Current version of the Pantheios.Ruby library
-	VERSION				=	'0.22.0.2'
+	VERSION				=	'0.22.2'
 
 	private
 	VERSION_PARTS_		=	VERSION.split(/[.]/).collect { |n| n.to_i } # :nodoc:
