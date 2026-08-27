@@ -7,7 +7,7 @@
 
 #
 # Created: 15th August 2026
-# Updated: 15th August 2026
+# Updated: 27th August 2026
 #
 
 name: Ruby
@@ -67,16 +67,23 @@ jobs:
 
     steps:
     - name: Checking out code
-      uses: actions/checkout@v7
+      uses: actions/checkout@v4
 
     - name: Remove Gemfile.lock
+      shell: bash
       run: rm -f Gemfile.lock
 
     - name: Set up Ruby v${{ matrix.ruby-version }}
       uses: ruby/setup-ruby@v1
       with:
         ruby-version: ${{ matrix.ruby-version }}
-        bundler-cache: true # runs 'bundle install' and caches installed gems automatically
+        # Bundler 4 honours Gemfile `lockfile false`, so no Gemfile.lock
+        # is written. bundler-cache cats that file after `bundle lock`
+        # and fails on Windows 3.2+ (setup-ruby installs Bundler ~> 4).
+        bundler-cache: false
+
+    - name: Install gems
+      run: bundle install
 
     - name: Show Ruby version
       run: ruby -v
@@ -87,7 +94,7 @@ jobs:
     - name: Gem build and install smoke
       shell: bash
       run: |
-        gem build Pantheios.Ruby.gemspec
+        gem build pantheios-ruby.gemspec
         gem install --local pantheios-ruby-*.gem
         ruby -e "require 'pantheios/version'; abort('VERSION missing') unless defined?(Pantheios::VERSION); puts Pantheios::VERSION"
 
@@ -99,16 +106,20 @@ jobs:
 
     steps:
     - name: Checking out code
-      uses: actions/checkout@v7
+      uses: actions/checkout@v4
 
     - name: Remove Gemfile.lock
+      shell: bash
       run: rm -f Gemfile.lock
 
     - name: Set up Ruby
       uses: ruby/setup-ruby@v1
       with:
-        ruby-version: '3.3'
-        bundler-cache: true
+        ruby-version: '3.4'
+        bundler-cache: false
+
+    - name: Install gems
+      run: bundle install
 
     - name: Show Ruby version
       run: ruby -v

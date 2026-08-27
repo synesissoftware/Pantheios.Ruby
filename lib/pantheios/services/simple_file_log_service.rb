@@ -8,7 +8,7 @@
 # Created:      17th June 2015
 # Updated:      15th August 2026
 #
-# Home:         http://github.com/synesissoftware/Pantheios-Ruby
+# Home:         https://github.com/synesissoftware/Pantheios.Ruby
 #
 # Author:       Matthew Wilson
 #

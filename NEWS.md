@@ -2,6 +2,7 @@
 
 | Date               | News Item                                                                                       |
 | ------------------ | ----------------------------------------------------------------------------------------------- |
+| 27th August 2026   | [**Pantheios.Ruby** 0.22.2](https://github.com/synesissoftware/Pantheios.Ruby/releases/tag/0.22.2) |
 | 15th August 2026   | [**Pantheios.Ruby** 0.22.1](https://github.com/synesissoftware/Pantheios.Ruby/releases/tag/0.22.1) |
 | 5th June 2020      | [**Pantheios.Ruby** 0.22.0.2](https://github.com/synesissoftware/Pantheios.Ruby/releases/tag/0.22.0.2) |
 | 4th June 2020      | Pantheios.Ruby 0.22.0.1 released                                                                |
