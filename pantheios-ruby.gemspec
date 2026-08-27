@@ -4,7 +4,7 @@
 # Purpose:  Gemspec for Pantheios.Ruby library
 #
 # Created:  15th December 2017
-# Updated:  19th August 2026
+# Updated:  27th August 2026
 #
 # ######################################################################## #
 

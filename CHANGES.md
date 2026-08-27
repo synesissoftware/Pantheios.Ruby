@@ -1,7 +1,7 @@
 # Pantheios.Ruby - Changes <!-- omit in toc -->
 
 
-## 0.22.2 - 19th August 2026
+## 0.22.2 - 27th August 2026
 
 * renamed **Pantheios.Ruby.gemspec** to **pantheios-ruby.gemspec** so the filename stem matches `spec.name`;
 * **pantheios-ruby.gemspec**: `spec.summary` matches the README tagline; packaged **AUTHORS**, **CHANGES**, **CONTRIBUTING**, **EXAMPLES**, **FAQ**, **INSTALL**, **NEWS**, **SECURITY**, **TODO**; **Gemfile.lock** and **.ruby-version** excluded from `spec.files`;

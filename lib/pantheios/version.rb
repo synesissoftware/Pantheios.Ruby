@@ -1,15 +1,15 @@
 # frozen_string_literal: true
 # ######################################################################## #
-# File:         lib/pantheios/version.rb
+# File:     lib/pantheios/version.rb
 #
-# Purpose:      Version for Pantheios.Ruby library
+# Purpose:  Version for Pantheios.Ruby library
 #
-# Created:      2nd April 2011
-# Updated:      19th August 2026
+# Created:  2nd April 2011
+# Updated:  27th August 2026
 #
-# Home:         https://github.com/synesissoftware/Pantheios.Ruby
+# Home:     https://github.com/synesissoftware/Pantheios.Ruby
 #
-# Author:       Matthew Wilson
+# Author:   Matthew Wilson
 #
 # Copyright (c) 2019-2026, Matthew Wilson and Synesis Information Systems
 # Copyright (c) 2011-2019, Matthew Wilson and Synesis Software
