@@ -4,7 +4,7 @@
 # Purpose:  Gemspec for Pantheios.Ruby library
 #
 # Created:  15th December 2017
-# Updated:  27th August 2026
+# Updated:  28th August 2026
 #
 # ######################################################################## #
 
@@ -12,6 +12,9 @@
 $:.unshift File.join(File.dirname(__FILE__), 'lib')
 
 require 'pantheios/version'
+
+
+PROJECT_URL = 'https://github.com/synesissoftware/Pantheios.Ruby'
 
 
 Gem::Specification.new do |spec|
@@ -29,17 +32,19 @@ END_DESC
   spec.email        = [
     'matthew@synesis.com.au',
   ]
-  spec.homepage     = 'https://github.com/synesissoftware/Pantheios.Ruby'
+  spec.homepage     = PROJECT_URL
   spec.license      = 'BSD-3-Clause'
 
   spec.required_ruby_version = [ '>= 2.0' ]
 
   spec.metadata = {
-    'bug_tracker_uri' => 'https://github.com/synesissoftware/Pantheios.Ruby/issues',
-    'changelog_uri' => 'https://github.com/synesissoftware/Pantheios.Ruby/blob/master/CHANGES.md',
-    'homepage_uri' => 'https://github.com/synesissoftware/Pantheios.Ruby',
-    'source_code_uri' => 'https://github.com/synesissoftware/Pantheios.Ruby',
+    'bug_tracker_uri' => "#{PROJECT_URL}/issues",
+    'changelog_uri' => "#{PROJECT_URL}/blob/master/CHANGES.md",
+    'homepage_uri' => PROJECT_URL,
+    'source_code_uri' => PROJECT_URL,
   }
+
+  spec.add_development_dependency "xqsr3", [ '>= 0.39.10', '< 1' ]
 
   spec.files = Dir[
     'Rakefile',
@@ -60,8 +65,6 @@ END_DESC
     '.ruby-version',
     'Gemfile.lock',
   ]
-
-  spec.add_development_dependency "xqsr3", [ '>= 0.39.5', '< 1.0' ]
 end
 
 
