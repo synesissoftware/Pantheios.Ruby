@@ -44,6 +44,8 @@ END_DESC
     'source_code_uri' => PROJECT_URL,
   }
 
+  spec.add_development_dependency "xqsr3", [ '>= 0.39.10', '< 1' ]
+
   spec.files = Dir[
     'Rakefile',
     '{bin,examples,lib,man,spec,test}/**/*',
@@ -63,8 +65,6 @@ END_DESC
     '.ruby-version',
     'Gemfile.lock',
   ]
-
-  spec.add_development_dependency "xqsr3", [ '>= 0.39.5', '< 1.0' ]
 end
 
 
