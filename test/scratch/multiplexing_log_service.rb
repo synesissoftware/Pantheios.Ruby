@@ -6,7 +6,7 @@
 # Purpose:      COMPLETE_ME
 #
 # Created:      7th February 2018
-# Updated:      7th February 2018
+# Updated:      28th August 2026
 #
 # Author:       Matthew Wilson
 #
@@ -20,60 +20,60 @@ require 'pantheios'
 require 'pantheios/application_layer/stock_severity_levels'
 require 'pantheios/services'
 
-$num_BLS_sls	=	0
-$num_ELS_sls	=	0
+$num_BLS_sls  =  0
+$num_ELS_sls  =  0
 
 class BenchmarkLogService
 
-	def severity_logged? severity
+  def severity_logged? severity
 
-		$num_BLS_sls	+=	1
+    $num_BLS_sls  +=  1
 
-		(0..100).each { |n| n ** n  }
+    (0..100).each { |n| n ** n  }
 
-		:benchmark == severity.to_s.to_sym
-	end
+    :benchmark == severity.to_s.to_sym
+  end
 
-	def log sev, t, pref, msg
+  def log sev, t, pref, msg
 
-		puts "BENCHMARK: #{pref}#{msg}\n"
-	end
+    puts "BENCHMARK: #{pref}#{msg}\n"
+  end
 end
 
 class EventLogService
 
-	def severity_logged? severity
+  def severity_logged? severity
 
-		$num_ELS_sls	+=	1
+    $num_ELS_sls  +=  1
 
-		case severity.to_s.to_sym
-		when :notice, :warning, :failure, :critical, :alert, :violation
+    case severity.to_s.to_sym
+    when :notice, :warning, :failure, :critical, :alert, :violation
 
-			true
-		when :warn, :error, :emergency
+      true
+    when :warn, :error, :emergency
 
-			true
-		else
+      true
+    else
 
-			false
-		end
-	end
+      false
+    end
+  end
 
-	def log sev, t, pref, msg
+  def log sev, t, pref, msg
 
-		puts "EVENTLOG: #{pref}#{msg}\n"
-	end
+    puts "EVENTLOG: #{pref}#{msg}\n"
+  end
 end
 
-scls		=	Pantheios::Services::SimpleConsoleLogService.new
+scls    =  Pantheios::Services::SimpleConsoleLogService.new
 
 def scls.severity_logged? severity; ![ :benchmark, :trace, :violation ].include? severity; end
 
-services	=	[
+services  =  [
 
-	BenchmarkLogService.new,
-	EventLogService.new,
-	scls,
+  BenchmarkLogService.new,
+  EventLogService.new,
+  scls,
 ]
 
 lcm = :none
@@ -86,7 +86,7 @@ Pantheios::Core.set_service Pantheios::Services::MultiplexingLogService.new(serv
 
 include Pantheios
 
-t_b	=	Time.now
+t_b  =  Time.now
 
 log :benchmark, 'statement at benchmark'
 (0..100000).each { log :trace, 'statement at trace' }
@@ -103,7 +103,7 @@ log :critical, 'statement at critical'
 log :alert, 'statement at alert'
 log :violation, 'statement at violation'
 
-t_a	=	Time.now
+t_a  =  Time.now
 
 $stderr.puts "mode= :#{lcm}; t=#{t_a - t_b}; #BLS=#{$num_BLS_sls}; #ELS=#{$num_ELS_sls}"
 

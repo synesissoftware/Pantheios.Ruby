@@ -6,13 +6,13 @@
 #               class
 #
 # Created:      3rd June 2020
-# Updated:      15th August 2026
+# Updated:      28th August 2026
 #
 # Home:         https://github.com/synesissoftware/Pantheios.Ruby
 #
 # Author:       Matthew Wilson
 #
-# Copyright (c) 2020, Matthew Wilson and Synesis Information Systems
+# Copyright (c) 2020-2026, Matthew Wilson and Synesis Information Systems
 # All rights reserved.
 #
 # Redistribution and use in source and binary forms, with or without
@@ -60,83 +60,83 @@ module FrontEnds
 # the instance method +severity_logged?(severity : Object)+
 class ThresholdFrontEnd
 
-	# Initialises the instance
-	#
-	# === Signature
-	#
-	# * *Parameters:*
-	#   - +threshold_severity+ [ ::Symbol ] The threshold severity
-	#
-	# * *Options:*
-	#   - +value_lookup_map+ [ ::Hash ] A map that is used to lookup
-	#     +severity+ values (that are not +::Integer+) in
-	#     +severity_logged?+. May be +nil+, in which case
-	#     +::Pantheios::ApplicationLayer::StockSeverityLevels::STOCK_SEVERITY_LEVEL_VALUES+
-	#     is used
-	#
-	# * *Exceptions:*
-	#   - +::TypeError+ raised if a value given for +:value_lookup_map+ is
-	#     not a ::hash
-	def initialize(threshold_severity, **options)
+  # Initialises the instance
+  #
+  # === Signature
+  #
+  # * *Parameters:*
+  #   - +threshold_severity+ [ ::Symbol ] The threshold severity
+  #
+  # * *Options:*
+  #   - +value_lookup_map+ [ ::Hash ] A map that is used to lookup
+  #     +severity+ values (that are not +::Integer+) in
+  #     +severity_logged?+. May be +nil+, in which case
+  #     +::Pantheios::ApplicationLayer::StockSeverityLevels::STOCK_SEVERITY_LEVEL_VALUES+
+  #     is used
+  #
+  # * *Exceptions:*
+  #   - +::TypeError+ raised if a value given for +:value_lookup_map+ is
+  #     not a ::hash
+  def initialize(threshold_severity, **options)
 
-		m = options[:value_lookup_map]
+    m = options[:value_lookup_map]
 
-		raise TypeError, "value given for :value_lookup_map must be a #{::Hash}" if m && !m.respond_to?(:to_hash)
+    raise TypeError, "value given for :value_lookup_map must be a #{::Hash}" if m && !m.respond_to?(:to_hash)
 
-		if m
+    if m
 
-			@value_lookup_map = m
-			@relativity_lookup_map = ::Hash.new(:relative)
-		else
+      @value_lookup_map = m
+      @relativity_lookup_map = ::Hash.new(:relative)
+    else
 
-			@value_lookup_map = ::Pantheios::ApplicationLayer::StockSeverityLevels::STOCK_SEVERITY_LEVEL_VALUES
-			@relativity_lookup_map = ::Pantheios::ApplicationLayer::StockSeverityLevels::STOCK_SEVERITY_LEVELS_RELATIVE
-		end
+      @value_lookup_map = ::Pantheios::ApplicationLayer::StockSeverityLevels::STOCK_SEVERITY_LEVEL_VALUES
+      @relativity_lookup_map = ::Pantheios::ApplicationLayer::StockSeverityLevels::STOCK_SEVERITY_LEVELS_RELATIVE
+    end
 
-		self.threshold = threshold_severity
-	end
+    self.threshold = threshold_severity
+  end
 
-	# Determines whether a given severity is logged
-	#
-	# === Signature
-	#
-	# * *Parameters:*
-	#   - +severity+:: The severity level, which should be a known log
-	#   severity symbol or an integral equivalent
-	#
-	# * *Returns:*
-	#   a +truey+ value if the severity should be logged; a +falsey+ value
-	#   otherwise
-	def severity_logged? severity
+  # Determines whether a given severity is logged
+  #
+  # === Signature
+  #
+  # * *Parameters:*
+  #   - +severity+:: The severity level, which should be a known log
+  #   severity symbol or an integral equivalent
+  #
+  # * *Returns:*
+  #   a +truey+ value if the severity should be logged; a +falsey+ value
+  #   otherwise
+  def severity_logged? severity
 
-		case severity
-		when ::Integer
+    case severity
+    when ::Integer
 
-			v = severity
-		else
+      v = severity
+    else
 
-			v = @value_lookup_map[severity] or warn "unknown severity level '#{severity}' (#{severity.class})"
-		end
+      v = @value_lookup_map[severity] or warn "unknown severity level '#{severity}' (#{severity.class})"
+    end
 
-		return true if v.nil?
+    return true if v.nil?
 
-		v <= @threshold_v
-	end
+    v <= @threshold_v
+  end
 
-	# assigns the threshold
-	#
-	# * *Parameters:*
-	#   - +threshold_severity+ [ ::Symbol ] The threshold severity
-	def threshold=(threshold_severity)
+  # assigns the threshold
+  #
+  # * *Parameters:*
+  #   - +threshold_severity+ [ ::Symbol ] The threshold severity
+  def threshold=(threshold_severity)
 
-		raise TypeError, "threshold_severity must be a #{::Symbol}" unless ::Symbol === threshold_severity
+    raise TypeError, "threshold_severity must be a #{::Symbol}" unless ::Symbol === threshold_severity
 
-		@threshold_v = @value_lookup_map[threshold_severity] if @relativity_lookup_map[threshold_severity] or raise ArgumentError, "unknown threshold severity level '#{threshold_severity}' (#{threshold_severity.class})"
-		@threshold = threshold_severity
+    @threshold_v = @value_lookup_map[threshold_severity] if @relativity_lookup_map[threshold_severity] or raise ArgumentError, "unknown threshold severity level '#{threshold_severity}' (#{threshold_severity.class})"
+    @threshold = threshold_severity
 
-		nil
-	end
-	attr_reader :threshold
+    nil
+  end
+  attr_reader :threshold
 
 end # class ThresholdFrontEnd
 

@@ -29,7 +29,7 @@ LEVELS = %i{ violation alert critical failure warning notice informational debug
 
 LEVELS.each do |level|
 
-	log(level, "logging level #{level}")
+  log(level, "logging level #{level}")
 end
 
 # ############################## end of file ############################# #
