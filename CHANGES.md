@@ -16,6 +16,8 @@
 * removed unused loop and instance assignments from example and performance
   programs;
 * warning-mode unit tests now complete without warnings;
+* guarded and initialised lazily accessed instance variables to eliminate
+  Ruby 2.7 warnings;
 
 
 ## 0.22.2 - 27th August 2026

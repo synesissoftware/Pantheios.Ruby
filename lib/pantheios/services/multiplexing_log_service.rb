@@ -6,7 +6,7 @@
 #               ::Pantheios::Services::MultiplexingLogService class
 #
 # Created:      14th June 2015
-# Updated:      15th August 2026
+# Updated:      28th August 2026
 #
 # Home:         https://github.com/synesissoftware/Pantheios.Ruby
 #
@@ -109,6 +109,7 @@ class MultiplexingLogService
 		@unsync_pf	=	options[:unsync_process_lcm]
 
 		@process_m	=	{}
+		@requires_prefix	=	nil
 		@mx			=	Mutex.new unless @unsync_pf
 	end
 

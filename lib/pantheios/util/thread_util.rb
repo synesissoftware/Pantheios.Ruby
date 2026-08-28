@@ -46,7 +46,7 @@ module ThreadUtil
 
 				receiver.instance_eval do
 
-					define_method(:thread_name) { @thread_name || self.to_s }
+					define_method(:thread_name) { defined?(@thread_name) && @thread_name || self.to_s }
 					define_method(:thread_name=) { |name| @thread_name = name }
 				end
 			else
