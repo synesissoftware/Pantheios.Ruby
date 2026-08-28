@@ -3,8 +3,11 @@
 
 ## Functional improvements
 
-* [ ] quiet unused-variable warnings in **simple_file_log_service.rb** (`logger_init_options`) and **standard_log_service_adapter.rb** (`sym`);
-* [ ] quiet **Warnings** job noise in tests: unused `pid` in **tc_standard_log_service_adapter.rb**; ambiguous `/` in **tc_simple_file_log_service.rb** and **tc_standard_log_service_adapter.rb**;
+* [x] ~~~quiet unused-variable warnings in **simple_file_log_service.rb**
+  (`logger_init_options`) and **standard_log_service_adapter.rb** (`sym`)~~~;
+* [x] ~~~quiet **Warnings** job noise in tests: unused `pid` in
+  **tc_standard_log_service_adapter.rb**; ambiguous `/` in
+  **tc_simple_file_log_service.rb** and **tc_standard_log_service_adapter.rb**~~~;
 
 
 ## Performance improvements

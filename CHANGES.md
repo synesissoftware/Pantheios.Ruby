@@ -1,6 +1,23 @@
 # Pantheios.Ruby - Changes <!-- omit in toc -->
 
 
+## 0.22.3 - 28th August 2026
+
+* added the `warnings` branch to the **Ruby** workflow trigger;
+* updated **pantheios-ruby.gemspec** to centralise the project URL for
+  homepage and metadata URIs, and raised the **xqsr3** development dependency
+  floor;
+* updated **lib/pantheios/version.rb** for release 0.22.3;
+* removed unused local-variable assignments from **simple_file_log_service.rb** and
+  **standard_log_service_adapter.rb**;
+* corrected ambiguous regular-expression syntax in **tc_simple_file_log_service.rb**
+  and **tc_standard_log_service_adapter.rb**;
+* removed an unused process-ID assignment from **tc_standard_log_service_adapter.rb**;
+* removed unused loop and instance assignments from example and performance
+  programs;
+* warning-mode unit tests now complete without warnings;
+
+
 ## 0.22.2 - 27th August 2026
 
 * renamed **Pantheios.Ruby.gemspec** to **pantheios-ruby.gemspec** so the filename stem matches `spec.name`;

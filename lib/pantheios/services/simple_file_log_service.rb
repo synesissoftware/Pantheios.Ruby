@@ -130,7 +130,6 @@ class SimpleFileLogService
 		end
 
 		logger_init_args	=	[]
-		logger_init_options	=	{}
 
 		if false;
 		elsif roll_depth

@@ -41,7 +41,7 @@ Benchmark.benchmark(Benchmark::CAPTION, 24, Benchmark::FORMAT, 'total:', 'avg:')
 
 	totals << r.report("arguments (1-arg)") do
 
-		for i in (0...N) do
+		N.times do
 
 			log :notice, 'the cat in the hat.'
 		end
@@ -49,7 +49,7 @@ Benchmark.benchmark(Benchmark::CAPTION, 24, Benchmark::FORMAT, 'total:', 'avg:')
 
 	totals << r.report("blocks (1-arg)") do
 
-		for i in (0...N) do
+		N.times do
 
 			log(:notice) { 'the cat in the hat!' }
 		end
@@ -57,7 +57,7 @@ Benchmark.benchmark(Benchmark::CAPTION, 24, Benchmark::FORMAT, 'total:', 'avg:')
 
 	totals << r.report("args-if (1-arg)") do
 
-		for i in (0...N) do
+		N.times do
 
 			log :notice, 'the cat in the hat.' if severity_logged? :notice
 		end
@@ -66,7 +66,7 @@ Benchmark.benchmark(Benchmark::CAPTION, 24, Benchmark::FORMAT, 'total:', 'avg:')
 
 	totals << r.report("arguments (simple)") do
 
-		for i in (0...N) do
+		N.times do
 
 			log :notice, 'the ', 'cat ', 'in ', 'the ', 'hat.'
 		end
@@ -74,7 +74,7 @@ Benchmark.benchmark(Benchmark::CAPTION, 24, Benchmark::FORMAT, 'total:', 'avg:')
 
 	totals << r.report("blocks (simple)") do
 
-		for i in (0...N) do
+		N.times do
 
 			log(:notice) { 'the ' + 'cat ' + 'in ' + 'the ' + 'hat!' }
 		end
@@ -82,7 +82,7 @@ Benchmark.benchmark(Benchmark::CAPTION, 24, Benchmark::FORMAT, 'total:', 'avg:')
 
 	totals << r.report("args-if (simple)") do
 
-		for i in (0...N) do
+		N.times do
 
 			log :notice, 'the ', 'cat ', 'in ', 'the ', 'hat.' if severity_logged? :notice
 		end
@@ -95,7 +95,7 @@ Benchmark.benchmark(Benchmark::CAPTION, 24, Benchmark::FORMAT, 'total:', 'avg:')
 		hat	=	:hat
 		t	=	Time.now
 
-		for i in (0...N) do
+		N.times do
 
 			log :notice, "the #{cat} in the #{hat} (#{t})"
 		end
@@ -107,7 +107,7 @@ Benchmark.benchmark(Benchmark::CAPTION, 24, Benchmark::FORMAT, 'total:', 'avg:')
 		hat	=	:hat
 		t	=	Time.now
 
-		for i in (0...N) do
+		N.times do
 
 			log(:notice) { "the #{cat} in the #{hat} (#{t})" }
 		end
@@ -119,7 +119,7 @@ Benchmark.benchmark(Benchmark::CAPTION, 24, Benchmark::FORMAT, 'total:', 'avg:')
 		hat	=	:hat
 		t	=	Time.now
 
-		for i in (0...N) do
+		N.times do
 
 			log :notice, "the #{cat} in the #{hat} (#{t})" if severity_logged? :notice
 		end

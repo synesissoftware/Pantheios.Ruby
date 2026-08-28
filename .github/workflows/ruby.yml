@@ -7,7 +7,7 @@
 
 #
 # Created: 15th August 2026
-# Updated: 27th August 2026
+# Updated: 28th August 2026
 #
 
 name: Ruby
@@ -22,6 +22,7 @@ on:
       - rc1
       - rc2
       - rc3
+      - warnings
   pull_request:
 
 permissions:

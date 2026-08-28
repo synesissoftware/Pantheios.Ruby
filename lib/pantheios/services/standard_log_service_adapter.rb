@@ -208,7 +208,7 @@ class StandardLogServiceAdapter
 
 			# ask the logger
 
-			sym, val = SEV_LEVELS_INT2PAIR[@logger.level]
+			_unused_sym, val = SEV_LEVELS_INT2PAIR[@logger.level]
 
 			return sev <= val
 		end
