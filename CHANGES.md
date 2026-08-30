@@ -1,8 +1,15 @@
 # Pantheios.Ruby - Changes <!-- omit in toc -->
 
 
-## 0.22.3 - 28th August 2026
+## 0.22.3 - 30th August 2026
 
+* updated `Updated:` metadata and copyright year ranges in all touched files
+  carrying those header fields;
+* preserved the 2019 transfer of copyright from **Synesis Software** to
+  **Synesis Information Systems**, adding missing current-owner lines where
+  required;
+* converted all **Ruby** source, example, and test files from tabs to
+  two-space indentation;
 * added the `warnings` branch to the **Ruby** workflow trigger;
 * updated **pantheios-ruby.gemspec** to centralise the project URL for
   homepage and metadata URIs, and raised the **xqsr3** development dependency

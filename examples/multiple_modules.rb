@@ -14,46 +14,46 @@ module Organisation
 
 module Helpers
 
-	include ::Pantheios
+  include ::Pantheios
 
-	def with_trace
+  def with_trace
 
-		trace
-	end
+    trace
+  end
 
-	def with_debug0; log(:debug0); end
-	def with_debug1; log(:debug1); end
-	def with_informational; log(:informational); end
-	def with_notice; log(:notice); end
-	def with_warning; log(:warning); end
-	def with_failure; log(:failure); end
-	def with_critical; log(:critical); end
-	def with_alert; log(:alert); end
+  def with_debug0; log(:debug0); end
+  def with_debug1; log(:debug1); end
+  def with_informational; log(:informational); end
+  def with_notice; log(:notice); end
+  def with_warning; log(:warning); end
+  def with_failure; log(:failure); end
+  def with_critical; log(:critical); end
+  def with_alert; log(:alert); end
 
-	def helper1
+  def helper1
 
-		trace
+    trace
 
-		with_debug0
+    with_debug0
 
-		with_notice
-	end
+    with_notice
+  end
 
 end # module Helpers
 
 class OrgClass
 
-	include Helpers
-	include ::Pantheios
+  include Helpers
+  include ::Pantheios
 
-	def initialize()
+  def initialize()
 
-		trace
+    trace
 
-		log(:debug2) { 'initialised instance of OrgClass' }
+    log(:debug2) { 'initialised instance of OrgClass' }
 
-		helper1
-	end
+    helper1
+  end
 
 end # class OrgClas
 
@@ -79,25 +79,25 @@ SUPPRESSED_SEVERITIES = %i{
 
 def detect_suppression argv
 
-	argv.each do |arg|
+  argv.each do |arg|
 
-		SUPPRESSED_SEVERITIES << arg.to_sym
-	end
+    SUPPRESSED_SEVERITIES << arg.to_sym
+  end
 end
 
 class FrontEnd
 
-	def severity_logged? severity
+  def severity_logged? severity
 
-		case severity
-		when ::Symbol
+    case severity
+    when ::Symbol
 
-			!SUPPRESSED_SEVERITIES.include?(severity)
-		else
+      !SUPPRESSED_SEVERITIES.include?(severity)
+    else
 
-			true
-		end
-	end
+      true
+    end
+  end
 end
 
 Pantheios::Core.set_front_end FrontEnd.new

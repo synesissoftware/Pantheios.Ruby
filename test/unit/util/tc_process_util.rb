@@ -10,15 +10,15 @@ require 'test/unit'
 
 class Test_ProcessUtil_set_thread_name < Test::Unit::TestCase
 
-	PU = ::Pantheios::Util::ProcessUtil
+  PU = ::Pantheios::Util::ProcessUtil
 
-	def test_derive_process_name
+  def test_derive_process_name
 
-		assert_equal 'abc', PU.derive_process_name('abc')
+    assert_equal 'abc', PU.derive_process_name('abc')
 
-		assert_equal 'abc', PU.derive_process_name('abc.rb')
+    assert_equal 'abc', PU.derive_process_name('abc.rb')
 
-		assert_equal 'abc', PU.derive_process_name('abc.rb')
-	end
+    assert_equal 'abc', PU.derive_process_name('abc.rb')
+  end
 end
 

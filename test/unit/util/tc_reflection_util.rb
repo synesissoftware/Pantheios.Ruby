@@ -10,45 +10,45 @@ require 'test/unit'
 
 class Test_ReflectionUtil_set_thread_name < Test::Unit::TestCase
 
-	class Grandparent; end
+  class Grandparent; end
 
-	class Parent < Grandparent; end
+  class Parent < Grandparent; end
 
-	class Child < Parent; end
-
-
-	class Basic_Grandparent < BasicObject; end
-
-	class Basic_Parent < Basic_Grandparent; end
-
-	class Basic_Child < Basic_Parent; end
+  class Child < Parent; end
 
 
-	RU = ::Pantheios::Util::ReflectionUtil
+  class Basic_Grandparent < BasicObject; end
 
-	def test_non_root_classes_end_cases
+  class Basic_Parent < Basic_Grandparent; end
 
-		assert_empty RU.non_root_classes(nil)
+  class Basic_Child < Basic_Parent; end
 
-		assert_empty RU.non_root_classes(::Object)
 
-		assert_equal [ ::Regexp ], RU.non_root_classes(//)
+  RU = ::Pantheios::Util::ReflectionUtil
 
-		assert_equal [ ::String ], RU.non_root_classes('')
+  def test_non_root_classes_end_cases
 
-		assert_equal [ ::String ], RU.non_root_classes(::String)
+    assert_empty RU.non_root_classes(nil)
 
-		assert_equal [ Grandparent ], RU.non_root_classes(Grandparent)
+    assert_empty RU.non_root_classes(::Object)
 
-		assert_equal [ Parent, Grandparent ], RU.non_root_classes(Parent)
+    assert_equal [ ::Regexp ], RU.non_root_classes(//)
 
-		assert_equal [ Child, Parent, Grandparent ], RU.non_root_classes(Child)
+    assert_equal [ ::String ], RU.non_root_classes('')
 
-		assert_equal [ Basic_Grandparent ], RU.non_root_classes(Basic_Grandparent)
+    assert_equal [ ::String ], RU.non_root_classes(::String)
 
-		assert_equal [ Basic_Parent, Basic_Grandparent ], RU.non_root_classes(Basic_Parent)
+    assert_equal [ Grandparent ], RU.non_root_classes(Grandparent)
 
-		assert_equal [ Basic_Child, Basic_Parent, Basic_Grandparent ], RU.non_root_classes(Basic_Child)
-	end
+    assert_equal [ Parent, Grandparent ], RU.non_root_classes(Parent)
+
+    assert_equal [ Child, Parent, Grandparent ], RU.non_root_classes(Child)
+
+    assert_equal [ Basic_Grandparent ], RU.non_root_classes(Basic_Grandparent)
+
+    assert_equal [ Basic_Parent, Basic_Grandparent ], RU.non_root_classes(Basic_Parent)
+
+    assert_equal [ Basic_Child, Basic_Parent, Basic_Grandparent ], RU.non_root_classes(Basic_Child)
+  end
 end
 

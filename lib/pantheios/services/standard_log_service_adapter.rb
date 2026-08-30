@@ -6,14 +6,14 @@
 #               ::Pantheios::Services::StandardLogServiceAdapter class
 #
 # Created:      18th June 2015
-# Updated:      15th August 2026
+# Updated:      28th August 2026
 #
 # Home:         https://github.com/synesissoftware/Pantheios.Ruby
 #
 # Author:       Matthew Wilson
 #
-# Copyright (c) 2019-2020, Matthew Wilson and Synesis Information Systems
-# Copyright (c) 2015-2018, Matthew Wilson and Synesis Software
+# Copyright (c) 2019-2026, Matthew Wilson and Synesis Information Systems
+# Copyright (c) 2015-2019, Matthew Wilson and Synesis Software
 # All rights reserved.
 #
 # Redistribution and use in source and binary forms, with or without
@@ -68,176 +68,176 @@ module Services
 # +log(severity : Object, t : Time, prefix : String|Array, msg : String)+
 class StandardLogServiceAdapter
 
-	include ::Xqsr3::Quality::ParameterChecking
+  include ::Xqsr3::Quality::ParameterChecking
 
-	STOCK_SEVS_EXT2NUM = ::Pantheios::ApplicationLayer::StockSeverityLevels::STOCK_SEVERITY_LEVEL_VALUES
+  STOCK_SEVS_EXT2NUM = ::Pantheios::ApplicationLayer::StockSeverityLevels::STOCK_SEVERITY_LEVEL_VALUES
 
-	SEV_LEVELS_INT2PAIR = {
+  SEV_LEVELS_INT2PAIR = {
 
-		::Logger::DEBUG => [ :debug0, STOCK_SEVS_EXT2NUM[:debug0] ],
-		::Logger::WARN => [ :warning, STOCK_SEVS_EXT2NUM[:warning] ],
-		::Logger::ERROR => [ :failure, STOCK_SEVS_EXT2NUM[:failure] ],
-		::Logger::FATAL => [ :alert, STOCK_SEVS_EXT2NUM[:alert] ],
-		::Logger::UNKNOWN => [ :violation, STOCK_SEVS_EXT2NUM[:violation] ],
-	}
+    ::Logger::DEBUG => [ :debug0, STOCK_SEVS_EXT2NUM[:debug0] ],
+    ::Logger::WARN => [ :warning, STOCK_SEVS_EXT2NUM[:warning] ],
+    ::Logger::ERROR => [ :failure, STOCK_SEVS_EXT2NUM[:failure] ],
+    ::Logger::FATAL => [ :alert, STOCK_SEVS_EXT2NUM[:alert] ],
+    ::Logger::UNKNOWN => [ :violation, STOCK_SEVS_EXT2NUM[:violation] ],
+  }
 
-	SEV_LEVELS_EXT2INT = {
+  SEV_LEVELS_EXT2INT = {
 
-		:trace => ::Logger::DEBUG,
-		:benchmark => ::Logger::DEBUG,
+    :trace => ::Logger::DEBUG,
+    :benchmark => ::Logger::DEBUG,
 
-		:debug0 => ::Logger::DEBUG,
-		:debug1 => ::Logger::DEBUG,
-		:debug2 => ::Logger::DEBUG,
-		:debug3 => ::Logger::DEBUG,
-		:debug4 => ::Logger::DEBUG,
+    :debug0 => ::Logger::DEBUG,
+    :debug1 => ::Logger::DEBUG,
+    :debug2 => ::Logger::DEBUG,
+    :debug3 => ::Logger::DEBUG,
+    :debug4 => ::Logger::DEBUG,
 
-		:notice => ::Logger::INFO,
-		:informational => ::Logger::INFO, :info => ::Logger::INFO,
+    :notice => ::Logger::INFO,
+    :informational => ::Logger::INFO, :info => ::Logger::INFO,
 
-		:warning => ::Logger::WARN, :warn => ::Logger::WARN,
+    :warning => ::Logger::WARN, :warn => ::Logger::WARN,
 
-		:failure => ::Logger::ERROR, :error => ::Logger::ERROR,
-		:critical => ::Logger::ERROR,
+    :failure => ::Logger::ERROR, :error => ::Logger::ERROR,
+    :critical => ::Logger::ERROR,
 
-		:alert => ::Logger::UNKNOWN,
-		:violation => ::Logger::UNKNOWN, :emergency => ::Logger::UNKNOWN,
-	}
+    :alert => ::Logger::UNKNOWN,
+    :violation => ::Logger::UNKNOWN, :emergency => ::Logger::UNKNOWN,
+  }
 
-	SEV_LEVELS_EXT2NUM = {
+  SEV_LEVELS_EXT2NUM = {
 
-		STOCK_SEVS_EXT2NUM[:trace] => ::Logger::DEBUG,
-		STOCK_SEVS_EXT2NUM[:benchmark] => ::Logger::DEBUG,
+    STOCK_SEVS_EXT2NUM[:trace] => ::Logger::DEBUG,
+    STOCK_SEVS_EXT2NUM[:benchmark] => ::Logger::DEBUG,
 
-		STOCK_SEVS_EXT2NUM[:debug0] => ::Logger::DEBUG,
-		STOCK_SEVS_EXT2NUM[:debug1] => ::Logger::DEBUG,
-		STOCK_SEVS_EXT2NUM[:debug2] => ::Logger::DEBUG,
-		STOCK_SEVS_EXT2NUM[:debug3] => ::Logger::DEBUG,
-		STOCK_SEVS_EXT2NUM[:debug4] => ::Logger::DEBUG,
+    STOCK_SEVS_EXT2NUM[:debug0] => ::Logger::DEBUG,
+    STOCK_SEVS_EXT2NUM[:debug1] => ::Logger::DEBUG,
+    STOCK_SEVS_EXT2NUM[:debug2] => ::Logger::DEBUG,
+    STOCK_SEVS_EXT2NUM[:debug3] => ::Logger::DEBUG,
+    STOCK_SEVS_EXT2NUM[:debug4] => ::Logger::DEBUG,
 
-		STOCK_SEVS_EXT2NUM[:notice] => ::Logger::INFO,
-		STOCK_SEVS_EXT2NUM[:informational] => ::Logger::INFO,
+    STOCK_SEVS_EXT2NUM[:notice] => ::Logger::INFO,
+    STOCK_SEVS_EXT2NUM[:informational] => ::Logger::INFO,
 
-		STOCK_SEVS_EXT2NUM[:warning] => ::Logger::WARN,
+    STOCK_SEVS_EXT2NUM[:warning] => ::Logger::WARN,
 
-		STOCK_SEVS_EXT2NUM[:failure] => ::Logger::ERROR,
-		STOCK_SEVS_EXT2NUM[:critical] => ::Logger::ERROR,
+    STOCK_SEVS_EXT2NUM[:failure] => ::Logger::ERROR,
+    STOCK_SEVS_EXT2NUM[:critical] => ::Logger::ERROR,
 
-		STOCK_SEVS_EXT2NUM[:alert] => ::Logger::UNKNOWN,
-		STOCK_SEVS_EXT2NUM[:violation] => ::Logger::UNKNOWN,
-	}
-
-
-	def initialize logger, adapter_threshold = nil, **options
-
-		check_parameter logger, 'logger', responds_to: [ :add, :level, :level= ]
-		check_parameter adapter_threshold, 'adapter_threshold', types: [ ::Integer, ::Symbol ], allow_nil: true
-		format = check_option options, :format, type: ::Symbol, values: [ :default, :simple, :standard ], allow_nil: true
-
-		@logger				=	logger
-		@format				=	format || :default
-		@adapter_threshold	=	adapter_threshold
-		@at_value			=	nil
-		@closed				=	false
-	end
-
-	# The threshold of the adapter, as expressed in a Pantheios severity
-	# level
-	#
-	# NOTE: may be +nil+, in which case the decision to determine whether to
-	# log (in the form of the +severity_logged?+ method) will be defered to
-	# the underlying logger.
-	attr_reader :adapter_threshold
-
-	def adapter_threshold= threshold
-
-		case @adapter_threshold	=	threshold
-		when nil
-
-			@at_value	=	nil
-		when ::Symbol
-
-			@at_value	=	STOCK_SEVS_EXT2NUM[threshold]
-		when ::Integer
-
-			@at_value	=	threshold
-		else
-
-			raise ::TypeError, 'adapter_threshold must be a symbol, an integer value, or nil'
-		end
-	end
-
-	def close
-
-		raise "already closed" if @closed
-
-		@logger.close
-
-		@closed = true
-	end
-
-	def flush
-
-		@logger.flush if @logger.respond_to? :flush
-	end
-
-	def severity_logged? severity
-
-		case severity
-		when nil
-
-			return true
-		when adapter_threshold
-
-			return true
-		when ::Symbol
-
-			sev	=	STOCK_SEVS_EXT2NUM[severity] || 0
-		when ::Integer
-
-			sev	=	severity
-		else
-
-			warn "severity - '#{severity}' - of invalid type (#{severity.class}) specified to severity_logged?"
-
-			return true
-		end
+    STOCK_SEVS_EXT2NUM[:alert] => ::Logger::UNKNOWN,
+    STOCK_SEVS_EXT2NUM[:violation] => ::Logger::UNKNOWN,
+  }
 
 
-		unless adapter_threshold
+  def initialize logger, adapter_threshold = nil, **options
 
-			# ask the logger
+    check_parameter logger, 'logger', responds_to: [ :add, :level, :level= ]
+    check_parameter adapter_threshold, 'adapter_threshold', types: [ ::Integer, ::Symbol ], allow_nil: true
+    format = check_option options, :format, type: ::Symbol, values: [ :default, :simple, :standard ], allow_nil: true
 
-			_unused_sym, val = SEV_LEVELS_INT2PAIR[@logger.level]
+    @logger        =  logger
+    @format        =  format || :default
+    @adapter_threshold  =  adapter_threshold
+    @at_value      =  nil
+    @closed        =  false
+  end
 
-			return sev <= val
-		end
+  # The threshold of the adapter, as expressed in a Pantheios severity
+  # level
+  #
+  # NOTE: may be +nil+, in which case the decision to determine whether to
+  # log (in the form of the +severity_logged?+ method) will be defered to
+  # the underlying logger.
+  attr_reader :adapter_threshold
+
+  def adapter_threshold= threshold
+
+    case @adapter_threshold  =  threshold
+    when nil
+
+      @at_value  =  nil
+    when ::Symbol
+
+      @at_value  =  STOCK_SEVS_EXT2NUM[threshold]
+    when ::Integer
+
+      @at_value  =  threshold
+    else
+
+      raise ::TypeError, 'adapter_threshold must be a symbol, an integer value, or nil'
+    end
+  end
+
+  def close
+
+    raise "already closed" if @closed
+
+    @logger.close
+
+    @closed = true
+  end
+
+  def flush
+
+    @logger.flush if @logger.respond_to? :flush
+  end
+
+  def severity_logged? severity
+
+    case severity
+    when nil
+
+      return true
+    when adapter_threshold
+
+      return true
+    when ::Symbol
+
+      sev  =  STOCK_SEVS_EXT2NUM[severity] || 0
+    when ::Integer
+
+      sev  =  severity
+    else
+
+      warn "severity - '#{severity}' - of invalid type (#{severity.class}) specified to severity_logged?"
+
+      return true
+    end
 
 
-		return sev <= @at_value
-	end
+    unless adapter_threshold
 
-	def log severity, t, prefix, msg
+      # ask the logger
 
-		sev_ext		=	STOCK_SEVS_EXT2NUM[severity]
-		sev_ext		||=	severity if ::Integer === severity
-		sev_int		=	SEV_LEVELS_EXT2NUM[sev_ext]
-		sev_int		||=	::Logger::UNKNOWN
+      _unused_sym, val = SEV_LEVELS_INT2PAIR[@logger.level]
 
-		case @format
-		when :default
+      return sev <= val
+    end
 
-			prog_name	=	::Pantheios::Util::ProcessUtil.derive_process_name $0
 
-			@logger.add sev_int, msg, prog_name
-		when :simple
+    return sev <= @at_value
+  end
 
-			@logger << msg + ?\n
-		when :standard
+  def log severity, t, prefix, msg
 
-			@logger << "#{prefix}#{msg}\n"
-		end
-	end
+    sev_ext    =  STOCK_SEVS_EXT2NUM[severity]
+    sev_ext    ||=  severity if ::Integer === severity
+    sev_int    =  SEV_LEVELS_EXT2NUM[sev_ext]
+    sev_int    ||=  ::Logger::UNKNOWN
+
+    case @format
+    when :default
+
+      prog_name  =  ::Pantheios::Util::ProcessUtil.derive_process_name $0
+
+      @logger.add sev_int, msg, prog_name
+    when :simple
+
+      @logger << msg + ?\n
+    when :standard
+
+      @logger << "#{prefix}#{msg}\n"
+    end
+  end
 end
 
 end # module Services
