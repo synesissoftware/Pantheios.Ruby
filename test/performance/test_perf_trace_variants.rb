@@ -1,19 +1,5 @@
 #!/usr/bin/env ruby
 
-#############################################################################
-# File:         test/performance/test_perf_trace_variants.rb
-#
-# Purpose:      COMPLETE_ME
-#
-# Created:      22nd January 2018
-# Updated:      28th August 2026
-#
-# Author:       Matthew Wilson
-#
-# Copyright:    <<TBD>>
-#
-#############################################################################
-
 $:.unshift File.join(File.dirname(__FILE__), *(['..'] * 2), 'lib')
 
 require 'pantheios/globals'

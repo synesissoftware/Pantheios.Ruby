@@ -132,17 +132,17 @@ class Test_StandardLogservice < Test::Unit::TestCase
 
     def test_selected_log_with_standard_format
 
-      logdev  =  StringIO.new
-      logger  =  ::Logger.new logdev
+      logdev  = StringIO.new
+      logger  = ::Logger.new logdev
 
-      svc    =  StandardLogServiceAdapter.new logger, format: :standard
+      svc     = StandardLogServiceAdapter.new logger, format: :standard
 
       logger.level  =  ::Logger::WARN
 
-      t    =  Time.now
-      tid    =  Thread.current.object_id
-      prname  =  ::Pantheios::Util::ProcessUtil.derive_process_name
-      ts    =  t.strftime '%Y-%m-%d %H:%M:%S.%6N'
+      t       = Time.now
+      tid     = Thread.current.object_id
+      prname  = ::Pantheios::Util::ProcessUtil.derive_process_name
+      ts      = t.strftime '%Y-%m-%d %H:%M:%S.%6N'
 
       [ :notice, :warning, :critical ].each do |level|
 
@@ -153,7 +153,7 @@ class Test_StandardLogservice < Test::Unit::TestCase
 
       svc.flush if svc.respond_to? :flush
 
-      res    =  logdev.string.split(/\n/)
+      res     = logdev.string.split(/\n/)
 
       assert_equal 2, res.size
 
