@@ -69,57 +69,57 @@ end
 
 Benchmark.benchmark(Benchmark::CAPTION, 24, Benchmark::FORMAT, 'total:', 'avg:') do |r|
 
-	t_log = r.report('plain log') do
+	r.report('plain log') do
 
-		for i in (0...N) do
+		N.times do
 
 			log :abc, 'd', 'ef', 't=', T
 		end
 	end
 
-	t_blank_trace = r.report('blank_trace') do
+	r.report('blank_trace') do
 
-		for i in (0...N) do
+		N.times do
 
 			blank_trace :abc, 'd', 'ef', 't=', T
 		end
 	end
 
-	t_anonymous_trace = r.report('anonymous_trace') do
+	r.report('anonymous_trace') do
 
-		for i in (0...N) do
+		N.times do
 
 			anonymous_trace :abc, 'd', 'ef', 't=', T
 		end
 	end
 
-	t_parameter_trace = r.report('parameter_trace') do
+	r.report('parameter_trace') do
 
-		for i in (0...N) do
+		N.times do
 
 			parameter_trace :abc, 'd', 'ef', 't=', T
 		end
 	end
 
-	t_parameter_cond = r.report('parameter_cond') do
+	r.report('parameter_cond') do
 
-		for i in (0...N) do
+		N.times do
 
 			parameter_cond :abc, 'd', 'ef', 't=', T
 		end
 	end
 
-	t_names_in_block = r.report('names_in_block') do
+	r.report('names_in_block') do
 
-		for i in (0...N) do
+		N.times do
 
 			names_in_block :abc, 'd', 'ef', 't=', T
 		end
 	end
 
-	t_all_in_block = r.report('all_in_block') do
+	r.report('all_in_block') do
 
-		for i in (0...N) do
+		N.times do
 
 			all_in_block :abc, 'd', 'ef', 't=', T
 		end

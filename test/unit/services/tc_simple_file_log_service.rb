@@ -130,7 +130,7 @@ class Test_SimpleFileLogservice < Test::Unit::TestCase
 
 			assert_raise_with_message(::ArgumentError, /log_file_or_path.*not.*nil/) { SimpleFileLogService.new nil }
 
-			assert_raise_with_message(::TypeError, [ /log_file_or_path.*must be/, /::File/, /::IO/, /::String/, /::StringIO/ ]) { SimpleFileLogService.new // }
+			assert_raise_with_message(::TypeError, [ /log_file_or_path.*must be/, /::File/, /::IO/, /::String/, /::StringIO/ ]) { SimpleFileLogService.new(//) }
 		end
 
 		def test_ctor_failures_with_invalid_options
@@ -160,11 +160,11 @@ class Test_SimpleFileLogservice < Test::Unit::TestCase
 
 			output	=	self.class.log_to_StringIO_and_get_output [ message ], :notice, nil, nil
 
-			lines	=	output.split /\n/
+			lines	=	output.split(/\n/)
 
 			assert_not_empty lines
 			assert_equal 1, lines.size
-			assert_match /msg$/, lines[0]
+			assert_match(/msg$/, lines[0])
 		end
 
 		def test_simple_logging_with_StringIO_2
@@ -177,12 +177,12 @@ class Test_SimpleFileLogservice < Test::Unit::TestCase
 
 			output	=	self.class.log_to_StringIO_and_get_output msgs, :notice, nil, nil
 
-			lines	=	output.split /\n/
+			lines	=	output.split(/\n/)
 
 			assert_not_empty lines
 			assert_equal 2, lines.size
-			assert_match /msg-1$/, lines[0]
-			assert_match /msg-2$/, lines[1]
+			assert_match(/msg-1$/, lines[0])
+			assert_match(/msg-2$/, lines[1])
 		end
 
 		def test_simple_logging_with_Tempfile_1
@@ -191,11 +191,11 @@ class Test_SimpleFileLogservice < Test::Unit::TestCase
 
 			output	=	self.class.log_to_Tempfile_and_get_output [ message ], :notice, nil, nil
 
-			lines	=	output.split /\n/
+			lines	=	output.split(/\n/)
 
 			assert_not_empty lines
 			assert_equal 1, lines.size
-			assert_match /msg$/, lines[0]
+			assert_match(/msg$/, lines[0])
 		end
 
 		def test_simple_logging_with_Tempfile_2
@@ -208,12 +208,12 @@ class Test_SimpleFileLogservice < Test::Unit::TestCase
 
 			output	=	self.class.log_to_Tempfile_and_get_output msgs, :notice, nil, nil
 
-			lines	=	output.split /\n/
+			lines	=	output.split(/\n/)
 
 			assert_not_empty lines
 			assert_equal 2, lines.size
-			assert_match /msg-1$/, lines[0]
-			assert_match /msg-2$/, lines[1]
+			assert_match(/msg-1$/, lines[0])
+			assert_match(/msg-2$/, lines[1])
 		end
 
 		def test_simple_logging_with_Tempfile_path_1
@@ -222,11 +222,11 @@ class Test_SimpleFileLogservice < Test::Unit::TestCase
 
 			output	=	self.class.log_to_Tempfile_path_and_get_output [ message ], :notice, nil, nil
 
-			lines	=	output.split /\n/
+			lines	=	output.split(/\n/)
 
 			assert_not_empty lines
 			assert_equal 1, lines.size
-			assert_match /msg$/, lines[0]
+			assert_match(/msg$/, lines[0])
 		end
 
 		def test_simple_logging_with_Tempfile_path_2
@@ -239,12 +239,12 @@ class Test_SimpleFileLogservice < Test::Unit::TestCase
 
 			output	=	self.class.log_to_Tempfile_path_and_get_output msgs, :notice, nil, nil
 
-			lines	=	output.split /\n/
+			lines	=	output.split(/\n/)
 
 			assert_not_empty lines
 			assert_equal 2, lines.size
-			assert_match /msg-1$/, lines[0]
-			assert_match /msg-2$/, lines[1]
+			assert_match(/msg-1$/, lines[0])
+			assert_match(/msg-2$/, lines[1])
 		end
 	end
 end

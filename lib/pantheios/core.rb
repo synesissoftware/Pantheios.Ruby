@@ -5,7 +5,7 @@
 # Purpose:      The Pantheios.Ruby core (::Pantheios::Core)
 #
 # Created:      2nd April 2011
-# Updated:      15th August 2026
+# Updated:      28th August 2026
 #
 # Home:         https://github.com/synesissoftware/Pantheios.Ruby
 #
@@ -412,7 +412,8 @@ module Core
 	# NOTE: to reset the value, set to +nil+
 	def self.process_name= name
 
-		previous, @process_name = @process_name, name
+		previous = @process_name if defined?(@process_name)
+		@process_name = name
 
 		previous
 	end

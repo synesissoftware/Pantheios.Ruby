@@ -125,7 +125,7 @@ with_alert
 
 log(:info) { "Creating instance of OrgClass" }
 
-oc = Organisation::OrgClass.new
+Organisation::OrgClass.new
 
 # ############################## end of file ############################# #
 

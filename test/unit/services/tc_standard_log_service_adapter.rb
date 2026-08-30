@@ -87,7 +87,6 @@ class Test_StandardLogservice < Test::Unit::TestCase
 			logger.level	=	::Logger::WARN
 
 			t		=	Time.now
-			pid		=	Process.pid
 			prname	=	::Pantheios::Util::ProcessUtil.derive_process_name
 
 			[ :notice, :warning, :critical ].each do |level|
@@ -97,12 +96,12 @@ class Test_StandardLogservice < Test::Unit::TestCase
 
 			svc.flush if svc.respond_to? :flush
 
-			res		=	logdev.string.split /\n/
+			res		=	logdev.string.split(/\n/)
 
 			assert_equal 2, res.size
 
-			assert_match /W\s*,\s*\[.*##{pid}\s*\]\s*WARN\s*--\s*#{prname}\s*:\s*a message at warning/, res[0]
-			assert_match /E\s*,\s*\[.*##{pid}\s*\]\s*ERROR\s*--\s*#{prname}\s*:\s*a message at critical/, res[1]
+			assert_match(/W\s*,\s*\[.*##{Process.pid}\s*\]\s*WARN\s*--\s*#{prname}\s*:\s*a message at warning/, res[0])
+			assert_match(/E\s*,\s*\[.*##{Process.pid}\s*\]\s*ERROR\s*--\s*#{prname}\s*:\s*a message at critical/, res[1])
 		end
 
 		def test_selected_log_with_blank_format
@@ -123,7 +122,7 @@ class Test_StandardLogservice < Test::Unit::TestCase
 
 			svc.flush if svc.respond_to? :flush
 
-			res		=	logdev.string.split /\n/
+			res		=	logdev.string.split(/\n/)
 
 			assert_equal 2, res.size
 
@@ -141,7 +140,6 @@ class Test_StandardLogservice < Test::Unit::TestCase
 			logger.level	=	::Logger::WARN
 
 			t		=	Time.now
-			pid		=	Process.pid
 			tid		=	Thread.current.object_id
 			prname	=	::Pantheios::Util::ProcessUtil.derive_process_name
 			ts		=	t.strftime '%Y-%m-%d %H:%M:%S.%6N'
@@ -155,12 +153,12 @@ class Test_StandardLogservice < Test::Unit::TestCase
 
 			svc.flush if svc.respond_to? :flush
 
-			res		=	logdev.string.split /\n/
+			res		=	logdev.string.split(/\n/)
 
 			assert_equal 2, res.size
 
-			assert_match /\s*\[\s*#{prname} #{tid} #{ts} warning\s*\]\s*a message at warning/, res[0]
-			assert_match /\s*\[\s*#{prname} #{tid} #{ts} critical\s*\]\s*a message at critical/, res[1]
+			assert_match(/\s*\[\s*#{prname} #{tid} #{ts} warning\s*\]\s*a message at warning/, res[0])
+			assert_match(/\s*\[\s*#{prname} #{tid} #{ts} critical\s*\]\s*a message at critical/, res[1])
 		end
 	end
 end
