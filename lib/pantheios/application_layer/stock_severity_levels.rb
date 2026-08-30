@@ -7,14 +7,14 @@
 #               namespace module
 #
 # Created:      2nd April 2011
-# Updated:      15th August 2026
+# Updated:      28th August 2026
 #
 # Home:         https://github.com/synesissoftware/Pantheios.Ruby
 #
 # Author:       Matthew Wilson
 #
-# Copyright (c) 2019-2020, Matthew Wilson and Synesis Information Systems
-# Copyright (c) 2011-2018, Matthew Wilson and Synesis Software
+# Copyright (c) 2019-2026, Matthew Wilson and Synesis Information Systems
+# Copyright (c) 2011-2019, Matthew Wilson and Synesis Software
 # All rights reserved.
 #
 # Redistribution and use in source and binary forms, with or without
@@ -55,157 +55,157 @@ module ApplicationLayer
 
 module StockSeverityLevels
 
-	private
-	# @!visibility private
-	module Internal_ # :nodoc: all
+  private
+  # @!visibility private
+  module Internal_ # :nodoc: all
 
-		# @!visibility private
-		STOCK_SEVERITY_LEVELS_ = {
+    # @!visibility private
+    STOCK_SEVERITY_LEVELS_ = {
 
-			:violation => [ 1, 'Violation', :relative, [ :emergency ] ],
-			:alert => [ 2, 'Alert', :relative ],
-			:critical => [ 3, 'Critical', :relative ],
-			:failure => [ 4, 'Failure', :relative, [ :fail ] ],
-			:warning => [ 5, 'Warning', :relative, [ :warn ] ],
-			:notice => [ 6, 'Notice', :relative ],
-			:informational => [ 7, 'Informational', :relative, [ :info ] ],
-			:debug0 => [ 8, 'Debug-0', :relative ],
-			:debug1 => [ 9, 'Debug-1', :relative ],
-			:debug2 => [ 10, 'Debug-2', :relative ],
-			:debug3 => [ 11, 'Debug-3', :relative ],
-			:debug4 => [ 12, 'Debug-4', :relative ],
-			:debug5 => [ 13, 'Debug-5', :relative ],
-			:trace => [ 15, 'Trace', :relative ],
-			:benchmark => [ 16, 'Benchmark', :separate ],
-		}
+      :violation => [ 1, 'Violation', :relative, [ :emergency ] ],
+      :alert => [ 2, 'Alert', :relative ],
+      :critical => [ 3, 'Critical', :relative ],
+      :failure => [ 4, 'Failure', :relative, [ :fail ] ],
+      :warning => [ 5, 'Warning', :relative, [ :warn ] ],
+      :notice => [ 6, 'Notice', :relative ],
+      :informational => [ 7, 'Informational', :relative, [ :info ] ],
+      :debug0 => [ 8, 'Debug-0', :relative ],
+      :debug1 => [ 9, 'Debug-1', :relative ],
+      :debug2 => [ 10, 'Debug-2', :relative ],
+      :debug3 => [ 11, 'Debug-3', :relative ],
+      :debug4 => [ 12, 'Debug-4', :relative ],
+      :debug5 => [ 13, 'Debug-5', :relative ],
+      :trace => [ 15, 'Trace', :relative ],
+      :benchmark => [ 16, 'Benchmark', :separate ],
+    }
 
-		# @!visibility private
-		def self.create_level_keys m # :nodoc:
+    # @!visibility private
+    def self.create_level_keys m # :nodoc:
 
-			r = m.keys
+      r = m.keys
 
-			m.each do |k, ar|
+      m.each do |k, ar|
 
-				(ar[3] || []).each do |al|
+        (ar[3] || []).each do |al|
 
-					r << al
-				end
-			end
+          r << al
+        end
+      end
 
-			r.uniq
-		end
+      r.uniq
+    end
 
-		# @!visibility private
-		def self.create_level_value_map m # :nodoc:
+    # @!visibility private
+    def self.create_level_value_map m # :nodoc:
 
-			r = {}
+      r = {}
 
-			m.each do |sev, ar|
+      m.each do |sev, ar|
 
-				warn 'invalid start-up' unless ::Symbol === sev
-				warn 'invalid start-up' unless ::Array === ar
+        warn 'invalid start-up' unless ::Symbol === sev
+        warn 'invalid start-up' unless ::Array === ar
 
-				([sev] + (ar[3] || [])).each do |al|
+        ([sev] + (ar[3] || [])).each do |al|
 
-					r[al] = ar[0]
-				end
-			end
+          r[al] = ar[0]
+        end
+      end
 
-			r
-		end
+      r
+    end
 
-		# @!visibility private
-		def self.create_level_string_map m # :nodoc:
+    # @!visibility private
+    def self.create_level_string_map m # :nodoc:
 
-			r = {}
+      r = {}
 
-			m.each do |sev, ar|
+      m.each do |sev, ar|
 
-				warn 'invalid start-up' unless ::Symbol === sev
-				warn 'invalid start-up' unless ::Array === ar
+        warn 'invalid start-up' unless ::Symbol === sev
+        warn 'invalid start-up' unless ::Array === ar
 
-				s = ar[1].dup
-				s.define_singleton_method(:severity) { sev }
+        s = ar[1].dup
+        s.define_singleton_method(:severity) { sev }
 
-				([sev] + (ar[3] || [])).each do |al|
+        ([sev] + (ar[3] || [])).each do |al|
 
-					r[al] = s
-				end
-			end
+          r[al] = s
+        end
+      end
 
-			r
-		end
+      r
+    end
 
-		# @!visibility private
-		def self.create_level_aliases m # :nodoc:
+    # @!visibility private
+    def self.create_level_aliases m # :nodoc:
 
-			r = {}
+      r = {}
 
-			m.each do |sev, ar|
+      m.each do |sev, ar|
 
-				warn 'invalid start-up' unless ::Symbol === sev
-				warn 'invalid start-up' unless ::Array === ar
+        warn 'invalid start-up' unless ::Symbol === sev
+        warn 'invalid start-up' unless ::Array === ar
 
-				([sev] + (ar[3] || [])).each do |al|
+        ([sev] + (ar[3] || [])).each do |al|
 
-					r[al] = sev
-				end
-			end
+          r[al] = sev
+        end
+      end
 
-			r
-		end
+      r
+    end
 
-		# @!visibility private
-		def self.create_level_relative_map m # :nodoc:
+    # @!visibility private
+    def self.create_level_relative_map m # :nodoc:
 
-			r = {}
+      r = {}
 
-			m.each do |sev, ar|
+      m.each do |sev, ar|
 
-				warn 'invalid start-up' unless ::Symbol === sev
-				warn 'invalid start-up' unless ::Array === ar
+        warn 'invalid start-up' unless ::Symbol === sev
+        warn 'invalid start-up' unless ::Array === ar
 
-				relativity = ar[2]
+        relativity = ar[2]
 
-				case relativity
-				when :relative
+        case relativity
+        when :relative
 
-					([sev] + (ar[3] || [])).each do |al|
+          ([sev] + (ar[3] || [])).each do |al|
 
-						r[al] = relativity
-					end
-				else
+            r[al] = relativity
+          end
+        else
 
-					;
-				end
-			end
+          ;
+        end
+      end
 
-			r
-		end
-	end
-	public
+      r
+    end
+  end
+  public
 
-	# Ordered list of stock severity level symbols, without any aliases
-	STOCK_SEVERITY_LEVELS_PRIME = Internal_::STOCK_SEVERITY_LEVELS_.keys
+  # Ordered list of stock severity level symbols, without any aliases
+  STOCK_SEVERITY_LEVELS_PRIME = Internal_::STOCK_SEVERITY_LEVELS_.keys
 
-	# Unordered list of stock severity levels, some of which may be aliases
-	STOCK_SEVERITY_LEVELS = Internal_.create_level_keys Internal_::STOCK_SEVERITY_LEVELS_
+  # Unordered list of stock severity levels, some of which may be aliases
+  STOCK_SEVERITY_LEVELS = Internal_.create_level_keys Internal_::STOCK_SEVERITY_LEVELS_
 
-	# Mapping of severity level aliases - with may be symbols and strings -
-	# to the prime stock severity level symbols
-	STOCK_SEVERITY_LEVEL_ALIASES = Internal_.create_level_aliases Internal_::STOCK_SEVERITY_LEVELS_
+  # Mapping of severity level aliases - with may be symbols and strings -
+  # to the prime stock severity level symbols
+  STOCK_SEVERITY_LEVEL_ALIASES = Internal_.create_level_aliases Internal_::STOCK_SEVERITY_LEVELS_
 
-	# Mapping of severity level aliases - with may be symbols and strings -
-	# containing only those levels that are relative, i.e. may participate
-	# meaningfully in a threshold-based filtering
-	STOCK_SEVERITY_LEVELS_RELATIVE = Internal_.create_level_relative_map Internal_::STOCK_SEVERITY_LEVELS_
+  # Mapping of severity level aliases - with may be symbols and strings -
+  # containing only those levels that are relative, i.e. may participate
+  # meaningfully in a threshold-based filtering
+  STOCK_SEVERITY_LEVELS_RELATIVE = Internal_.create_level_relative_map Internal_::STOCK_SEVERITY_LEVELS_
 
-	# Mapping of severity level (and level alias) symbols to integral
-	# equivalent
-	STOCK_SEVERITY_LEVEL_VALUES = Internal_.create_level_value_map Internal_::STOCK_SEVERITY_LEVELS_
+  # Mapping of severity level (and level alias) symbols to integral
+  # equivalent
+  STOCK_SEVERITY_LEVEL_VALUES = Internal_.create_level_value_map Internal_::STOCK_SEVERITY_LEVELS_
 
-	# Mapping of severity level (and level alias) symbols to string
-	STOCK_SEVERITY_LEVEL_STRINGS = Internal_.create_level_string_map Internal_::STOCK_SEVERITY_LEVELS_
+  # Mapping of severity level (and level alias) symbols to string
+  STOCK_SEVERITY_LEVEL_STRINGS = Internal_.create_level_string_map Internal_::STOCK_SEVERITY_LEVELS_
 
 end # module StockSeverityLevels
 

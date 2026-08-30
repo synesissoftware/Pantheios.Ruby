@@ -6,14 +6,14 @@
 #               ::Pantheios::Services::SimpleConsoleLogService class
 #
 # Created:      14th June 2015
-# Updated:      15th August 2026
+# Updated:      28th August 2026
 #
 # Home:         https://github.com/synesissoftware/Pantheios.Ruby
 #
 # Author:       Matthew Wilson
 #
-# Copyright (c) 2019-2020, Matthew Wilson and Synesis Information Systems
-# Copyright (c) 2015-2018, Matthew Wilson and Synesis Software
+# Copyright (c) 2019-2026, Matthew Wilson and Synesis Information Systems
+# Copyright (c) 2015-2019, Matthew Wilson and Synesis Software
 # All rights reserved.
 #
 # Redistribution and use in source and binary forms, with or without
@@ -60,27 +60,27 @@ module Services
 # +log(severity : Object, t : Time, prefix : String|Array, msg : String)+
 class SimpleConsoleLogService
 
-	def severity_logged? severity
+  def severity_logged? severity
 
-		true
-	end
+    true
+  end
 
-	def log sev, t, pref, msg
+  def log sev, t, pref, msg
 
-		stm = infer_stream sev
+    stm = infer_stream sev
 
-		stm.puts "#{pref}#{msg}"
-	end
+    stm.puts "#{pref}#{msg}"
+  end
 
-	# Overrideable method that determines which stream to write, based on a
-	# severity. This implementation always returns +$stderr+
-	#
-	# Overrides must return an object that supports the +puts(String)+
-	# method
-	def infer_stream sev
+  # Overrideable method that determines which stream to write, based on a
+  # severity. This implementation always returns +$stderr+
+  #
+  # Overrides must return an object that supports the +puts(String)+
+  # method
+  def infer_stream sev
 
-		$stderr
-	end
+    $stderr
+  end
 end # class SimpleConsoleLogService
 
 end # module Services

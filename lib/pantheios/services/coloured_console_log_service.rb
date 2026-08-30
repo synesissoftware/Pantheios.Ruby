@@ -6,13 +6,13 @@
 #               ::Pantheios::Services::ColouredConsoleLogService class
 #
 # Created:      19th June 2019
-# Updated:      15th August 2026
+# Updated:      28th August 2026
 #
 # Home:         https://github.com/synesissoftware/Pantheios.Ruby
 #
 # Author:       Matthew Wilson
 #
-# Copyright (c) 2019-2020, Matthew Wilson and Synesis Information Systems
+# Copyright (c) 2019-2026, Matthew Wilson and Synesis Information Systems
 # Copyright (c) 2019, Matthew Wilson and Synesis Software
 # All rights reserved.
 #
@@ -62,138 +62,138 @@ module Services
 # +log(severity : Object, t : Time, prefix : String|Array, msg : String)+
 class ColouredConsoleLogService
 
-	module Constants
+  module Constants
 
-		include ::Pantheios::Services::Common::Console::AnsiEscapeSequences
-	end # module Constants
+    include ::Pantheios::Services::Common::Console::AnsiEscapeSequences
+  end # module Constants
 
-	def self.requires_prefix?
+  def self.requires_prefix?
 
-		return @requires_prefix unless @requires_prefix.nil?
+    return @requires_prefix unless @requires_prefix.nil?
 
-		@requires_prefix = ::Pantheios::Services::Common::Console::Internal_::SHOULD_COLOURIZE_ ? :parts : false
-	end
+    @requires_prefix = ::Pantheios::Services::Common::Console::Internal_::SHOULD_COLOURIZE_ ? :parts : false
+  end
 
-	def requires_prefix?
+  def requires_prefix?
 
-		self.class.requires_prefix?
-	end
+    self.class.requires_prefix?
+  end
 
-	def severity_logged? severity
+  def severity_logged? severity
 
-		true
-	end
+    true
+  end
 
-	def log sev, t, pref, msg
+  def log sev, t, pref, msg
 
-		stm = infer_stream sev
+    stm = infer_stream sev
 
-		if requires_prefix?
+    if requires_prefix?
 
-			pref = pref.map do |part|
+      pref = pref.map do |part|
 
-				bg	=	Constants::Background
-				fg	=	Constants::Foreground
+        bg  =  Constants::Background
+        fg  =  Constants::Foreground
 
-				if part.respond_to?(:severity)
+        if part.respond_to?(:severity)
 
-					part = fg.bold part
+          part = fg.bold part
 
-					case sev
-					when :violation
+          case sev
+          when :violation
 
-						part = bg.red part
-						#part = fg.bright_magenta part
-						part = fg.bright_yellow part
-						part = fg.blinking part
-					when :alert
+            part = bg.red part
+            #part = fg.bright_magenta part
+            part = fg.bright_yellow part
+            part = fg.blinking part
+          when :alert
 
-						part = bg.red part
-						part = fg.bright_cyan part
-						part = fg.blinking part
-					when :critical
+            part = bg.red part
+            part = fg.bright_cyan part
+            part = fg.blinking part
+          when :critical
 
-						part = bg.red part
-						part = fg.white part
-					when :failure
+            part = bg.red part
+            part = fg.white part
+          when :failure
 
-						part = bg.yellow part
-						part = fg.red part
-					when :warning
+            part = bg.yellow part
+            part = fg.red part
+          when :warning
 
-						part = bg.yellow part
-						part = fg.blue part
-					when :notice
+            part = bg.yellow part
+            part = fg.blue part
+          when :notice
 
-						part = bg.dark_grey part
-						part = fg.white part
-					when :informational
+            part = bg.dark_grey part
+            part = fg.white part
+          when :informational
 
-						part = bg.dark_grey part
-						part = fg.light_grey part
-					when :debug0
+            part = bg.dark_grey part
+            part = fg.light_grey part
+          when :debug0
 
-						part = bg.blue part
-						part = fg.light_grey part
-					when :debug1
+            part = bg.blue part
+            part = fg.light_grey part
+          when :debug1
 
-						part = bg.blue part
-						part = fg.light_grey part
-					when :debug2
+            part = bg.blue part
+            part = fg.light_grey part
+          when :debug2
 
-						part = bg.blue part
-						part = fg.light_grey part
-					when :debug3
+            part = bg.blue part
+            part = fg.light_grey part
+          when :debug3
 
-						part = bg.blue part
-						part = fg.light_grey part
-					when :debug4
+            part = bg.blue part
+            part = fg.light_grey part
+          when :debug4
 
-						part = bg.blue part
-						part = fg.light_grey part
-					when :debug5
+            part = bg.blue part
+            part = fg.light_grey part
+          when :debug5
 
-						part = bg.blue part
-						part = fg.light_grey part
-					when :trace
+            part = bg.blue part
+            part = fg.light_grey part
+          when :trace
 
-						part = bg.blue part
-						part = fg.light_grey part
-					when :benchmark
+            part = bg.blue part
+            part = fg.light_grey part
+          when :benchmark
 
-						part = bg.black part
-						part = fg.light_grey part
-					else
+            part = bg.black part
+            part = fg.light_grey part
+          else
 
-						;
-					end
-				else
+            ;
+          end
+        else
 
-					part = fg.dark_grey part
-				end
+          part = fg.dark_grey part
+        end
 
-				part
-			end.join(', ')
+        part
+      end.join(', ')
 
-			pref = '[' + pref + ']: '
+      pref = '[' + pref + ']: '
 
-			#pref = pref.map { |pp| pp.severity? ? map_sev_(sev) : sev }.join(
-		end
+      #pref = pref.map { |pp| pp.severity? ? map_sev_(sev) : sev }.join(
+    end
 
-		stm.puts "#{pref}#{msg}"
-	end
+    stm.puts "#{pref}#{msg}"
+  end
 
-	# Overrideable method that determines which stream to write, based on a
-	# severity. This implementation always returns +$stderr+
-	#
-	# Overrides must return an object that supports the +puts(String)+
-	# method
-	def infer_stream sev
+  # Overrideable method that determines which stream to write, based on a
+  # severity. This implementation always returns +$stderr+
+  #
+  # Overrides must return an object that supports the +puts(String)+
+  # method
+  def infer_stream sev
 
-		$stderr
-	end
+    $stderr
+  end
 
-	private
+  private
 end # class ColouredConsoleLogService
 
 end # module Services

@@ -7,7 +7,7 @@
 
 #
 # Created: 15th August 2026
-# Updated: 27th August 2026
+# Updated: 30th August 2026
 #
 
 name: Ruby
@@ -22,6 +22,7 @@ on:
       - rc1
       - rc2
       - rc3
+      - warnings
   pull_request:
 
 permissions:
@@ -67,7 +68,7 @@ jobs:
 
     steps:
     - name: Checking out code
-      uses: actions/checkout@v7
+      uses: actions/checkout@v4
 
     - name: Remove Gemfile.lock
       shell: bash
@@ -106,7 +107,7 @@ jobs:
 
     steps:
     - name: Checking out code
-      uses: actions/checkout@v7
+      uses: actions/checkout@v4
 
     - name: Remove Gemfile.lock
       shell: bash

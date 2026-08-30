@@ -40,7 +40,7 @@ Pantheios::Core.set_front_end Pantheios::FrontEnds::ThresholdFrontEnd.new thresh
 
 LEVELS.each do |level|
 
-	log(level, "logging level #{level}")
+  log(level, "logging level #{level}")
 end
 
 # ############################## end of file ############################# #

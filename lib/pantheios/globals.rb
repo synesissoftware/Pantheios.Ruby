@@ -5,14 +5,14 @@
 # Purpose:      The Pantheios.Ruby "globals" (::Pantheios::Globals)
 #
 # Created:      24th December 2017
-# Updated:      15th August 2026
+# Updated:      28th August 2026
 #
 # Home:         https://github.com/synesissoftware/Pantheios.Ruby
 #
 # Author:       Matthew Wilson
 #
-# Copyright (c) 2019-2020, Matthew Wilson and Synesis Information Systems
-# Copyright (c) 2017-2018, Matthew Wilson and Synesis Software
+# Copyright (c) 2019-2026, Matthew Wilson and Synesis Information Systems
+# Copyright (c) 2017-2019, Matthew Wilson and Synesis Software
 # All rights reserved.
 #
 # Redistribution and use in source and binary forms, with or without
@@ -89,70 +89,70 @@ module Pantheios
 #
 module Globals
 
-	# @!visibility private
-	module Internals_ # :nodoc: all
+  # @!visibility private
+  module Internals_ # :nodoc: all
 
-		BOOLEAN_CLASSES			=	[ ::FalseClass, ::TrueClass ]
-		TRUTHY_CLASSES			=	BOOLEAN_CLASSES + [ ::NilClass ]
+    BOOLEAN_CLASSES      =  [ ::FalseClass, ::TrueClass ]
+    TRUTHY_CLASSES      =  BOOLEAN_CLASSES + [ ::NilClass ]
 
-		PROCESS_NAME_CLASSES	=	[ ::Symbol, ::String ]
-	end
+    PROCESS_NAME_CLASSES  =  [ ::Symbol, ::String ]
+  end
 
-	# @!visibility private
-	module Helpers_ # :nodoc: all
+  # @!visibility private
+  module Helpers_ # :nodoc: all
 
-		def self.cattr receiver, name, types, initial_value, **options
+    def self.cattr receiver, name, types, initial_value, **options
 
-			if options[:boolean] && types.nil?
+      if options[:boolean] && types.nil?
 
-				types = Internals_::TRUTHY_CLASSES
-			end
+        types = Internals_::TRUTHY_CLASSES
+      end
 
-			types = nil if !types.nil? && types.empty?
+      types = nil if !types.nil? && types.empty?
 
-			receiver.class_eval do
+      receiver.class_eval do
 
-				field_name	=	'@' + name
-				get_name	=	name
-				get_name	+=	'?' if options[:boolean]
+        field_name  =  '@' + name
+        get_name  =  name
+        get_name  +=  '?' if options[:boolean]
 
-				instance_variable_set field_name, initial_value
+        instance_variable_set field_name, initial_value
 
-				define_singleton_method(get_name) do
+        define_singleton_method(get_name) do
 
-					instance_variable_get field_name
-				end
+          instance_variable_get field_name
+        end
 
-				define_singleton_method(name + '=') do |v|
+        define_singleton_method(name + '=') do |v|
 
-					if types
+          if types
 
-						warn "Assigning to #{__method__} with argument of invalid type - #{v.class} given; one of #{types.join(', ')} required" unless types.any? { |c| c === v }
-					end
+            warn "Assigning to #{__method__} with argument of invalid type - #{v.class} given; one of #{types.join(', ')} required" unless types.any? { |c| c === v }
+          end
 
-					instance_variable_set field_name, v
-				end
-			end
-		end
-	end
+          instance_variable_set field_name, v
+        end
+      end
+    end
+  end
 
-	Helpers_.cattr self, 'HAS_CASCADED_INCLUDES', Internals_::BOOLEAN_CLASSES, true
+  Helpers_.cattr self, 'HAS_CASCADED_INCLUDES', Internals_::BOOLEAN_CLASSES, true
 
-	Helpers_.cattr self, 'INITIAL_SERVICE_INSTANCES', nil, nil
+  Helpers_.cattr self, 'INITIAL_SERVICE_INSTANCES', nil, nil
 
-	Helpers_.cattr self, 'INITIAL_SERVICE_CLASSES', nil, nil
+  Helpers_.cattr self, 'INITIAL_SERVICE_CLASSES', nil, nil
 
-	Helpers_.cattr self, 'MAIN_THREAD_NAME', [ ::Array, ::String ], nil
+  Helpers_.cattr self, 'MAIN_THREAD_NAME', [ ::Array, ::String ], nil
 
-	Helpers_.cattr self, 'PROCESS_NAME', Internals_::PROCESS_NAME_CLASSES, nil
+  Helpers_.cattr self, 'PROCESS_NAME', Internals_::PROCESS_NAME_CLASSES, nil
 
-	Helpers_.cattr self, 'SYNCHRONISED_SEVERITY_LOGGED', nil, true, boolean: true
+  Helpers_.cattr self, 'SYNCHRONISED_SEVERITY_LOGGED', nil, true, boolean: true
 
-	# @!visibility private
-	def self.included receiver # :nodoc:
+  # @!visibility private
+  def self.included receiver # :nodoc:
 
-		abort "Attempt to include #{self} into #{receiver}. This is not allowed"
-	end
+    abort "Attempt to include #{self} into #{receiver}. This is not allowed"
+  end
 
 end # module Globals
 end # module Pantheios

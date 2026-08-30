@@ -6,14 +6,14 @@
 #               class
 #
 # Created:      14th June 2015
-# Updated:      15th August 2026
+# Updated:      28th August 2026
 #
 # Home:         https://github.com/synesissoftware/Pantheios.Ruby
 #
 # Author:       Matthew Wilson
 #
-# Copyright (c) 2019-2020, Matthew Wilson and Synesis Information Systems
-# Copyright (c) 2015-2018, Matthew Wilson and Synesis Software
+# Copyright (c) 2019-2026, Matthew Wilson and Synesis Information Systems
+# Copyright (c) 2015-2019, Matthew Wilson and Synesis Software
 # All rights reserved.
 #
 # Redistribution and use in source and binary forms, with or without
@@ -60,15 +60,15 @@ module Services
 # +log(severity : Object, t : Time, prefix : String|Array, msg : String)+
 class NullLogService
 
-	def severity_logged? severity
+  def severity_logged? severity
 
-		false
-	end
+    false
+  end
 
-	def log sev, t, pref, msg
+  def log sev, t, pref, msg
 
-		;
-	end
+    ;
+  end
 end
 
 end # module Services

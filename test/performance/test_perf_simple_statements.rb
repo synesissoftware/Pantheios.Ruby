@@ -6,7 +6,7 @@
 # Purpose:      COMPLETE_ME
 #
 # Created:      22nd January 2018
-# Updated:      22nd January 2018
+# Updated:      28th August 2026
 #
 # Author:       Matthew Wilson
 #
@@ -31,102 +31,102 @@ N = 5000000
 
 def severity_logged? severity
 
-	return false
+  return false
 end
 
 
 Benchmark.benchmark(Benchmark::CAPTION, 24, Benchmark::FORMAT, 'total:', 'avg:') do |r|
 
-	totals	=	[]
+  totals  =  []
 
-	totals << r.report("arguments (1-arg)") do
+  totals << r.report("arguments (1-arg)") do
 
-		for i in (0...N) do
+    N.times do
 
-			log :notice, 'the cat in the hat.'
-		end
-	end
+      log :notice, 'the cat in the hat.'
+    end
+  end
 
-	totals << r.report("blocks (1-arg)") do
+  totals << r.report("blocks (1-arg)") do
 
-		for i in (0...N) do
+    N.times do
 
-			log(:notice) { 'the cat in the hat!' }
-		end
-	end
+      log(:notice) { 'the cat in the hat!' }
+    end
+  end
 
-	totals << r.report("args-if (1-arg)") do
+  totals << r.report("args-if (1-arg)") do
 
-		for i in (0...N) do
+    N.times do
 
-			log :notice, 'the cat in the hat.' if severity_logged? :notice
-		end
-	end
-
-
-	totals << r.report("arguments (simple)") do
-
-		for i in (0...N) do
-
-			log :notice, 'the ', 'cat ', 'in ', 'the ', 'hat.'
-		end
-	end
-
-	totals << r.report("blocks (simple)") do
-
-		for i in (0...N) do
-
-			log(:notice) { 'the ' + 'cat ' + 'in ' + 'the ' + 'hat!' }
-		end
-	end
-
-	totals << r.report("args-if (simple)") do
-
-		for i in (0...N) do
-
-			log :notice, 'the ', 'cat ', 'in ', 'the ', 'hat.' if severity_logged? :notice
-		end
-	end
+      log :notice, 'the cat in the hat.' if severity_logged? :notice
+    end
+  end
 
 
-	totals << r.report("arguments (complex)") do
+  totals << r.report("arguments (simple)") do
 
-		cat	=	'cat'
-		hat	=	:hat
-		t	=	Time.now
+    N.times do
 
-		for i in (0...N) do
+      log :notice, 'the ', 'cat ', 'in ', 'the ', 'hat.'
+    end
+  end
 
-			log :notice, "the #{cat} in the #{hat} (#{t})"
-		end
-	end
+  totals << r.report("blocks (simple)") do
 
-	totals << r.report("blocks (complex)") do
+    N.times do
 
-		cat	=	'cat'
-		hat	=	:hat
-		t	=	Time.now
+      log(:notice) { 'the ' + 'cat ' + 'in ' + 'the ' + 'hat!' }
+    end
+  end
 
-		for i in (0...N) do
+  totals << r.report("args-if (simple)") do
 
-			log(:notice) { "the #{cat} in the #{hat} (#{t})" }
-		end
-	end
+    N.times do
 
-	totals << r.report("args-if (complex)") do
-
-		cat	=	'cat'
-		hat	=	:hat
-		t	=	Time.now
-
-		for i in (0...N) do
-
-			log :notice, "the #{cat} in the #{hat} (#{t})" if severity_logged? :notice
-		end
-	end
+      log :notice, 'the ', 'cat ', 'in ', 'the ', 'hat.' if severity_logged? :notice
+    end
+  end
 
 
-	[ totals.inject(:+), totals.inject(:+) / totals.size ]
+  totals << r.report("arguments (complex)") do
+
+    cat  =  'cat'
+    hat  =  :hat
+    t  =  Time.now
+
+    N.times do
+
+      log :notice, "the #{cat} in the #{hat} (#{t})"
+    end
+  end
+
+  totals << r.report("blocks (complex)") do
+
+    cat  =  'cat'
+    hat  =  :hat
+    t  =  Time.now
+
+    N.times do
+
+      log(:notice) { "the #{cat} in the #{hat} (#{t})" }
+    end
+  end
+
+  totals << r.report("args-if (complex)") do
+
+    cat  =  'cat'
+    hat  =  :hat
+    t  =  Time.now
+
+    N.times do
+
+      log :notice, "the #{cat} in the #{hat} (#{t})" if severity_logged? :notice
+    end
+  end
+
+
+  [ totals.inject(:+), totals.inject(:+) / totals.size ]
 end
 
 

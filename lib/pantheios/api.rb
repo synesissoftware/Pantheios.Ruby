@@ -5,12 +5,13 @@
 # Purpose:      The Pantheios.Ruby API (::Pantheios::API)
 #
 # Created:      2nd April 2011
-# Updated:      15th August 2026
+# Updated:      28th August 2026
 #
 # Home:         https://github.com/synesissoftware/Pantheios.Ruby
 #
 # Author:       Matthew Wilson
 #
+# Copyright (c) 2019-2026, Matthew Wilson and Synesis Information Systems
 # Copyright (c) 2011-2019, Matthew Wilson and Synesis Software
 # All rights reserved.
 #
@@ -77,219 +78,219 @@ module Pantheios
 # - prefix
 module API
 
-	# Logs an arbitrary set of parameters at the given severity level
-	def log severity, *args, &block
+  # Logs an arbitrary set of parameters at the given severity level
+  def log severity, *args, &block
 
-		return nil unless severity_logged? severity
+    return nil unless severity_logged? severity
 
-		log_or_trace_with_block_ 1, severity, args, &block
-	end
+    log_or_trace_with_block_ 1, severity, args, &block
+  end
 
-	# Logs an array of parameters at the given severity level
-	def log_v severity, argv, &block
+  # Logs an array of parameters at the given severity level
+  def log_v severity, argv, &block
 
-		return nil unless severity_logged? severity
+    return nil unless severity_logged? severity
 
-		log_or_trace_with_block_ 1, severity, argv, &block
-	end
+    log_or_trace_with_block_ 1, severity, argv, &block
+  end
 
-	# Logs an arbitrary set of parameters at the Trace (:trace) level
-	def trace *args, &block
+  # Logs an arbitrary set of parameters at the Trace (:trace) level
+  def trace *args, &block
 
-		return nil unless tracing?
+    return nil unless tracing?
 
-		trace_with_block_ 1, args, &block
-	end
+    trace_with_block_ 1, args, &block
+  end
 
-	# Logs an array of parameters at the Trace (:trace) level
-	def trace_v argv, &block
+  # Logs an array of parameters at the Trace (:trace) level
+  def trace_v argv, &block
 
-		return nil unless tracing?
+    return nil unless tracing?
 
-		trace_with_block_ 1, argv, &block
-	end
+    trace_with_block_ 1, argv, &block
+  end
 
-	if Util::VersionUtil.version_compare(RUBY_VERSION, [ 2, 1 ]) >= 0
+  if Util::VersionUtil.version_compare(RUBY_VERSION, [ 2, 1 ]) >= 0
 
-	def trace_blv b, lvars, &block
+  def trace_blv b, lvars, &block
 
-		return nil unless tracing?
+    return nil unless tracing?
 
-		::Pantheios::Core.trace_v_impl(self, 1, ApplicationLayer::ParamNameList[*lvars], :trace, lvars.map { |lv| b.local_variable_get(lv) }, &block)
-	end
-	end # RUBY_VERSION
+    ::Pantheios::Core.trace_v_impl(self, 1, ApplicationLayer::ParamNameList[*lvars], :trace, lvars.map { |lv| b.local_variable_get(lv) }, &block)
+  end
+  end # RUBY_VERSION
 
-	if Util::VersionUtil.version_compare(RUBY_VERSION, [ 2, 2 ]) >= 0
+  if Util::VersionUtil.version_compare(RUBY_VERSION, [ 2, 2 ]) >= 0
 
-	def trace_b b, &block
+  def trace_b b, &block
 
-		return nil unless tracing?
+    return nil unless tracing?
 
-		::Pantheios::Core.trace_v_impl(self, 1, ApplicationLayer::ParamNameList[*b.local_variables], :trace, b.local_variables.map { |lv| b.local_variable_get(lv) }, &block)
-	end
-	end # RUBY_VERSION
-
-
-	# Determines whether a given severity is logged
-	#
-	# === Signature
-	#
-	# * *Parameters:*
-	#   - +severity+:: The severity level, which should be a known log
-	#   severity symbol or an integral equivalent
-	#
-	# * *Returns:*
-	#   a +truey+ value if the severity should be logged; a +falsey+ value
-	#   otherwise
-	def severity_logged? severity
-
-		::Pantheios::Core.severity_logged? severity
-	end
-
-	# Determines whether tracing (severity == :trace) is enabled. This is
-	# used in the trace methods (+trace+, +trace_v+, +trace_blv+, +trace_b+)
-	# and therefore it may be overridden independently of +severity_logged?+
-	def tracing?
-
-		severity_logged? :trace
-	end
+    ::Pantheios::Core.trace_v_impl(self, 1, ApplicationLayer::ParamNameList[*b.local_variables], :trace, b.local_variables.map { |lv| b.local_variable_get(lv) }, &block)
+  end
+  end # RUBY_VERSION
 
 
+  # Determines whether a given severity is logged
+  #
+  # === Signature
+  #
+  # * *Parameters:*
+  #   - +severity+:: The severity level, which should be a known log
+  #   severity symbol or an integral equivalent
+  #
+  # * *Returns:*
+  #   a +truey+ value if the severity should be logged; a +falsey+ value
+  #   otherwise
+  def severity_logged? severity
 
-	# Defines the ordered list of log-statement elements
-	#
-	# === Elements
-	#
-	# Elements can be one of:
-	#   - +:process_name+
-	#   - +:process_id+
-	#   - +:severity+
-	#   - +:thread_id+
-	#   - +:timestamp+
-	#
-	# This is called from +prefix+
-	def prefix_elements
+    ::Pantheios::Core.severity_logged? severity
+  end
 
-		[ :process_name, :thread_id, :timestamp, :severity ]
-	end
+  # Determines whether tracing (severity == :trace) is enabled. This is
+  # used in the trace methods (+trace+, +trace_v+, +trace_blv+, +trace_b+)
+  # and therefore it may be overridden independently of +severity_logged?+
+  def tracing?
 
-	# Obtains the process id
-	#
-	# Unless overridden, returns the value provided by
-	# +::Pantheios::Core::process_id+
-	def process_id
+    severity_logged? :trace
+  end
 
-		::Pantheios::Core.process_id
-	end
 
-	# Obtains the program name
-	#
-	# Unless overridden, returns the value provided by
-	# +::Pantheios::Core::process_name+
-	def process_name
 
-		::Pantheios::Core.process_name
-	end
+  # Defines the ordered list of log-statement elements
+  #
+  # === Elements
+  #
+  # Elements can be one of:
+  #   - +:process_name+
+  #   - +:process_id+
+  #   - +:severity+
+  #   - +:thread_id+
+  #   - +:timestamp+
+  #
+  # This is called from +prefix+
+  def prefix_elements
 
-	# Obtains the string corresponding to the severity
-	#
-	# Unless overridden, returns the value provided by
-	# +::Pantheios::Core::severity_string+
-	def severity_string severity
+    [ :process_name, :thread_id, :timestamp, :severity ]
+  end
 
-		::Pantheios::Core.severity_string severity
-	end
+  # Obtains the process id
+  #
+  # Unless overridden, returns the value provided by
+  # +::Pantheios::Core::process_id+
+  def process_id
 
-	# Obtains the thread id
-	#
-	# Unless overridden, returns the value provided by
-	# +::Pantheios::Core::thread_id+
-	def thread_id
+    ::Pantheios::Core.process_id
+  end
 
-		::Pantheios::Core.thread_id
-	end
+  # Obtains the program name
+  #
+  # Unless overridden, returns the value provided by
+  # +::Pantheios::Core::process_name+
+  def process_name
 
-	# Obtains a string-form of the timestamp
-	#
-	# Unless overridden, returns the value provided by
-	# +::Pantheios::Core::timestamp+
-	def timestamp t
+    ::Pantheios::Core.process_name
+  end
 
-		::Pantheios::Core.timestamp t, nil
-	end
+  # Obtains the string corresponding to the severity
+  #
+  # Unless overridden, returns the value provided by
+  # +::Pantheios::Core::severity_string+
+  def severity_string severity
 
-	# Assembles the prefix according to +prefix_elements+ into an array of
-	# parts
-	#
-	# * *Parameters:*
-	#   - +t+ [ Date, Time, DateTime ] The timestamp of the log entry
-	#   - +severity+ The severity
-	def prefix_parts t, severity
+    ::Pantheios::Core.severity_string severity
+  end
 
-		prefix_elements.map do |el|
+  # Obtains the thread id
+  #
+  # Unless overridden, returns the value provided by
+  # +::Pantheios::Core::thread_id+
+  def thread_id
 
-			case el
-			when :program_name, :process_name
+    ::Pantheios::Core.thread_id
+  end
 
-				process_name
-			when :process_id
+  # Obtains a string-form of the timestamp
+  #
+  # Unless overridden, returns the value provided by
+  # +::Pantheios::Core::timestamp+
+  def timestamp t
 
-				process_id
-			when :severity
+    ::Pantheios::Core.timestamp t, nil
+  end
 
-				severity_string severity
-			when :thread_id
+  # Assembles the prefix according to +prefix_elements+ into an array of
+  # parts
+  #
+  # * *Parameters:*
+  #   - +t+ [ Date, Time, DateTime ] The timestamp of the log entry
+  #   - +severity+ The severity
+  def prefix_parts t, severity
 
-				thread_id
-			when :timestamp
+    prefix_elements.map do |el|
 
-				timestamp t
-			else
+      case el
+      when :program_name, :process_name
 
-				s = ::Symbol === el ? ":#{el}" : el.to_s
+        process_name
+      when :process_id
 
-				warn "ignoring unrecognised prefix_element '#{s}'"
+        process_id
+      when :severity
 
-				nil
-			end
-		end
-	end
+        severity_string severity
+      when :thread_id
 
-	# Assembles the +prefix_parts+ into a string
-	#
-	# * *Parameters:*
-	#   - +t+ [ Date, Time, DateTime ] The timestamp of the log entry
-	#   - +severity+ The severity
-	def prefix t, severity
+        thread_id
+      when :timestamp
 
-		prefix_parts(t, severity).join(', ')
-	end
+        timestamp t
+      else
 
-	# @!visibility private
-	def self.included receiver # :nodoc:
+        s = ::Symbol === el ? ":#{el}" : el.to_s
 
-		receiver.extend self
+        warn "ignoring unrecognised prefix_element '#{s}'"
 
-		::Pantheios::Core.register_include self, receiver
-	end
+        nil
+      end
+    end
+  end
 
-	private
+  # Assembles the +prefix_parts+ into a string
+  #
+  # * *Parameters:*
+  #   - +t+ [ Date, Time, DateTime ] The timestamp of the log entry
+  #   - +severity+ The severity
+  def prefix t, severity
 
-	# Private implementation method that should not need to be overridden
-	def log_or_trace_with_block_ call_depth, severity, argv, &block
+    prefix_parts(t, severity).join(', ')
+  end
 
-		if :trace == severity
+  # @!visibility private
+  def self.included receiver # :nodoc:
 
-			return ::Pantheios::Core.trace_v_impl self, 1 + call_depth, nil, severity, argv, &block
-		end
+    receiver.extend self
 
-		::Pantheios::Core.log_v_impl self, severity, argv, &block
-	end
+    ::Pantheios::Core.register_include self, receiver
+  end
 
-	def trace_with_block_ call_depth, argv, &block
+  private
 
-		return ::Pantheios::Core.trace_v_impl self, 1 + call_depth, nil, :trace, argv, &block
-	end
+  # Private implementation method that should not need to be overridden
+  def log_or_trace_with_block_ call_depth, severity, argv, &block
+
+    if :trace == severity
+
+      return ::Pantheios::Core.trace_v_impl self, 1 + call_depth, nil, severity, argv, &block
+    end
+
+    ::Pantheios::Core.log_v_impl self, severity, argv, &block
+  end
+
+  def trace_with_block_ call_depth, argv, &block
+
+    return ::Pantheios::Core.trace_v_impl self, 1 + call_depth, nil, :trace, argv, &block
+  end
 
 end # module API
 end # module Pantheios

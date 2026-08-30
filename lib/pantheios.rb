@@ -19,21 +19,21 @@ require 'pantheios/version'
 
 module Pantheios
 
-	# @!visibility private
-	def self.included receiver # :nodoc:
+  # @!visibility private
+  def self.included receiver # :nodoc:
 
-		if ::Pantheios::Globals.HAS_CASCADED_INCLUDES
+    if ::Pantheios::Globals.HAS_CASCADED_INCLUDES
 
-			receiver.class_eval do
+      receiver.class_eval do
 
-				include ::Pantheios::API
-				include ::Pantheios::ApplicationLayer
-				include ::Pantheios::Util
-			end
-		end
+        include ::Pantheios::API
+        include ::Pantheios::ApplicationLayer
+        include ::Pantheios::Util
+      end
+    end
 
-		::Pantheios::Core.register_include self, receiver
-	end
+    ::Pantheios::Core.register_include self, receiver
+  end
 
 end # module Pantheios
 

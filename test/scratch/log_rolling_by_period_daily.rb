@@ -6,7 +6,7 @@
 # Purpose:      Tests the log-rolling functionality of SimpleFileLogService
 #
 # Created:      4th February 2018
-# Updated:      4th February 2018
+# Updated:      28th August 2026
 #
 # Author:       Matthew Wilson
 #
@@ -33,9 +33,9 @@ log(:notice) { 'program started' }
 
 (0..1000).each do |n|
 
-	log :informational, "increment #{n}: '#{'*' * 10 * n}'"
+  log :informational, "increment #{n}: '#{'*' * 10 * n}'"
 
-	sleep 100
+  sleep 100
 end
 
 at_exit { log :notice, 'program ending ...' }
