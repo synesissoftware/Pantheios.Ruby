@@ -1,7 +1,7 @@
 # Pantheios.Ruby - Changes <!-- omit in toc -->
 
 
-## 0.22.3 - 28th August 2026
+## 0.22.3 - 30th August 2026
 
 * updated `Updated:` metadata and copyright year ranges in all touched files
   carrying those header fields;

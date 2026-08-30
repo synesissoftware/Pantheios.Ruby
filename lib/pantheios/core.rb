@@ -1,15 +1,15 @@
 # frozen_string_literal: true
 # ######################################################################## #
-# File:         lib/pantheios/core.rb
+# File:     lib/pantheios/core.rb
 #
-# Purpose:      The Pantheios.Ruby core (::Pantheios::Core)
+# Purpose:  The Pantheios.Ruby core (::Pantheios::Core)
 #
-# Created:      2nd April 2011
-# Updated:      28th August 2026
+# Created:  2nd April 2011
+# Updated:  30th August 2026
 #
-# Home:         https://github.com/synesissoftware/Pantheios.Ruby
+# Home:     https://github.com/synesissoftware/Pantheios.Ruby
 #
-# Author:       Matthew Wilson
+# Author:   Matthew Wilson
 #
 # Copyright (c) 2019-2026, Matthew Wilson and Synesis Information Systems
 # Copyright (c) 2011-2019, Matthew Wilson and Synesis Software
